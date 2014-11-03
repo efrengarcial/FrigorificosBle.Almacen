@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FrigorificosBle.Almacen.Core.Domain.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="FrigorificosBleAlmacenCoreDomainStoreContainer">
+          <EntitySet Name="Lineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Lineas" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Medidas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Medidas" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Productos" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Productos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SubLineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.SubLineas" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Productos_Medidas" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Productos_Medidas">
+            <End Role="Medidas" EntitySet="Medidas" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_SubLineas" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Productos_SubLineas">
+            <End Role="SubLineas" EntitySet="SubLineas" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubLineas_Lineas" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_SubLineas_Lineas">
+            <End Role="Lineas" EntitySet="Lineas" />
+            <End Role="SubLineas" EntitySet="SubLineas" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Lineas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Medidas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="Referencia" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Nombre" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Ubicacion" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IdSubLinea" Type="int" Nullable="false" />
+          <Property Name="Maximo" Type="int" Nullable="false" />
+          <Property Name="Minimo" Type="int" Nullable="false" />
+          <Property Name="IdMedida" Type="int" Nullable="false" />
+          <Property Name="Iva" Type="float" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Promocion" Type="bit" Nullable="false" />
+          <Property Name="Nuevo" Type="bit" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="Descripcion" Type="ntext" />
+          <Property Name="Foto" Type="image" />
+        </EntityType>
+        <EntityType Name="SubLineas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="IdLinea" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Productos_Medidas">
+          <End Role="Medidas" Type="FrigorificosBle.Almacen.Core.Domain.Store.Medidas" Multiplicity="1" />
+          <End Role="Productos" Type="FrigorificosBle.Almacen.Core.Domain.Store.Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medidas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="IdMedida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos_SubLineas">
+          <End Role="SubLineas" Type="FrigorificosBle.Almacen.Core.Domain.Store.SubLineas" Multiplicity="1" />
+          <End Role="Productos" Type="FrigorificosBle.Almacen.Core.Domain.Store.Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubLineas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="IdSubLinea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubLineas_Lineas">
+          <End Role="Lineas" Type="FrigorificosBle.Almacen.Core.Domain.Store.Lineas" Multiplicity="1" />
+          <End Role="SubLineas" Type="FrigorificosBle.Almacen.Core.Domain.Store.SubLineas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lineas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubLineas">
+              <PropertyRef Name="IdLinea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FrigorificosBle.Almacen.Core.Domain" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AlmacenContext" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Productos" EntityType="FrigorificosBle.Almacen.Core.Domain.Producto" />
+          <EntitySet Name="Lineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Linea" />
+          <EntitySet Name="Medidas" EntityType="FrigorificosBle.Almacen.Core.Domain.Medida" />
+          <EntitySet Name="SubLineas" EntityType="FrigorificosBle.Almacen.Core.Domain.SubLinea" />
+          <AssociationSet Name="FK_SubLineas_Lineas" Association="FrigorificosBle.Almacen.Core.Domain.FK_SubLineas_Lineas">
+            <End Role="Linea" EntitySet="Lineas" />
+            <End Role="SubLinea" EntitySet="SubLineas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_Medidas" Association="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Medidas">
+            <End Role="Medida" EntitySet="Medidas" />
+            <End Role="Producto" EntitySet="Productos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_SubLineas" Association="FrigorificosBle.Almacen.Core.Domain.FK_Productos_SubLineas">
+            <End Role="SubLinea" EntitySet="SubLineas" />
+            <End Role="Producto" EntitySet="Productos" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <Property Name="Referencia" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Ubicacion" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="IdSubLinea" Type="Int32" Nullable="false" />
+          <Property Name="Maximo" Type="Int32" Nullable="false" />
+          <Property Name="Minimo" Type="Int32" Nullable="false" />
+          <Property Name="IdMedida" Type="Int32" Nullable="false" />
+          <Property Name="Iva" Type="Double" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Promocion" Type="Boolean" Nullable="false" />
+          <Property Name="Nuevo" Type="Boolean" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Medida" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Medidas" FromRole="Producto" ToRole="Medida" />
+          <NavigationProperty Name="SubLinea" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_SubLineas" FromRole="Producto" ToRole="SubLinea" />
+        </EntityType>
+        <EntityType Name="Linea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SubLineas" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SubLineas_Lineas" FromRole="Linea" ToRole="SubLinea" />
+        </EntityType>
+        <EntityType Name="Medida">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Productos" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Medidas" FromRole="Medida" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="SubLinea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="Int32" Name="IdLinea" Nullable="false" />
+          <NavigationProperty Name="Linea" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SubLineas_Lineas" FromRole="SubLinea" ToRole="Linea" />
+          <NavigationProperty Name="Productos" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_SubLineas" FromRole="SubLinea" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_SubLineas_Lineas">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Linea" Role="Linea" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.SubLinea" Role="SubLinea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linea">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubLinea">
+              <PropertyRef Name="IdLinea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos_Medidas">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Medida" Role="Medida" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Producto" Role="Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medida">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="IdMedida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos_SubLineas">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.SubLinea" Role="SubLinea" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Producto" Role="Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubLinea">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="IdSubLinea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FrigorificosBleAlmacenCoreDomainStoreContainer" CdmEntityContainer="AlmacenContext">
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Producto">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+                <ScalarProperty Name="IdSubLinea" ColumnName="IdSubLinea" />
+                <ScalarProperty Name="Maximo" ColumnName="Maximo" />
+                <ScalarProperty Name="Minimo" ColumnName="Minimo" />
+                <ScalarProperty Name="IdMedida" ColumnName="IdMedida" />
+                <ScalarProperty Name="Iva" ColumnName="Iva" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Promocion" ColumnName="Promocion" />
+                <ScalarProperty Name="Nuevo" ColumnName="Nuevo" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lineas">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Linea">
+              <MappingFragment StoreEntitySet="Lineas">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medidas">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Medida">
+              <MappingFragment StoreEntitySet="Medidas">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubLineas">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.SubLinea">
+              <MappingFragment StoreEntitySet="SubLineas">
+                <ScalarProperty Name="IdLinea" ColumnName="IdLinea" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
