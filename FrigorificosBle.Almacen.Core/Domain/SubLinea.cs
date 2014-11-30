@@ -14,17 +14,11 @@ namespace FrigorificosBle.Almacen.Core.Domain
     
     public partial class SubLinea
     {
-        public SubLinea()
-        {
-            this.Productos = new HashSet<Producto>();
-        }
-    
         public int Id { get; set; }
         public string Nombre { get; set; }
         public int Codigo { get; set; }
         public int IdLinea { get; set; }
     
         public virtual Linea Linea { get; set; }
-        public virtual ICollection<Producto> Productos { get; set; }
     }
 }

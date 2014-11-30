@@ -1,5 +1,6 @@
 ﻿using FrigorificosBle.Almacen.Core.Domain;
 using FrigorificosBle.Almacen.Core.Service;
+using FrigorificosBle.Almacen.SPA.Filters;
 using log4net;
 using log4net.Core;
 using System;
@@ -13,6 +14,7 @@ using System.Web.Http;
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
+    [ExceptionHandlingAttribute]
     public class ProductoController : ApiController
     {
         private readonly IProductoService _productoService;
@@ -24,12 +26,20 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _logger = logger;
         }
 
-        // GET api/producto
+        // GET api/lineas
         [ActionName("lineas")]
         [HttpGet]
         public IEnumerable<Linea> GetLineas()
         {
             return _productoService.GetLineas();
+        }
+
+        // GET api/medidas
+        [ActionName("medidas")]
+        [HttpGet]
+        public IEnumerable<Medida> GetMedidas()
+        {
+            return _productoService.GetMedidas();
         }
 
         // GET api/producto/5

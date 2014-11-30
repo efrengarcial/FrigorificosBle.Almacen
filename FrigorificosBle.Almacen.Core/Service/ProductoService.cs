@@ -4,30 +4,51 @@ using log4net;
 using log4net.Core;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 //https://simpleinjector.codeplex.com/wikipage?title=Quick%20Start
+
+//http://johnnycode.com/2012/04/10/serializing-circular-references-with-json-net-and-entity-framework/
+//https://code.msdn.microsoft.com/Loop-Reference-handling-in-caaffaf7
+//http://thecodeseeker.blogspot.com/2014/03/web-api-self-referencing-loop-detected.html
+
+//http://blog.oneunicorn.com/2013/05/08/ef6-sql-logging-part-1-simple-logging/
+//http://stackoverflow.com/questions/1412863/how-do-i-view-the-sql-generated-by-the-entity-framework
+
 namespace FrigorificosBle.Almacen.Core.Service
 {
     public class ProductoService : IProductoService
     {
         private readonly IRepository<Producto> _productRepository;
         private readonly IRepository<Linea> _lineaRepository;
+        private readonly IRepository<Medida> _medidaRepository;
         private readonly ILog _logger;
+        private readonly DbContext _context;
 
         public ProductoService(IRepository<Producto> productRepository,
-            IRepository<Linea> lineaRepository, ILog logger)
+            IRepository<Linea> lineaRepository,IRepository<Medida> medidaRepository,
+            ILog logger, DbContext context)
         {
             _productRepository = productRepository;
             _lineaRepository = lineaRepository;
+            _medidaRepository = medidaRepository;
             _logger = logger;
+            _context = context;
         }
 
         public IList<Linea> GetLineas()
         {
-            return _lineaRepository.GetAll();
+            _context.Configuration.ProxyCreationEnabled = false;
+            _context.Configuration.LazyLoadingEnabled = false;             
+            return _context.Set<Linea>().Include(l=> l.SubLineas).ToList();//_lineaRepository.GetAll();
+        }
+
+        public IList<Medida> GetMedidas()
+        {
+            return _medidaRepository.GetAll();
         }
     }
 }
