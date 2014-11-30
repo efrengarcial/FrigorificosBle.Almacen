@@ -35,7 +35,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         // GET api/producto/5
         public string Get(int id)
         {
-            return "value";
+            return "xxx";
         }
 
         // POST api/producto
