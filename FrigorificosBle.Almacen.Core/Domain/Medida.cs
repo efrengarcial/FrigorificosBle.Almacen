@@ -14,15 +14,8 @@ namespace FrigorificosBle.Almacen.Core.Domain
     
     public partial class Medida
     {
-        public Medida()
-        {
-            this.Productos = new HashSet<Producto>();
-        }
-    
         public int Id { get; set; }
         public int Codigo { get; set; }
         public string Nombre { get; set; }
-    
-        public virtual ICollection<Producto> Productos { get; set; }
     }
 }

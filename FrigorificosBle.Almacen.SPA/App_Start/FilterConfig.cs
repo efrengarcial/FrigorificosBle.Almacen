@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using FrigorificosBle.Almacen.SPA.Filters;
+using System.Web;
 using System.Web.Mvc;
 
 namespace FrigorificosBle.Almacen.SPA
@@ -7,7 +8,7 @@ namespace FrigorificosBle.Almacen.SPA
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+           filters.Add(new HandleErrorAttribute());            
         }
     }
 }

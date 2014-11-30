@@ -10,5 +10,6 @@ namespace FrigorificosBle.Almacen.Core.Service
     public interface IProductoService
     {
         IList<Linea> GetLineas();
+        IList<Medida> GetMedidas();
     }
 }
