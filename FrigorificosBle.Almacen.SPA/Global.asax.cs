@@ -61,6 +61,7 @@ namespace FrigorificosBle.Almacen.SPA
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
             GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
         }
+    
     }
 
 }

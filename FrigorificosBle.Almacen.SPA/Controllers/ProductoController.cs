@@ -67,6 +67,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         // POST api/producto
         // POST api/<controller>
         [HttpPost]
+        [Route("save")]
         public HttpResponseMessage Save([FromBody]Producto producto)
         {
             _productoService.Save(producto);
