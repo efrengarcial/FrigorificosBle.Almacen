@@ -8,10 +8,20 @@ namespace FrigorificosBle.Almacen.Core.Domain
 {
     partial class Producto
     {
-        public int IdLinea {
-            get {
-                return this.SubLinea.IdLinea; 
-            } 
+        public int IdLinea
+        {
+            get
+            {
+                if (this.SubLinea != null)
+                {
+                    return this.SubLinea.IdLinea;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
         }
     }
 }

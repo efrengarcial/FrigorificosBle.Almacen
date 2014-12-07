@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace FrigorificosBle.Almacen.SPA
 {
@@ -33,6 +34,11 @@ namespace FrigorificosBle.Almacen.SPA
             config.Filters.Add(new ExceptionHandlingAttribute());
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
+            //http://www.asp.net/web-api/overview/security/enabling-cross-origin-requests-in-web-api
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+
         }
     }
 }
