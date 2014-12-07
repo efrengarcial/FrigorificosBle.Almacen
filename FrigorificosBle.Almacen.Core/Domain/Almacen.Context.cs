@@ -18,7 +18,6 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public AlmacenContext()
             : base("name=AlmacenContext")
         {
-            this.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -30,5 +29,6 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public DbSet<Linea> Lineas { get; set; }
         public DbSet<Medida> Medidas { get; set; }
         public DbSet<SubLinea> SubLineas { get; set; }
+        public DbSet<Proveedore> Proveedores { get; set; }
     }
 }

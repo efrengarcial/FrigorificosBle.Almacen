@@ -9,6 +9,7 @@
           <EntitySet Name="Lineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Lineas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Medidas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Medidas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Productos" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Productos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Proveedores" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Proveedores" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SubLineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.SubLineas" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_Productos_Medidas" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Productos_Medidas">
             <End Role="Medidas" EntitySet="Medidas" />
@@ -57,6 +58,28 @@
           <Property Name="Promocion" Type="bit" Nullable="false" />
           <Property Name="Activo" Type="bit" Nullable="false" />
           <Property Name="Descripcion" Type="ntext" />
+        </EntityType>
+        <EntityType Name="Proveedores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Contacto" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="30" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="30" />
+          <Property Name="EMail" Type="nvarchar" MaxLength="50" />
+          <Property Name="Direccion" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Ciudad" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CupoCredito" Type="decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="FormaPago" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="Plazo" Type="int" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="IdVendedor" Type="int" />
+          <Property Name="Notas" Type="ntext" />
+          <Property Name="ListaPrecio" Type="int" />
+          <Property Name="BloqueaFactura" Type="bit" />
+          <Property Name="BloqueaCupo" Type="int" />
         </EntityType>
         <EntityType Name="SubLineas">
           <Key>
@@ -124,6 +147,7 @@
             <End Role="SubLinea" EntitySet="SubLineas" />
             <End Role="Producto" EntitySet="Productos" />
           </AssociationSet>
+          <EntitySet Name="Proveedores" EntityType="FrigorificosBle.Almacen.Core.Domain.Proveedore" />
         </EntityContainer>
         <EntityType Name="Producto">
           <Key>
@@ -209,6 +233,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Proveedore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Contacto" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Telefono" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Fax" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EMail" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Ciudad" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="CupoCredito" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="String" Name="FormaPago" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Plazo" Nullable="false" />
+          <Property Type="Boolean" Name="Activo" Nullable="false" />
+          <Property Type="Int32" Name="IdVendedor" />
+          <Property Type="String" Name="Notas" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ListaPrecio" />
+          <Property Type="Boolean" Name="BloqueaFactura" />
+          <Property Type="Int32" Name="BloqueaCupo" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -258,6 +304,29 @@
               <MappingFragment StoreEntitySet="SubLineas">
                 <ScalarProperty Name="IdLinea" ColumnName="IdLinea" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proveedores">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Proveedore">
+              <MappingFragment StoreEntitySet="Proveedores">
+                <ScalarProperty Name="BloqueaCupo" ColumnName="BloqueaCupo" />
+                <ScalarProperty Name="BloqueaFactura" ColumnName="BloqueaFactura" />
+                <ScalarProperty Name="ListaPrecio" ColumnName="ListaPrecio" />
+                <ScalarProperty Name="Notas" ColumnName="Notas" />
+                <ScalarProperty Name="IdVendedor" ColumnName="IdVendedor" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Plazo" ColumnName="Plazo" />
+                <ScalarProperty Name="FormaPago" ColumnName="FormaPago" />
+                <ScalarProperty Name="CupoCredito" ColumnName="CupoCredito" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
