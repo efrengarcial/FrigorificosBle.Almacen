@@ -8,6 +8,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Linq.SqlClient;
+using FrigorificosBle.Almacen.Core.Domain.Dto;
 
 //https://simpleinjector.codeplex.com/wikipage?title=Quick%20Start
 
@@ -49,6 +51,18 @@ namespace FrigorificosBle.Almacen.Core.Service
         public IList<Medida> GetMedidas()
         {
             return _medidaRepository.GetAll();
+        }
+
+        public void Save(Producto producto)
+        {
+            _productRepository.Insert(producto);
+        }
+
+        public IEnumerable<Producto> Query(ProductoQueryDto dto)
+        {
+            IEnumerable<Producto> result= _context.Set<Producto>().Where(p => p.Nombre.Contains(dto.Nombre) || 
+                p.Referencia.Contains(dto.Referencia) || p.Codigo == dto.Codigo ).OrderBy(p=> p.Codigo).ToList();
+            return result;
         }
     }
 }

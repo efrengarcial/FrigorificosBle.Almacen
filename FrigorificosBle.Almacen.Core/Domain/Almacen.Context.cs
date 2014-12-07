@@ -18,6 +18,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public AlmacenContext()
             : base("name=AlmacenContext")
         {
+            this.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

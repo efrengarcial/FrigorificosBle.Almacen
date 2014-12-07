@@ -49,6 +49,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -75,6 +76,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Almacen.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Dto\ProductoQueryDto.cs" />
+    <Compile Include="Domain\Model\Producto.cs" />
     <Compile Include="Domain\Linea.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>

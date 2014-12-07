@@ -1,4 +1,5 @@
 ﻿using FrigorificosBle.Almacen.Core.Domain;
+using FrigorificosBle.Almacen.Core.Domain.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace FrigorificosBle.Almacen.Core.Service
     {
         IList<Linea> GetLineas();
         IList<Medida> GetMedidas();
+        void Save(Producto producto);
+        IEnumerable<Producto> Query(ProductoQueryDto dto);
     }
 }

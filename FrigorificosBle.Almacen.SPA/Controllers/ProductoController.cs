@@ -1,4 +1,5 @@
 ﻿using FrigorificosBle.Almacen.Core.Domain;
+using FrigorificosBle.Almacen.Core.Domain.Dto;
 using FrigorificosBle.Almacen.Core.Service;
 using FrigorificosBle.Almacen.SPA.Filters;
 using log4net;
@@ -15,6 +16,8 @@ using System.Web.Http;
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
     [ExceptionHandlingAttribute]
+    [RoutePrefix("api/producto")]
+    //http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
     public class ProductoController : ApiController
     {
         private readonly IProductoService _productoService;
@@ -26,7 +29,6 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _logger = logger;
         }
 
-        // GET api/lineas
         [ActionName("lineas")]
         [HttpGet]
         public IEnumerable<Linea> GetLineas()
@@ -34,12 +36,26 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return _productoService.GetLineas();
         }
 
-        // GET api/medidas
         [ActionName("medidas")]
         [HttpGet]
         public IEnumerable<Medida> GetMedidas()
         {
             return _productoService.GetMedidas();
+        }
+
+        
+        //public IEnumerable<Producto> Query([FromUri]ProductoQueryDto dto)
+        [Route("query/{search}")]
+        [HttpGet]
+        public IEnumerable<Producto> Query(String search)
+        {
+            ProductoQueryDto dto = new ProductoQueryDto();
+            int codigo;
+            int.TryParse(search,out codigo);
+            dto.Codigo = codigo;
+            dto.Nombre = search;
+            dto.Referencia = search;
+            return _productoService.Query(dto);
         }
 
         // GET api/producto/5
@@ -50,38 +66,11 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         // POST api/producto
         // POST api/<controller>
-        public void Post([FromBody]Producto producto)
+        [HttpPost]
+        public HttpResponseMessage Save([FromBody]Producto producto)
         {
-            try
-            {
-                AlmacenContext context = new AlmacenContext();
-                context.Productos.Add(producto);
-                context.SaveChanges();
-            } catch (DbEntityValidationException dbEx)
-            {
-                /*foreach (var validationErrors in dbEx.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                    }
-                }*/
-                // Retrieve the error messages as a list of strings.
-                var errorMessages = dbEx.EntityValidationErrors
-                        .SelectMany(x => x.ValidationErrors)
-                        .Select(x => x.ErrorMessage);
-
-                // Join the list to a single string.
-                var fullErrorMessage = string.Join("; ", errorMessages);
-
-                // Combine the original exception message with the new one.
-                var exceptionMessage = string.Concat(dbEx.Message, " The validation errors are: ", fullErrorMessage);
-                _logger.Error(exceptionMessage);
-
-                // Throw a new DbEntityValidationException with the improved exception message.
-                throw new DbEntityValidationException(exceptionMessage, dbEx.EntityValidationErrors);
-
-            }
+            _productoService.Save(producto);
+            return Request.CreateResponse(HttpStatusCode.OK, producto.Id);
         }
 
         // PUT api/producto/5

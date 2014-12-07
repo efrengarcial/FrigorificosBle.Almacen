@@ -10,6 +10,10 @@ namespace FrigorificosBle.Almacen.SPA
     {
         public static void Register(HttpConfiguration config)
         {
+            //http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
+            // Attribute routing.
+            config.MapHttpAttributeRoutes();
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,6 +28,27 @@ namespace FrigorificosBle.Almacen.SPA.Filters
                     ReasonPhrase = context.Exception.InnerException.Message
                 });
             }
+            else if (context.Exception is DbEntityValidationException)
+            {
+                DbEntityValidationException dbEx = (DbEntityValidationException)context.Exception;
+                // Retrieve the error messages as a list of strings.
+                var errorMessages = dbEx.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => x.ErrorMessage);
+
+                // Join the list to a single string.
+                var fullErrorMessage = string.Join("; ", errorMessages);
+
+                // Combine the original exception message with the new one.
+                var exceptionMessage = string.Concat(dbEx.Message, " The validation errors are: ", fullErrorMessage);
+                _logger.Error(exceptionMessage);
+
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                   // Content = new StringContent("An error occurred, please try again or contact the administrator."),
+                    ReasonPhrase = exceptionMessage
+                });
+            }
             else
             {
 
@@ -35,8 +57,8 @@ namespace FrigorificosBle.Almacen.SPA.Filters
 
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
                 {
-                    Content = new StringContent("An error occurred, please try again or contact the administrator."),
-                    ReasonPhrase = "Critical Exception"
+                    //Content = new StringContent("An error occurred, please try again or contact the administrator."),
+                    ReasonPhrase = context.Exception.Message
                 });
             }
         }
