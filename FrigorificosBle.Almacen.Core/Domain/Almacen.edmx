@@ -147,7 +147,7 @@
             <End Role="SubLinea" EntitySet="SubLineas" />
             <End Role="Producto" EntitySet="Productos" />
           </AssociationSet>
-          <EntitySet Name="Proveedores" EntityType="FrigorificosBle.Almacen.Core.Domain.Proveedore" />
+          <EntitySet Name="Proveedors" EntityType="FrigorificosBle.Almacen.Core.Domain.Proveedor" />
         </EntityContainer>
         <EntityType Name="Producto">
           <Key>
@@ -233,7 +233,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Proveedore">
+        <EntityType Name="Proveedor">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -309,8 +309,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Proveedores">
-            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Proveedore">
+          <EntitySetMapping Name="Proveedors">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Proveedor">
               <MappingFragment StoreEntitySet="Proveedores">
                 <ScalarProperty Name="BloqueaCupo" ColumnName="BloqueaCupo" />
                 <ScalarProperty Name="BloqueaFactura" ColumnName="BloqueaFactura" />

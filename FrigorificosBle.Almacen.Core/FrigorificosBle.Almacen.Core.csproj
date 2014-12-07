@@ -89,7 +89,7 @@
     <Compile Include="Domain\Producto.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
-    <Compile Include="Domain\Proveedore.cs">
+    <Compile Include="Domain\Proveedor.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\SubLinea.cs">
