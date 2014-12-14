@@ -15,6 +15,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
     public partial class Proveedor
     {
         public int Id { get; set; }
+        public Int64 Nit { get; set; }
         public string Nombre { get; set; }
         public string Contacto { get; set; }
         public string Telefono { get; set; }

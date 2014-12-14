@@ -79,6 +79,7 @@
       <DependentUpon>Almacen.edmx</DependentUpon>
     </Compile>
     <Compile Include="Domain\Dto\ProductoQueryDto.cs" />
+    <Compile Include="Domain\Dto\ProveedorQueryDto.cs" />
     <Compile Include="Domain\Model\Producto.cs" />
     <Compile Include="Domain\Linea.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
@@ -97,7 +98,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IProductoService.cs" />
+    <Compile Include="Service\IProveedorService.cs" />
     <Compile Include="Service\ProductoService.cs" />
+    <Compile Include="Service\ProveedorService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
