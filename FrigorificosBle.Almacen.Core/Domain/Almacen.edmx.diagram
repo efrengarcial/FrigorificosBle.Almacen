@@ -12,7 +12,7 @@
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_SubLineas_Lineas" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Medidas" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Productos_SubLineas" />
-        <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Proveedor" Width="1.5" PointX="10.125" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Proveedor" Width="1.5" PointX="8.375" PointY="0.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

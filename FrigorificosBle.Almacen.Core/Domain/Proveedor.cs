@@ -15,7 +15,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
     public partial class Proveedor
     {
         public int Id { get; set; }
-        public Int64 Nit { get; set; }
+        public long Nit { get; set; }
         public string Nombre { get; set; }
         public string Contacto { get; set; }
         public string Telefono { get; set; }
@@ -32,5 +32,6 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public Nullable<int> ListaPrecio { get; set; }
         public Nullable<bool> BloqueaFactura { get; set; }
         public Nullable<int> BloqueaCupo { get; set; }
+        public string Regimen { get; set; }
     }
 }

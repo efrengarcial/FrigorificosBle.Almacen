@@ -67,15 +67,16 @@
           <Property Name="Nit" Type="bigint" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Contacto" Type="nvarchar" MaxLength="50" />
-          <Property Name="Telefono" Type="nvarchar" MaxLength="30" />
+          <Property Name="Telefono" Type="nvarchar" Nullable="false" MaxLength="30" />
           <Property Name="Fax" Type="nvarchar" MaxLength="30" />
-          <Property Name="EMail" Type="nvarchar" MaxLength="50" />
+          <Property Name="EMail" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Direccion" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Ciudad" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="CupoCredito" Type="decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="FormaPago" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="Regimen" Type="nvarchar" Nullable="false" MaxLength="30" />
           <Property Name="Plazo" Type="int" Nullable="false" />
           <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="CupoCredito" Type="decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="IdVendedor" Type="int" />
           <Property Name="Notas" Type="ntext" />
           <Property Name="ListaPrecio" Type="int" />
@@ -242,9 +243,9 @@
           <Property Type="Int64" Name="Nit" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Contacto" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Telefono" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Telefono" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Type="String" Name="Fax" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="EMail" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EMail" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Ciudad" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Decimal" Name="CupoCredito" Nullable="false" Precision="10" Scale="2" />
@@ -256,6 +257,7 @@
           <Property Type="Int32" Name="ListaPrecio" />
           <Property Type="Boolean" Name="BloqueaFactura" />
           <Property Type="Int32" Name="BloqueaCupo" />
+          <Property Type="String" Name="Regimen" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -314,7 +316,7 @@
           <EntitySetMapping Name="Proveedors">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Proveedor">
               <MappingFragment StoreEntitySet="Proveedores">
-                <ScalarProperty Name="Nit" ColumnName="Nit" />
+                <ScalarProperty Name="Regimen" ColumnName="Regimen" />
                 <ScalarProperty Name="BloqueaCupo" ColumnName="BloqueaCupo" />
                 <ScalarProperty Name="BloqueaFactura" ColumnName="BloqueaFactura" />
                 <ScalarProperty Name="ListaPrecio" ColumnName="ListaPrecio" />
@@ -331,6 +333,7 @@
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
                 <ScalarProperty Name="Contacto" ColumnName="Contacto" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Nit" ColumnName="Nit" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
