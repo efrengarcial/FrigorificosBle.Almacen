@@ -1,6 +1,7 @@
 ﻿using FrigorificosBle.Almacen.Core.Domain;
 using FrigorificosBle.Almacen.Core.Domain.Dto;
 using FrigorificosBle.Almacen.Core.Service;
+using FrigorificosBle.Almacen.SPA.Filters;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ using System.Web.Http;
 namespace FrigorificosBle.Almacen.SPA.Controllers
 
 {
+    [ExceptionHandlingAttribute]
+    [RoutePrefix("api/proveedor")]
     public class ProveedorController : ApiController
     {
 
@@ -38,12 +41,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return _proveedorService.Query(dto);
         }
 
-        // GET api/proveedor/5
-        public string Get(int id)
-        {
-            return "xxx";
-        }
-
+  
         // POST api/proveedor
         // POST api/<controller>
         [HttpPost]
