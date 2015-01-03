@@ -9,6 +9,7 @@ namespace FrigorificosBle.Almacen.Core.Domain.Dto
     public class ProveedorQueryDto
     {
         public string Nombre { get; set; }
-        public int Nit { get; set; }
+        public long Nit { get; set; }
+        
     }
 }

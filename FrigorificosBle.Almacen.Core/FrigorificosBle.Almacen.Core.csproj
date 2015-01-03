@@ -118,6 +118,7 @@
     </None>
     <None Include="Domain\Almacen.edmx.diagram">
       <DependentUpon>Almacen.edmx</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Domain\Almacen.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

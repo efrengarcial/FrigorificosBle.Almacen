@@ -28,6 +28,7 @@ namespace FrigorificosBle.Almacen.SPA
             container.RegisterOpenGeneric(typeof(IRepository<>), typeof(EfRepository<>),
                 new WebRequestLifestyle());
             container.Register<IProductoService, ProductoService>();
+            container.Register<IProveedorService, ProveedorService>();
 
             var logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             container.RegisterSingle(logger);
