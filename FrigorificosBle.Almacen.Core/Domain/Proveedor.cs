@@ -24,6 +24,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public string Direccion { get; set; }
         public string Ciudad { get; set; }
         public decimal CupoCredito { get; set; }
+        public string Regimen { get; set; }
         public string FormaPago { get; set; }
         public int Plazo { get; set; }
         public bool Activo { get; set; }
@@ -32,6 +33,5 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public Nullable<int> ListaPrecio { get; set; }
         public Nullable<bool> BloqueaFactura { get; set; }
         public Nullable<int> BloqueaCupo { get; set; }
-        public string Regimen { get; set; }
     }
 }

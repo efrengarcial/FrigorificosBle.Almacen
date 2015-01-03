@@ -49,6 +49,7 @@
           <Property Name="Referencia" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Nombre" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Ubicacion" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IdLinea" Type="int" Nullable="false" />
           <Property Name="IdSubLinea" Type="int" Nullable="false" />
           <Property Name="Maximo" Type="int" Nullable="false" />
           <Property Name="Minimo" Type="int" Nullable="false" />
@@ -160,6 +161,7 @@
           <Property Name="Referencia" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Ubicacion" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="IdLinea" Nullable="false" />
           <Property Name="IdSubLinea" Type="Int32" Nullable="false" />
           <Property Name="Maximo" Type="Int32" Nullable="false" />
           <Property Name="Minimo" Type="Int32" Nullable="false" />
@@ -249,6 +251,7 @@
           <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Ciudad" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Decimal" Name="CupoCredito" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="String" Name="Regimen" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FormaPago" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Plazo" Nullable="false" />
           <Property Type="Boolean" Name="Activo" Nullable="false" />
@@ -257,7 +260,6 @@
           <Property Type="Int32" Name="ListaPrecio" />
           <Property Type="Boolean" Name="BloqueaFactura" />
           <Property Type="Int32" Name="BloqueaCupo" />
-          <Property Type="String" Name="Regimen" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -268,6 +270,7 @@
           <EntitySetMapping Name="Productos">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Producto">
               <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="IdLinea" ColumnName="IdLinea" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="Referencia" ColumnName="Referencia" />

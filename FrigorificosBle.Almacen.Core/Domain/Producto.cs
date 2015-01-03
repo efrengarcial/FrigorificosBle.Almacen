@@ -19,6 +19,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public string Referencia { get; set; }
         public string Nombre { get; set; }
         public string Ubicacion { get; set; }
+        public int IdLinea { get; set; }
         public int IdSubLinea { get; set; }
         public int Maximo { get; set; }
         public int Minimo { get; set; }

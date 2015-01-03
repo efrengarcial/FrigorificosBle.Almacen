@@ -18,7 +18,6 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public AlmacenContext()
             : base("name=AlmacenContext")
         {
-         
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
