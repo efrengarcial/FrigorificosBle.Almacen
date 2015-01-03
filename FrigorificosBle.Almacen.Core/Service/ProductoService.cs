@@ -53,15 +53,29 @@ namespace FrigorificosBle.Almacen.Core.Service
             return _medidaRepository.GetAll();
         }
 
+        public Producto GetById(Int32 id)
+        {
+            return _productRepository.GetById(id);
+        }
+
         public void Save(Producto producto)
         {
-            _productRepository.Insert(producto);
+            if (producto.Id == 0)
+            {
+                _productRepository.Insert(producto);
+            }
+            else
+            {
+                _productRepository.Update(producto);
+            }
         }
 
         public IEnumerable<Producto> Query(ProductoQueryDto dto)
         {
-            IEnumerable<Producto> result= _context.Set<Producto>().Where(p => p.Nombre.Contains(dto.Nombre) || 
-                p.Referencia.Contains(dto.Referencia) || p.Codigo == dto.Codigo ).OrderBy(p=> p.Codigo).ToList();
+            _context.Configuration.ProxyCreationEnabled = false;
+            _context.Configuration.LazyLoadingEnabled = false;
+            IEnumerable<Producto> result= _context.Set<Producto>().Where(p => (p.Nombre.Contains(dto.Nombre) || 
+                p.Referencia.Contains(dto.Referencia) || p.Codigo == dto.Codigo)  && p.Activo ).OrderBy(p=> p.Codigo).ToList();
             return result;
         }
     }

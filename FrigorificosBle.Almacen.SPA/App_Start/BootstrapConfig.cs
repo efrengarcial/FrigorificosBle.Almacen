@@ -21,7 +21,7 @@ namespace FrigorificosBle.Almacen.SPA
         {
             //http://stackoverflow.com/questions/20594391/how-to-use-simple-injector-repository-and-context-code-first
             // which is a shortcut for:
-            container.RegisterPerWebRequest<DbContext, AlmacenContext>();
+            container.RegisterPerWebRequest<DbContext, AlmacenDbContext>();
 
             // 2. Configure the container (register)
             //container.Register<, SqlUserRepository>();

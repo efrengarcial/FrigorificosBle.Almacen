@@ -78,6 +78,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Almacen.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Domain\AlmacenDbContext.cs" />
     <Compile Include="Domain\Dto\ProductoQueryDto.cs" />
     <Compile Include="Domain\Dto\ProveedorQueryDto.cs" />
     <Compile Include="Domain\Model\Producto.cs" />

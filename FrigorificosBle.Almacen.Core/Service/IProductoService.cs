@@ -12,6 +12,7 @@ namespace FrigorificosBle.Almacen.Core.Service
     {
         IList<Linea> GetLineas();
         IList<Medida> GetMedidas();
+        Producto GetById(Int32 id);
         void Save(Producto producto);
         IEnumerable<Producto> Query(ProductoQueryDto dto);
     }

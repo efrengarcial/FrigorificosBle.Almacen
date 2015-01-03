@@ -74,6 +74,16 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, producto.Id);
         }
 
+        [HttpPost]
+        [Route("inactivate")]
+        public HttpResponseMessage Inactivate([FromBody]Int32 id)
+        {
+            Producto producto = _productoService.GetById(id);
+            producto.Activo = false;
+            _productoService.Save(producto);
+            return Request.CreateResponse(HttpStatusCode.OK, id);
+        }
+
         // PUT api/producto/5
         public void Put(int id, [FromBody]string value)
         {
