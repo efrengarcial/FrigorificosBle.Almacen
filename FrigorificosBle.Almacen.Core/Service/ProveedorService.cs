@@ -36,9 +36,14 @@ namespace FrigorificosBle.Almacen.Core.Service
 
         public IEnumerable<Proveedor> Query(ProveedorQueryDto dto)
         {
-            IEnumerable<Proveedor> result = _context.Set<Proveedor>().Where(p => p.Nombre.Contains(dto.Nombre) || 
-                p.Nit == dto.Nit).OrderBy(p => p.Nit).ToList();
+            IEnumerable<Proveedor> result = _context.Set<Proveedor>().Where(p =>( p.Nombre.Contains(dto.Nombre) || 
+                p.Nit == dto.Nit) && p.Activo).OrderBy(p => p.Nit).ToList();
             return result;
+        }
+
+        public IEnumerable<Proveedor> GetALl()
+        {
+            return _context.Set<Proveedor>().Where(p => p.Activo).OrderBy(p => p.Nit).ToList();
         }
     }
 }
