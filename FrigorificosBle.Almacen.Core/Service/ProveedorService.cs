@@ -48,5 +48,11 @@ namespace FrigorificosBle.Almacen.Core.Service
                 p.Nit == dto.Nit) && p.Activo).OrderBy(p => p.Nit).ToList();
             return result;
         }
+
+
+        public IEnumerable<Proveedor> GetALl()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
