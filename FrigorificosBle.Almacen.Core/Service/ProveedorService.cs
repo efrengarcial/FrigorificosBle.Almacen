@@ -31,13 +31,21 @@ namespace FrigorificosBle.Almacen.Core.Service
 
         public void Save(Proveedor proveedor)
         {
-            _proveedorRepository.Insert(proveedor);
+
+            if (proveedor.Id == 0)
+            {
+                _proveedorRepository.Insert(proveedor);
+            }
+            else
+            {
+                _proveedorRepository.Update(proveedor);
+            }
         }
 
         public IEnumerable<Proveedor> Query(ProveedorQueryDto dto)
         {
-            IEnumerable<Proveedor> result = _context.Set<Proveedor>().Where(p => p.Nombre.Contains(dto.Nombre) || 
-                p.Nit == dto.Nit).OrderBy(p => p.Nit).ToList();
+            IEnumerable<Proveedor> result = _context.Set<Proveedor>().Where(p => (p.Nombre.Contains(dto.Nombre) ||
+                p.Nit == dto.Nit) && p.Activo).OrderBy(p => p.Nit).ToList();
             return result;
         }
     }
