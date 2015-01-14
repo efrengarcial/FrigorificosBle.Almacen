@@ -13,6 +13,6 @@ namespace FrigorificosBle.Almacen.Core.Service
 
         void Save(Proveedor proveedor);
         IEnumerable<Proveedor> Query(ProveedorQueryDto dto);
-
+        IEnumerable<Proveedor> GetALl();
     }
 }
