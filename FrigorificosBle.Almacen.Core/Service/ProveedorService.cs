@@ -29,6 +29,12 @@ namespace FrigorificosBle.Almacen.Core.Service
             _context = context;
         }
 
+        public Proveedor GetById(Int32 id) {
+
+            return _proveedorRepository.GetById(id);        
+        }
+
+
         public void Save(Proveedor proveedor)
         {
 
@@ -44,6 +50,9 @@ namespace FrigorificosBle.Almacen.Core.Service
 
         public IEnumerable<Proveedor> Query(ProveedorQueryDto dto)
         {
+            _context.Configuration.ProxyCreationEnabled = false;
+            _context.Configuration.LazyLoadingEnabled = false;
+
             IEnumerable<Proveedor> result = _context.Set<Proveedor>().Where(p => (p.Nombre.Contains(dto.Nombre) ||
                 p.Nit == dto.Nit) && p.Activo).OrderBy(p => p.Nit).ToList();
             return result;

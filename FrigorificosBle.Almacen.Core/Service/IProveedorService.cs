@@ -10,7 +10,7 @@ namespace FrigorificosBle.Almacen.Core.Service
 {
     public interface IProveedorService
     {
-
+        Proveedor GetById(Int32 id);
         void Save(Proveedor proveedor);
         IEnumerable<Proveedor> Query(ProveedorQueryDto dto);
         IEnumerable<Proveedor> GetALl();
