@@ -61,7 +61,7 @@ namespace FrigorificosBle.Almacen.Core.Service
 
         public IEnumerable<Proveedor> GetALl()
         {
-            throw new NotImplementedException();
+            return _context.Set<Proveedor>().Where(p => p.Activo).OrderBy(p => p.Nit).ToList();
         }
     }
 }
