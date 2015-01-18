@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Linq.SqlClient;
 using FrigorificosBle.Almacen.Core.Domain.Dto;
+using System.Data.Linq;
 
 //https://simpleinjector.codeplex.com/wikipage?title=Quick%20Start
 
@@ -46,7 +47,7 @@ namespace FrigorificosBle.Almacen.Core.Service
             _context.Configuration.ProxyCreationEnabled = false;
             _context.Configuration.LazyLoadingEnabled = false;             
             return _context.Set<Linea>().Include(l=> l.SubLineas).ToList();//_lineaRepository.GetAll();
-        }
+        } 
 
         public IList<Medida> GetMedidas()
         {
@@ -75,7 +76,8 @@ namespace FrigorificosBle.Almacen.Core.Service
             _context.Configuration.ProxyCreationEnabled = false;
             _context.Configuration.LazyLoadingEnabled = false;
             IEnumerable<Producto> result= _context.Set<Producto>().Where(p => (p.Nombre.Contains(dto.Nombre) || 
-                p.Referencia.Contains(dto.Referencia) || p.Codigo == dto.Codigo)  && p.Activo ).OrderBy(p=> p.Codigo).ToList();
+                p.Referencia.Contains(dto.Referencia) || p.Codigo == dto.Codigo)  && p.Activo ).
+                Include(p => p.Medida).OrderBy(p=> p.Codigo).ToList();
             return result;
         }
     }

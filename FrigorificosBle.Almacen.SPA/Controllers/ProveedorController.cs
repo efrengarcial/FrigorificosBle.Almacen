@@ -24,7 +24,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         public ProveedorController(IProveedorService proveedorService, ILog logger)
         {
             _proveedorService = proveedorService;
-            _logger = logger;
+            _logger = logger; 
         }
 
 

@@ -30,5 +30,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public DbSet<Medida> Medidas { get; set; }
         public DbSet<SubLinea> SubLineas { get; set; }
         public DbSet<Proveedor> Proveedors { get; set; }
+        public DbSet<Orden> Ordens { get; set; }
+        public DbSet<OrdenItem> OrdenItems { get; set; }
     }
 }

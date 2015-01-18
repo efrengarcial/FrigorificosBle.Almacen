@@ -87,6 +87,12 @@
     <Compile Include="Domain\Medida.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Orden.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\OrdenItem.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\Producto.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
