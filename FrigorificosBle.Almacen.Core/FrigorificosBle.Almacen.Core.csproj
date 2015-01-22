@@ -103,6 +103,8 @@
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\IOrdenService.cs" />
+    <Compile Include="Service\OrdenService.cs" />
     <Compile Include="Service\IProductoService.cs" />
     <Compile Include="Service\IProveedorService.cs" />
     <Compile Include="Service\ProductoService.cs" />

@@ -15,7 +15,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 {
     [ExceptionHandlingAttribute]
     [RoutePrefix("api/proveedor")]
-    public class ProveedorController : ApiController
+    public class ProveedorController : ApiController 
     {
 
         private readonly IProveedorService _proveedorService;
@@ -58,7 +58,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         public HttpResponseMessage Inactivate([FromBody]Int32 id)
         {
             Proveedor proveedor = _proveedorService.GetById(id);
-            proveedor.Activo = false;
+            proveedor.Anulado = true;
             _proveedorService.Save(proveedor);
             return Request.CreateResponse(HttpStatusCode.OK, id);
         }

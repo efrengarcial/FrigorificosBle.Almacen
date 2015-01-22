@@ -76,7 +76,7 @@ namespace FrigorificosBle.Almacen.Core.Service
             _context.Configuration.ProxyCreationEnabled = false;
             _context.Configuration.LazyLoadingEnabled = false;
             IEnumerable<Producto> result= _context.Set<Producto>().Where(p => (p.Nombre.Contains(dto.Nombre) || 
-                p.Referencia.Contains(dto.Referencia) || p.Codigo == dto.Codigo)  && p.Activo ).
+                p.Referencia.Contains(dto.Referencia) || p.Codigo == dto.Codigo)  && !p.Anulado ).
                 Include(p => p.Medida).OrderBy(p=> p.Codigo).ToList();
             return result;
         }

@@ -27,7 +27,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public string Regimen { get; set; }
         public string FormaPago { get; set; }
         public int Plazo { get; set; }
-        public bool Activo { get; set; }
+        public bool Anulado { get; set; }
         public Nullable<int> IdVendedor { get; set; }
         public string Notas { get; set; }
         public Nullable<int> ListaPrecio { get; set; }

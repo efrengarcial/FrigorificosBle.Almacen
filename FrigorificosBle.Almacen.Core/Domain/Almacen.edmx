@@ -62,14 +62,14 @@
           <Property Name="Numero" Type="int" Nullable="false" />
           <Property Name="Tipo" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IdProveedor" Type="int" Nullable="false" />
-          <Property Name="IdOperario" Type="int" Nullable="false" />
-          <Property Name="IdUsuario" Type="int" Nullable="false" />
-          <Property Name="CentroCostos" Type="nvarchar" Nullable="false" MaxLength="8" />
-          <Property Name="FechaOrden" Type="datetime" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="Descuento" Type="float" Nullable="false" />
           <Property Name="Anulada" Type="bit" Nullable="false" />
           <Property Name="Cancelada" Type="bit" Nullable="false" />
-          <Property Name="IdCaja" Type="int" Nullable="false" />
+          <Property Name="CentroCostos" Type="nvarchar" MaxLength="8" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="IdOperario" Type="int" />
+          <Property Name="IdCaja" Type="int" />
           <Property Name="Notas" Type="ntext" />
         </EntityType>
         <EntityType Name="OrdenItems">
@@ -100,7 +100,7 @@
           <Property Name="Iva" Type="float" Nullable="false" />
           <Property Name="Precio" Type="decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="Promocion" Type="bit" Nullable="false" />
-          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="Anulado" Type="bit" Nullable="false" />
           <Property Name="Descripcion" Type="ntext" />
         </EntityType>
         <EntityType Name="Proveedores">
@@ -119,7 +119,7 @@
           <Property Name="FormaPago" Type="nvarchar" Nullable="false" MaxLength="30" />
           <Property Name="Regimen" Type="nvarchar" Nullable="false" MaxLength="30" />
           <Property Name="Plazo" Type="int" Nullable="false" />
-          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="Anulado" Type="bit" Nullable="false" />
           <Property Name="CupoCredito" Type="decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="IdVendedor" Type="int" />
           <Property Name="Notas" Type="ntext" />
@@ -262,10 +262,10 @@
           <Property Name="Iva" Type="Double" Nullable="false" />
           <Property Name="Precio" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="Promocion" Type="Boolean" Nullable="false" />
-          <Property Name="Activo" Type="Boolean" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Medida" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Medidas" FromRole="Producto" ToRole="Medida" />
           <NavigationProperty Name="SubLinea" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_SubLineas" FromRole="Producto" ToRole="SubLinea" />
+          <Property Type="Boolean" Name="Anulado" Nullable="false" />
         </EntityType>
         <EntityType Name="Linea">
           <Key>
@@ -347,7 +347,7 @@
           <Property Type="String" Name="Regimen" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FormaPago" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Plazo" Nullable="false" />
-          <Property Type="Boolean" Name="Activo" Nullable="false" />
+          <Property Type="Boolean" Name="Anulado" Nullable="false" />
           <Property Type="Int32" Name="IdVendedor" />
           <Property Type="String" Name="Notas" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ListaPrecio" />
@@ -362,14 +362,14 @@
           <Property Type="Int32" Name="Numero" Nullable="false" />
           <Property Type="String" Name="Tipo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="IdProveedor" Nullable="false" />
-          <Property Type="Int32" Name="IdOperario" Nullable="false" />
-          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
-          <Property Type="String" Name="CentroCostos" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="FechaOrden" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="IdOperario" />
+          <Property Type="Int32" Name="IdUsuario" />
+          <Property Type="String" Name="CentroCostos" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Double" Name="Descuento" Nullable="false" />
           <Property Type="Boolean" Name="Anulada" Nullable="false" />
           <Property Type="Boolean" Name="Cancelada" Nullable="false" />
-          <Property Type="Int32" Name="IdCaja" Nullable="false" />
+          <Property Type="Int32" Name="IdCaja" />
           <Property Type="String" Name="Notas" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Proveedor" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" FromRole="Ordene" ToRole="Proveedor" />
           <NavigationProperty Name="OrdenItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Ordenes" FromRole="Ordene" ToRole="OrdenItem" />
@@ -432,6 +432,7 @@
           <EntitySetMapping Name="Productos">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Producto">
               <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="Anulado" ColumnName="Anulado" />
                 <ScalarProperty Name="IdLinea" ColumnName="IdLinea" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
@@ -445,7 +446,6 @@
                 <ScalarProperty Name="Iva" ColumnName="Iva" />
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Promocion" ColumnName="Promocion" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -481,13 +481,13 @@
           <EntitySetMapping Name="Proveedors">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Proveedor">
               <MappingFragment StoreEntitySet="Proveedores">
+                <ScalarProperty Name="Anulado" ColumnName="Anulado" />
                 <ScalarProperty Name="Regimen" ColumnName="Regimen" />
                 <ScalarProperty Name="BloqueaCupo" ColumnName="BloqueaCupo" />
                 <ScalarProperty Name="BloqueaFactura" ColumnName="BloqueaFactura" />
                 <ScalarProperty Name="ListaPrecio" ColumnName="ListaPrecio" />
                 <ScalarProperty Name="Notas" ColumnName="Notas" />
                 <ScalarProperty Name="IdVendedor" ColumnName="IdVendedor" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="Plazo" ColumnName="Plazo" />
                 <ScalarProperty Name="FormaPago" ColumnName="FormaPago" />
                 <ScalarProperty Name="CupoCredito" ColumnName="CupoCredito" />
@@ -506,12 +506,12 @@
           <EntitySetMapping Name="Ordens">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Orden">
               <MappingFragment StoreEntitySet="Ordenes">
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
                 <ScalarProperty Name="Notas" ColumnName="Notas" />
                 <ScalarProperty Name="IdCaja" ColumnName="IdCaja" />
                 <ScalarProperty Name="Cancelada" ColumnName="Cancelada" />
                 <ScalarProperty Name="Anulada" ColumnName="Anulada" />
                 <ScalarProperty Name="Descuento" ColumnName="Descuento" />
-                <ScalarProperty Name="FechaOrden" ColumnName="FechaOrden" />
                 <ScalarProperty Name="CentroCostos" ColumnName="CentroCostos" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="IdOperario" ColumnName="IdOperario" />

@@ -27,8 +27,8 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public double Iva { get; set; }
         public decimal Precio { get; set; }
         public bool Promocion { get; set; }
-        public bool Activo { get; set; }
         public string Descripcion { get; set; }
+        public bool Anulado { get; set; }
     
         public virtual Medida Medida { get; set; }
         public virtual SubLinea SubLinea { get; set; }
