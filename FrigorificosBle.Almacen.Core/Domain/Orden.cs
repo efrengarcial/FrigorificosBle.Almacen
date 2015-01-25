@@ -20,7 +20,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         }
     
         public long Id { get; set; }
-        public int Numero { get; set; }
+        public long Numero { get; set; }
         public string Tipo { get; set; }
         public int IdProveedor { get; set; }
         public Nullable<int> IdOperario { get; set; }

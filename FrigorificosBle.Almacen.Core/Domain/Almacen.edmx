@@ -59,14 +59,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Numero" Type="int" Nullable="false" />
+          <Property Name="Numero" Type="bigint" Nullable="false" />
           <Property Name="Tipo" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IdProveedor" Type="int" Nullable="false" />
           <Property Name="FechaCreacion" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="Descuento" Type="float" Nullable="false" />
           <Property Name="Anulada" Type="bit" Nullable="false" />
           <Property Name="Cancelada" Type="bit" Nullable="false" />
-          <Property Name="CentroCostos" Type="nvarchar" MaxLength="8" />
+          <Property Name="CentroCostos" Type="nvarchar" Nullable="false" MaxLength="8" />
           <Property Name="IdUsuario" Type="int" />
           <Property Name="IdOperario" Type="int" />
           <Property Name="IdCaja" Type="int" />
@@ -359,12 +359,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="Numero" Nullable="false" />
+          <Property Type="Int64" Name="Numero" Nullable="false" />
           <Property Type="String" Name="Tipo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="IdProveedor" Nullable="false" />
           <Property Type="Int32" Name="IdOperario" />
           <Property Type="Int32" Name="IdUsuario" />
-          <Property Type="String" Name="CentroCostos" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CentroCostos" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Double" Name="Descuento" Nullable="false" />
           <Property Type="Boolean" Name="Anulada" Nullable="false" />
