@@ -41,6 +41,12 @@ namespace FrigorificosBle.Almacen.Core.Service
             }
         }
 
-       
+        public IEnumerable<Orden> Query(OrdenQueryDto dto)
+        {
+            _context.Configuration.ProxyCreationEnabled = false;
+            _context.Configuration.LazyLoadingEnabled = false;
+            IEnumerable<Orden> result = _context.Set<Orden>().Where(p => ((p.Numero == dto.Numero) || (p.IdProveedor == dto.IdProveedor))).OrderBy(p => p.Numero).ToList();
+            return result;
+        }
     }
 }

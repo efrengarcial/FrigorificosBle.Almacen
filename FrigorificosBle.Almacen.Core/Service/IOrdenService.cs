@@ -11,5 +11,6 @@ namespace FrigorificosBle.Almacen.Core.Service
     public interface IOrdenService
     {
         void Save(Orden orden);
+        IEnumerable<Orden> Query(OrdenQueryDto dto);
     }
 }

@@ -28,7 +28,20 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _ordenService = ordenService;
             _logger = logger;
         }
-       
+
+        //public IEnumerable<Orden> Query([FromUri]OrdenQueryDto dto)
+        [Route("query/{search}")]
+        [HttpGet]
+        public IEnumerable<Orden> Query(String search)
+        {
+            OrdenQueryDto dto = new OrdenQueryDto();
+            long numero;
+            long.TryParse(search, out numero);
+            dto.Numero = numero;
+            return _ordenService.Query(dto);
+        }
+
+      
         [HttpPost]
         [Route("save")]
         public HttpResponseMessage Save([FromBody]Orden orden)
