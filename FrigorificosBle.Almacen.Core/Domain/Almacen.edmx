@@ -208,6 +208,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_CrearNumeroOrden" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tipoOrden" Type="varchar" Mode="In" />
+        </Function>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -244,6 +247,9 @@
             <End Role="Producto" EntitySet="Productos" />
             <End Role="OrdenItem" EntitySet="OrdenItems" />
           </AssociationSet>
+          <FunctionImport Name="CrearNumeroOrden" ReturnType="Collection(Int64)">
+            <Parameter Name="tipoOrden" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Producto">
           <Key>
@@ -423,6 +429,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_CrearNumeroOrden_Result">
+          </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -534,6 +542,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CrearNumeroOrden" FunctionName="FrigorificosBle.Almacen.Core.Domain.Store.sp_CrearNumeroOrden" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
