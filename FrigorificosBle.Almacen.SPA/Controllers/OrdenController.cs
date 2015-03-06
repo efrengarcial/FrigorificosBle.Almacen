@@ -30,9 +30,9 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         }
 
         //public IEnumerable<Orden> Query([FromUri]OrdenQueryDto dto)
-        [Route("query/{search}/{date}/{proveedor}")]
+        [Route("query/{search}")]
         [HttpGet]
-        public IEnumerable<Orden> Query(String search, DateTime date, Proveedor proveedor)
+        public IEnumerable<Orden> Query(String search)
         {
             OrdenQueryDto dto = new OrdenQueryDto();
             long numero;
