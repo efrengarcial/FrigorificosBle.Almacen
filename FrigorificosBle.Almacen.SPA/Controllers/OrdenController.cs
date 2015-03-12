@@ -36,6 +36,12 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         {
             var queryString = this.Request.GetQueryStrings();
 
+            foreach (KeyValuePair<string, string> element in queryString)
+            {
+                Debug.WriteLine("Value: " + element.Value + " Key: " + element.Key);
+                
+            }
+
             String search = "";
             OrdenQueryDto dto = new OrdenQueryDto();
             long numero;

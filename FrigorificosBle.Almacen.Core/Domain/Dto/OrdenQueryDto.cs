@@ -10,5 +10,7 @@ namespace FrigorificosBle.Almacen.Core.Domain.Dto
     {
         public long Numero { get; set; }
         public int IdProveedor { get; set; }
+        public System.DateTime FechaCreacion { get; set; }
+        public virtual Proveedor Proveedor { get; set; }
     }
 }
