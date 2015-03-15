@@ -30,7 +30,6 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _logger = logger;
         }
 
-        //public IEnumerable<Orden> Query([FromUri]OrdenQueryDto dto)
         [Route("query")]
         [HttpGet]
         public IEnumerable<Orden> Query()
