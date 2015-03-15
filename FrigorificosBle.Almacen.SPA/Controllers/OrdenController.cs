@@ -2,6 +2,7 @@
 using FrigorificosBle.Almacen.Core.Domain.Dto;
 using FrigorificosBle.Almacen.Core.Service;
 using FrigorificosBle.Almacen.SPA.Filters;
+using FrigorificosBle.Almacen.Util;
 using log4net;
 using log4net.Core;
 using System;
@@ -35,18 +36,25 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         public IEnumerable<Orden> Query()
         {
             var queryString = this.Request.GetQueryStrings();
+            OrdenQueryDto dto = new OrdenQueryDto();
 
             foreach (KeyValuePair<string, string> element in queryString)
             {
                 Debug.WriteLine("Value: " + element.Value + " Key: " + element.Key);
+                if ("Numero".Equals(element.Key))
+                {
+                    dto.Numero = Int64.Parse(element.Value);
+                }
+                else if ("StartDate".Equals(element.Key)) 
+                {
+                    dto.StartDate = CommonsTools.StringToDateTime(element.Value);
+                }
+                else if ("EndDate".Equals(element.Key))
+                {
+                    dto.EndDate = CommonsTools.StringToDateTime(element.Value);
+                }
                 
             }
-
-            String search = "";
-            OrdenQueryDto dto = new OrdenQueryDto();
-            long numero;
-            long.TryParse(search, out numero);
-            dto.Numero = numero;
             return _ordenService.Query(dto);
         }
 

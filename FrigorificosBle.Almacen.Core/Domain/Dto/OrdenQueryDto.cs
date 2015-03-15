@@ -8,9 +8,10 @@ namespace FrigorificosBle.Almacen.Core.Domain.Dto
 {
     public class OrdenQueryDto
     {
-        public long Numero { get; set; }
-        public int IdProveedor { get; set; }
-        public System.DateTime FechaCreacion { get; set; }
-        public virtual Proveedor Proveedor { get; set; }
+        public Nullable<Int64> Numero { get; set; }
+        public Nullable<Int32> IdProveedor { get; set; }
+        public Nullable<DateTime> StartDate { get; set; }
+        public Nullable<DateTime> EndDate { get; set; }
+
     }
 }

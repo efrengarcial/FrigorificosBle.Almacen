@@ -101,6 +101,9 @@
     <Compile Include="Domain\Proveedor.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\sp_CrearNumeroOrden_Result.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\SubLinea.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -111,6 +114,7 @@
     <Compile Include="Service\IProveedorService.cs" />
     <Compile Include="Service\ProductoService.cs" />
     <Compile Include="Service\ProveedorService.cs" />
+    <Compile Include="Util\CommonsTools.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

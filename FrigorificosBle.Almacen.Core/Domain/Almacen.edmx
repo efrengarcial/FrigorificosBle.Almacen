@@ -91,6 +91,7 @@
           <Property Name="Codigo" Type="int" Nullable="false" />
           <Property Name="Referencia" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Nombre" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="EsServicio" Type="bit" Nullable="false" />
           <Property Name="Ubicacion" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IdLinea" Type="int" Nullable="false" />
           <Property Name="IdSubLinea" Type="int" Nullable="false" />
@@ -248,7 +249,7 @@
             <End Role="OrdenItem" EntitySet="OrdenItems" />
           </AssociationSet>
           <FunctionImport Name="CrearNumeroOrden" ReturnType="Collection(Int64)">
-            <Parameter Name="tipoOrden" Mode="In" Type="String" />
+          <Parameter Name="tipoOrden" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Producto">
@@ -258,6 +259,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Codigo" Type="Int32" Nullable="false" />
           <Property Name="Referencia" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Type="Boolean" Name="EsServicio" Nullable="false" />
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Ubicacion" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Type="Int32" Name="IdLinea" Nullable="false" />
@@ -440,6 +442,7 @@
           <EntitySetMapping Name="Productos">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Producto">
               <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="EsServicio" ColumnName="EsServicio" />
                 <ScalarProperty Name="Anulado" ColumnName="Anulado" />
                 <ScalarProperty Name="IdLinea" ColumnName="IdLinea" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
