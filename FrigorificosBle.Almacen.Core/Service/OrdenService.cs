@@ -71,10 +71,16 @@ namespace FrigorificosBle.Almacen.Core.Service
             {
                 result = query.Where(p => p.Numero == dto.Numero).Include(p => p.Proveedor);
             }
-            else if (dto.StartDate != null && dto.EndDate !=null)
+            else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor == null)
             {
                 result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
                      DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date).Include(p => p.Proveedor);
+            }
+
+            else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor != null)
+            {
+                result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor)).Include(p => p.Proveedor);
             }
             return result.ToList();
         }

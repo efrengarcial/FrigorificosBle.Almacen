@@ -4,12 +4,9 @@ using FrigorificosBle.Almacen.Core.Service;
 using FrigorificosBle.Almacen.SPA.Filters;
 using FrigorificosBle.Almacen.Util;
 using log4net;
-using log4net.Core;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -40,19 +37,24 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             foreach (KeyValuePair<string, string> element in queryString)
             {
                 Debug.WriteLine("Value: " + element.Value + " Key: " + element.Key);
-                if ("Numero".Equals(element.Key))
+
+                switch (element.Key)
                 {
-                    dto.Numero = Int64.Parse(element.Value);
-                }
-                else if ("StartDate".Equals(element.Key)) 
-                {
-                    dto.StartDate = CommonsTools.StringToDateTime(element.Value);
-                }
-                else if ("EndDate".Equals(element.Key))
-                {
-                    dto.EndDate = CommonsTools.StringToDateTime(element.Value);
-                }
-                
+                    case "Numero":
+                        dto.Numero = Int64.Parse(element.Value);
+                        break;
+                    case "StartDate":
+                        dto.StartDate = CommonsTools.StringToDateTime(element.Value);
+                        break;
+                    case "EndDate":
+                        dto.EndDate = CommonsTools.StringToDateTime(element.Value);
+                        break;
+                    case "IdProveedor":
+                        dto.IdProveedor = Int32.Parse(element.Value);
+                        break;
+                    default:
+                        break;
+                }                
             }
             return _ordenService.Query(dto);
         }
