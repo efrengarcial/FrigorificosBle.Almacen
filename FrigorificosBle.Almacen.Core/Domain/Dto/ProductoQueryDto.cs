@@ -11,5 +11,6 @@ namespace FrigorificosBle.Almacen.Core.Domain.Dto
         public int Codigo { get; set; }
         public string Referencia { get; set; }
         public string Nombre { get; set; }
+        public Nullable<Boolean> EsServicio { get; set; }
     }
 }

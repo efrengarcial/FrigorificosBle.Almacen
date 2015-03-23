@@ -44,7 +44,6 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         }
 
         
-        //public IEnumerable<Producto> Query([FromUri]ProductoQueryDto dto)
         [Route("query/{search}")]
         [HttpGet]
         public IEnumerable<Producto> Query(String search)
@@ -55,6 +54,20 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             dto.Codigo = codigo;
             dto.Nombre = search;
             dto.Referencia = search;
+            return _productoService.Query(dto);
+        }
+
+        [Route("query/{search}/{esServicio}")]
+        [HttpGet]
+        public IEnumerable<Producto> Query(String search,Boolean esServicio)
+        {
+            ProductoQueryDto dto = new ProductoQueryDto();
+            int codigo;
+            int.TryParse(search, out codigo);
+            dto.Codigo = codigo;
+            dto.Nombre = search;
+            dto.Referencia = search;
+            dto.EsServicio = esServicio;
             return _productoService.Query(dto);
         }
 

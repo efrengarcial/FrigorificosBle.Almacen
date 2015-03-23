@@ -47,6 +47,10 @@ namespace FrigorificosBle.Almacen.Core.Service
                     {
                         secuencia = TipoOrdenEnum.ORDEN_SERVICIO.AsSecuencia();
                     }
+                    else if (TipoOrdenEnum.REQUISICION_SERVICIO.AsText().Equals(orden.Tipo))
+                    {
+                        secuencia = TipoOrdenEnum.REQUISICION_SERVICIO.AsSecuencia();
+                    }
  
                     var numeroOrden = ((AlmacenDbContext)_context).CrearNumeroOrden(secuencia);
                     orden.Numero = numeroOrden.SingleOrDefault().Value;

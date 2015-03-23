@@ -10,7 +10,8 @@ namespace FrigorificosBle.Almacen.Core.Domain.Enum
     {
         ORDEN_COMPRA,
         ORDEN_SERVICIO,
-        REQUISICION
+        REQUISICION,
+        REQUISICION_SERVICIO
     }
 
     public static class SecuenciasOrdenEnumExtender
@@ -22,6 +23,7 @@ namespace FrigorificosBle.Almacen.Core.Domain.Enum
                 case TipoOrdenEnum.ORDEN_COMPRA: return "SECUENCIA_ORDEN_COMPRA";
                 case TipoOrdenEnum.ORDEN_SERVICIO: return "SECUENCIA_ORDEN_SERVICIO";
                 case TipoOrdenEnum.REQUISICION: return "SECUENCIA_REQUISICION";
+                case TipoOrdenEnum.REQUISICION_SERVICIO: return "SECUENCIA_REQUISICION_SERVICIO";
             }
             return String.Empty;
         }
@@ -33,6 +35,7 @@ namespace FrigorificosBle.Almacen.Core.Domain.Enum
                 case TipoOrdenEnum.ORDEN_COMPRA: return "ORDEN_COMPRA";
                 case TipoOrdenEnum.ORDEN_SERVICIO: return "ORDEN_SERVICIO";
                 case TipoOrdenEnum.REQUISICION: return "REQUISICION";
+                case TipoOrdenEnum.REQUISICION_SERVICIO: return "REQUISICION_SERVICIO";
             }
             return String.Empty;
         }
