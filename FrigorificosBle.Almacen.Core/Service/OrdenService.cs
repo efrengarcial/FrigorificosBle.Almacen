@@ -32,6 +32,12 @@ namespace FrigorificosBle.Almacen.Core.Service
             _context = context;
         }
 
+        public Orden GetById(Int32 id)
+        {
+
+            return _ordenRepository.GetById(id);
+        }
+
         public void Save(Orden orden)
         {
             if (orden.Id == 0)
@@ -73,18 +79,18 @@ namespace FrigorificosBle.Almacen.Core.Service
 
             if (dto.Numero != null)
             {
-                result = query.Where(p => p.Numero == dto.Numero).Include(p => p.Proveedor);
+                result = query.Where(p => p.Numero == dto.Numero && p.Anulada == false).Include(p => p.Proveedor);
             }
             else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor == null)
             {
                 result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
-                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date).Include(p => p.Proveedor);
+                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && p.Anulada == false).Include(p => p.Proveedor);
             }
 
             else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor != null)
             {
                 result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
-                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor)).Include(p => p.Proveedor);
+                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor) && p.Anulada == false).Include(p => p.Proveedor);
             }
             return result.ToList();
         }

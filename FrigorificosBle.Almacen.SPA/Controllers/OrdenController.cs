@@ -67,5 +67,15 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _ordenService.Save(orden);
             return Request.CreateResponse(HttpStatusCode.OK, orden.Id);
         }
+
+        [HttpPost]
+        [Route("inactivate")]
+        public HttpResponseMessage Inactivate([FromBody]Int32 id)
+        {
+            Orden orden = _ordenService.GetById(id);
+            orden.Anulada = true;
+            _ordenService.Save(orden);
+            return Request.CreateResponse(HttpStatusCode.OK, id);
+        }
     }
 }
