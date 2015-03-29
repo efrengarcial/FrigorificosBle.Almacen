@@ -95,6 +95,11 @@ namespace FrigorificosBle.Almacen.Core.Service
             return result.ToList();
         }
 
+        public IEnumerable<Orden> GetALl()
+        {
+            return _context.Set<Orden>().Where(p => p.Estado == "ABIERTA").OrderBy(p => p.FechaCreacion).ToList();
+        }
+
 
     }
 }
