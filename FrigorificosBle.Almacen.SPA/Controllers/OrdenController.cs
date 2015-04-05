@@ -79,11 +79,11 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         }
 
         //http://blog.hexacta.com/typeahead-for-angularjs-with-ajax/
-        [Route("getAll")]
+        [Route("getInboxOrden")]
         [HttpGet]
-        public IEnumerable<Orden> GetAll()
+        public IEnumerable<Orden> GetInboxOrden()
         {
-            return _ordenService.GetALl();
+            return _ordenService.GetInboxOrden();
         }
     }
 }

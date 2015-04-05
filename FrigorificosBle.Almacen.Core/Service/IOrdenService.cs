@@ -13,6 +13,6 @@ namespace FrigorificosBle.Almacen.Core.Service
         Orden GetById(Int32 id);
         void Save(Orden orden);
         IEnumerable<Orden> Query(OrdenQueryDto dto);
-        IEnumerable<Orden> GetALl();
+        IEnumerable<Orden> GetInboxOrden();
     }
 }

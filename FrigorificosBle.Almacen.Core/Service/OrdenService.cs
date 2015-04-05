@@ -1,5 +1,6 @@
 ﻿using FrigorificosBle.Almacen.Core.Dao;
 using FrigorificosBle.Almacen.Core.Domain;
+using Microsoft.VisualBasic;
 using log4net;
 using log4net.Core;
 using System;
@@ -13,6 +14,7 @@ using FrigorificosBle.Almacen.Core.Domain.Dto;
 using System.Transactions;
 using System.Data.Entity.Core.Objects;
 using FrigorificosBle.Almacen.Core.Domain.Enum;
+using System.Diagnostics;
 
 
 namespace FrigorificosBle.Almacen.Core.Service
@@ -23,6 +25,10 @@ namespace FrigorificosBle.Almacen.Core.Service
 
         private readonly ILog _logger;
         private readonly DbContext _context;
+
+        public readonly string REQUISICION = TipoOrdenEnum.REQUISICION.AsText();
+        public readonly string REQUISICION_SERVICIO = TipoOrdenEnum.REQUISICION_SERVICIO.AsText();
+        public readonly string ORDEN_ABIERTA = OrdenEstadoEnum.ABIERTA.AsText();
 
         public OrdenService(IRepository<Orden> ordenRepository, 
             ILog logger, DbContext context)
@@ -95,11 +101,10 @@ namespace FrigorificosBle.Almacen.Core.Service
             return result.ToList();
         }
 
-        public IEnumerable<Orden> GetALl()
+        public IEnumerable<Orden> GetInboxOrden()
         {
-            return _context.Set<Orden>().Where(p => p.Estado == "ABIERTA").OrderBy(p => p.FechaCreacion).ToList();
+            return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado)) && (REQUISICION.Equals(orden.Tipo) ||
+                REQUISICION_SERVICIO.Equals(orden.Tipo))).Include(p => p.Proveedor).OrderBy(orden => orden.FechaCreacion).ToList();
         }
-
-
     }
 }
