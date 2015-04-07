@@ -59,6 +59,12 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return _ordenService.Query(dto);
         }
 
+        // GET api/orden/5
+        [HttpGet]
+        public Orden Get(long id)
+        {
+            return _ordenService.GetById(id);
+        }
       
         [HttpPost]
         [Route("save")]

@@ -10,7 +10,7 @@ namespace FrigorificosBle.Almacen.Core.Service
 {
     public interface IOrdenService
     {
-        Orden GetById(Int32 id);
+        Orden GetById(long id);
         void Save(Orden orden);
         IEnumerable<Orden> Query(OrdenQueryDto dto);
         IEnumerable<Orden> GetInboxOrden();

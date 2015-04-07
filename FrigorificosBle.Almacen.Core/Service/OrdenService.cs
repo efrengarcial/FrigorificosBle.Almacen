@@ -38,9 +38,8 @@ namespace FrigorificosBle.Almacen.Core.Service
             _context = context;
         }
 
-        public Orden GetById(Int32 id)
+        public Orden GetById(long id)
         {
-
             return _ordenRepository.GetById(id);
         }
 
@@ -106,5 +105,6 @@ namespace FrigorificosBle.Almacen.Core.Service
             return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado)) && (REQUISICION.Equals(orden.Tipo) ||
                 REQUISICION_SERVICIO.Equals(orden.Tipo))).Include(p => p.Proveedor).OrderBy(orden => orden.FechaCreacion).ToList();
         }
+
     }
 }
