@@ -1,4 +1,5 @@
 ﻿using FrigorificosBle.Almacen.SPA.Filters;
+using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,11 @@ namespace FrigorificosBle.Almacen.SPA
     {
         public static void Register(HttpConfiguration config)
         {
+            // Web API configuration and services
+            // Configure Web API to use only bearer token authentication.
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+
             //http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
             // Attribute routing.
             config.MapHttpAttributeRoutes();
