@@ -41,6 +41,14 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SimpleInjector">
       <HintPath>..\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
@@ -61,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dao\Configurations\AppStoreUserConfiguration.cs" />
     <Compile Include="Dao\EfRepository.cs" />
     <Compile Include="Dao\IRepository.cs" />
     <Compile Include="Domain\Almacen.Context.cs">
@@ -78,7 +87,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Almacen.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Domain\AlmacenDbContext.cs" />
+    <Compile Include="Dao\AlmacenDbContext.cs" />
     <Compile Include="Domain\Dto\OrdenQueryDto.cs" />
     <Compile Include="Domain\Dto\ProductoQueryDto.cs" />
     <Compile Include="Domain\Dto\ProveedorQueryDto.cs" />
@@ -105,6 +114,7 @@
     <Compile Include="Domain\sp_CrearNumeroOrden_Result.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Dao\StoreContext.cs" />
     <Compile Include="Domain\SubLinea.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -143,7 +153,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Domain\Model\AppStoreUser.cs" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

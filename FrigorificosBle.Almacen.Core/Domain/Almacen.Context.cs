@@ -11,6 +11,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
 {
     using System;
     using System.Data.Entity;
+    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
     
@@ -34,11 +35,11 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public DbSet<Orden> Ordens { get; set; }
         public DbSet<OrdenItem> OrdenItems { get; set; }
     
-        public virtual System.Data.Entity.Core.Objects.ObjectResult<Nullable<long>> CrearNumeroOrden(string tipoOrden)
+        public virtual ObjectResult<Nullable<long>> CrearNumeroOrden(string tipoOrden)
         {
             var tipoOrdenParameter = tipoOrden != null ?
-                new System.Data.Entity.Core.Objects.ObjectParameter("tipoOrden", tipoOrden) :
-                new System.Data.Entity.Core.Objects.ObjectParameter("tipoOrden", typeof(string));
+                new ObjectParameter("tipoOrden", tipoOrden) :
+                new ObjectParameter("tipoOrden", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("CrearNumeroOrden", tipoOrdenParameter);
         }
