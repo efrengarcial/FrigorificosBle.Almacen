@@ -19,9 +19,9 @@ namespace FrigorificosBle.Almacen.SPA
 
         public void ConfigureStoreAuthentication(IAppBuilder app)
         {
-            // User a single instance of StoreContext and AppStoreUserManager per request
+            // User a single instance of StoreContext and UserManager per request
             app.CreatePerOwinContext(StoreContext.Create);
-            app.CreatePerOwinContext<AppStoreUserManager>(AppStoreUserManager.Create);
+            app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
             // Configure the application for OAuth based flow

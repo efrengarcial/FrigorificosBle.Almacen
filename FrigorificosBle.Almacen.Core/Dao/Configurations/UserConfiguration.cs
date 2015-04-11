@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace FrigorificosBle.Almacen.Core.Dao.Configurations
 {
-    public class AppStoreUserConfiguration : EntityTypeConfiguration<AppStoreUser>
+    public class UserConfiguration : EntityTypeConfiguration<User>
     {
-        public AppStoreUserConfiguration()
+        public UserConfiguration()
         {
-            ToTable("Users");
+            ToTable("IdentityUsers");
         }
     }
 }

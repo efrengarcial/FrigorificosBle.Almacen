@@ -14,19 +14,19 @@ using System.Web;
 
 namespace Store.Infrastructure
 {
-    public class AppStoreUserManager : UserManager<AppStoreUser>
+    public class AppUserManager : UserManager<User>
     {
-        public AppStoreUserManager(IUserStore<AppStoreUser> store)
+        public AppUserManager(IUserStore<User> store)
             : base(store)
         {
         }
 
-        public static AppStoreUserManager Create(IdentityFactoryOptions<AppStoreUserManager> options, IOwinContext context)
+        public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options, IOwinContext context)
         {
-            var manager = new AppStoreUserManager(new UserStore<AppStoreUser>(context.Get<StoreContext>()));
+            var manager = new AppUserManager(new UserStore<User>(context.Get<StoreContext>()));
 
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<AppStoreUser>(manager)
+            manager.UserValidator = new UserValidator<User>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -45,13 +45,13 @@ namespace Store.Infrastructure
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<AppStoreUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider = new DataProtectorTokenProvider<User>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
 
             return manager;
         }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(AppStoreUser user, string authenticationType)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(User user, string authenticationType)
         {
             var userIdentity = await CreateIdentityAsync(user, authenticationType);
 

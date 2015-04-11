@@ -42,8 +42,8 @@ namespace FrigorificosBle.Almacen.SPA
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
             //http://www.asp.net/web-api/overview/security/enabling-cross-origin-requests-in-web-api
-            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
+            //var cors = new EnableCorsAttribute("*", "*", "*");
+            //config.EnableCors(cors);
 
         }
     }

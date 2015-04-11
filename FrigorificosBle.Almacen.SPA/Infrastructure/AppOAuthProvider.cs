@@ -28,9 +28,9 @@ namespace Store.Infrastructure
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var userManager = context.OwinContext.GetUserManager<AppStoreUserManager>();
+            var userManager = context.OwinContext.GetUserManager<AppUserManager>();
 
-            AppStoreUser user = await userManager.FindAsync(context.UserName, context.Password);
+            User user = await userManager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {

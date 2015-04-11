@@ -69,7 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dao\Configurations\AppStoreUserConfiguration.cs" />
+    <Compile Include="Dao\Configurations\UserConfiguration.cs" />
     <Compile Include="Dao\EfRepository.cs" />
     <Compile Include="Dao\IRepository.cs" />
     <Compile Include="Domain\Almacen.Context.cs">
@@ -154,7 +154,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Model\AppStoreUser.cs" />
+    <Compile Include="Domain\Model\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

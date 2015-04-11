@@ -13,6 +13,10 @@
           <EntitySet Name="Productos" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Productos" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Proveedores" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Proveedores" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SubLineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.SubLineas" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Ordenes_Proveedores" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Ordenes_Proveedores">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="Ordenes" EntitySet="Ordenes" />
+          </AssociationSet>
           <AssociationSet Name="FK_Productos_Medidas" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Productos_Medidas">
             <End Role="Medidas" EntitySet="Medidas" />
             <End Role="Productos" EntitySet="Productos" />
@@ -57,17 +61,15 @@
           <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Numero" Type="bigint" Nullable="false" />
           <Property Name="Tipo" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Estado" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IdProveedor" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
           <Property Name="FechaCreacion" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="Descuento" Type="float" Nullable="false" />
           <Property Name="Anulada" Type="bit" Nullable="false" />
           <Property Name="Cancelada" Type="bit" Nullable="false" />
           <Property Name="CentroCostos" Type="nvarchar" Nullable="false" MaxLength="8" />
-          <Property Name="IdUsuario" Type="int" />
-          <Property Name="IdOperario" Type="int" />
-          <Property Name="IdCaja" Type="int" />
           <Property Name="Notas" Type="ntext" />
-          <Property Name="Estado" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="OrdenItems">
           <Key>
@@ -134,6 +136,18 @@
           <Property Name="Codigo" Type="int" Nullable="false" />
           <Property Name="IdLinea" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Ordenes_Proveedores">
+          <End Role="Proveedores" Type="FrigorificosBle.Almacen.Core.Domain.Store.Proveedores" Multiplicity="1" />
+          <End Role="Ordenes" Type="FrigorificosBle.Almacen.Core.Domain.Store.Ordenes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ordenes">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Productos_Medidas">
           <End Role="Medidas" Type="FrigorificosBle.Almacen.Core.Domain.Store.Medidas" Multiplicity="1" />
           <End Role="Productos" Type="FrigorificosBle.Almacen.Core.Domain.Store.Productos" Multiplicity="*" />
@@ -354,19 +368,17 @@
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int64" Name="Numero" Nullable="false" />
           <Property Type="String" Name="Tipo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="IdProveedor" Nullable="false" />
-          <Property Type="Int32" Name="IdOperario" />
-          <Property Type="Int32" Name="IdUsuario" />
+          <Property Type="String" Name="UserId" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CentroCostos" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Double" Name="Descuento" Nullable="false" />
           <Property Type="Boolean" Name="Anulada" Nullable="false" />
           <Property Type="Boolean" Name="Cancelada" Nullable="false" />
-          <Property Type="Int32" Name="IdCaja" />
           <Property Type="String" Name="Notas" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Proveedor" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" FromRole="Ordene" ToRole="Proveedor" />
           <NavigationProperty Name="OrdenItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Ordenes" FromRole="Ordene" ToRole="OrdenItem" />
-          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrdenItem">
           <Key>
@@ -503,16 +515,14 @@
           <EntitySetMapping Name="Ordens">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Orden">
               <MappingFragment StoreEntitySet="Ordenes">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
                 <ScalarProperty Name="Notas" ColumnName="Notas" />
-                <ScalarProperty Name="IdCaja" ColumnName="IdCaja" />
                 <ScalarProperty Name="Cancelada" ColumnName="Cancelada" />
                 <ScalarProperty Name="Anulada" ColumnName="Anulada" />
                 <ScalarProperty Name="Descuento" ColumnName="Descuento" />
                 <ScalarProperty Name="CentroCostos" ColumnName="CentroCostos" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="IdOperario" ColumnName="IdOperario" />
                 <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="Numero" ColumnName="Numero" />

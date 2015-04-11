@@ -22,17 +22,15 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public long Id { get; set; }
         public long Numero { get; set; }
         public string Tipo { get; set; }
+        public string Estado { get; set; }
         public int IdProveedor { get; set; }
-        public Nullable<int> IdOperario { get; set; }
-        public Nullable<int> IdUsuario { get; set; }
+        public string UserId { get; set; }
         public string CentroCostos { get; set; }
         public System.DateTime FechaCreacion { get; set; }
         public double Descuento { get; set; }
         public bool Anulada { get; set; }
         public bool Cancelada { get; set; }
-        public Nullable<int> IdCaja { get; set; }
         public string Notas { get; set; }
-        public string Estado { get; set; }
     
         public virtual Proveedor Proveedor { get; set; }
         public virtual ICollection<OrdenItem> OrdenItems { get; set; }

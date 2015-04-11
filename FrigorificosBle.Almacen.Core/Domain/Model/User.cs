@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FrigorificosBle.Almacen.Core.Domain.Model
 {
-    public class AppStoreUser : IdentityUser
+    public class User : IdentityUser
     {
         // Add any custom properties you wish here
     }

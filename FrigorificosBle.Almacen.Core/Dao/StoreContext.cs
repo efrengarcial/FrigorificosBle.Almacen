@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FrigorificosBle.Almacen.Core.Dao
 {
-    public class StoreContext : IdentityDbContext<AppStoreUser>
+    public class StoreContext : IdentityDbContext<User>
     {
         public StoreContext()
             : base("StoreContext", throwIfV1Schema: false)
@@ -25,7 +25,7 @@ namespace FrigorificosBle.Almacen.Core.Dao
             modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
             modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
 
-            modelBuilder.Configurations.Add(new AppStoreUserConfiguration());
+            modelBuilder.Configurations.Add(new UserConfiguration());
         }
        
         public static StoreContext Create()
