@@ -4,12 +4,16 @@ using FrigorificosBle.Almacen.Core.Service;
 using FrigorificosBle.Almacen.SPA.Filters;
 using FrigorificosBle.Almacen.Util;
 using log4net;
+using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
+using FrigorificosBle.Almacen.Core.Domain.Enum;
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
@@ -25,6 +29,11 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         {
             _ordenService = ordenService;
             _logger = logger;
+        }
+
+        private IAuthenticationManager Authentication
+        {
+            get { return Request.GetOwinContext().Authentication; }
         }
 
         [Route("query")]
@@ -70,6 +79,8 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         [Route("save")]
         public HttpResponseMessage Save([FromBody]Orden orden)
         {
+            orden.UserId = User.Identity.GetUserId();
+            orden.Estado = OrdenEstadoEnum.ABIERTA.AsText();
             _ordenService.Save(orden);
             return Request.CreateResponse(HttpStatusCode.OK, orden.Id);
         }

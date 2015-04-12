@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http.WebHost;
 using System.Web.Routing;
 
-namespace Store.Infrastructure
+namespace FrigorificosBle.Almacen.SPA.Infrastructure
 {
     public class SessionEnabledHttpControllerRouteHandler : HttpControllerRouteHandler
     {

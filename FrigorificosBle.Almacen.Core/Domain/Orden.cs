@@ -34,5 +34,6 @@ namespace FrigorificosBle.Almacen.Core.Domain
     
         public virtual Proveedor Proveedor { get; set; }
         public virtual ICollection<OrdenItem> OrdenItems { get; set; }
+        public virtual AppUser AppUser { get; set; }
     }
 }

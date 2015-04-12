@@ -97,15 +97,6 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _productoService.Save(producto);
             return Request.CreateResponse(HttpStatusCode.OK, id);
         }
-
-        // PUT api/producto/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/producto/5
-        public void Delete(int id)
-        {
-        }
+    
     }
 }

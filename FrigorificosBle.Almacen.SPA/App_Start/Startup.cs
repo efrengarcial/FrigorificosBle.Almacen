@@ -1,13 +1,9 @@
 ﻿using FrigorificosBle.Almacen.Core.Dao;
-using FrigorificosBle.Almacen.Core.Domain;
+using FrigorificosBle.Almacen.SPA.Infrastructure;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using Store.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace FrigorificosBle.Almacen.SPA
 {

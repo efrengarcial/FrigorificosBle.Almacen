@@ -18,6 +18,8 @@
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Ordenes" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Productos" />
+        <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.AppUser" Width="1.5" PointX="9.6844209663963028" PointY="19.56193826513455" />
+        <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_IdentityUsers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Store.Infrastructure
+namespace FrigorificosBle.Almacen.SPA.Infrastructure
 {
     public class AppUserManager : UserManager<User>
     {

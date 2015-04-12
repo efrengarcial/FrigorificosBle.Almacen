@@ -13,7 +13,8 @@ namespace FrigorificosBle.Almacen.Core.Domain
     using System.Data.Entity;
     using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
-
+    using System.Linq;
+    
     public partial class AlmacenContext : DbContext
     {
         public AlmacenContext()
@@ -33,6 +34,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public DbSet<Proveedor> Proveedors { get; set; }
         public DbSet<Orden> Ordens { get; set; }
         public DbSet<OrdenItem> OrdenItems { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
     
         public virtual ObjectResult<Nullable<long>> CrearNumeroOrden(string tipoOrden)
         {
