@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using FrigorificosBle.Almacen.Core.Domain.Model;
 
-namespace Store.Infrastructure
+namespace FrigorificosBle.Almacen.SPA.Infrastructure
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {

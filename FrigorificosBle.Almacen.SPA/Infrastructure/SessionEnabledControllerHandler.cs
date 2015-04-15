@@ -6,7 +6,7 @@ using System.Web.Http.WebHost;
 using System.Web.Routing;
 using System.Web.SessionState;
 
-namespace Store.Infrastructure
+namespace FrigorificosBle.Almacen.SPA.Infrastructure
 {
     public class SessionEnabledControllerHandler : HttpControllerHandler, IRequiresSessionState
     {

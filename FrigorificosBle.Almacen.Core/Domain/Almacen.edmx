@@ -6,6 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="FrigorificosBle.Almacen.Core.Domain.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="FrigorificosBleAlmacenCoreDomainStoreContainer">
+          <EntitySet Name="IdentityUsers" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.IdentityUsers" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Lineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Lineas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Medidas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Medidas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Ordenes" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Ordenes" store:Type="Tables" Schema="dbo" />
@@ -13,6 +14,10 @@
           <EntitySet Name="Productos" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Productos" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Proveedores" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Proveedores" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SubLineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.SubLineas" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Ordenes_IdentityUsers" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Ordenes_IdentityUsers">
+            <End Role="IdentityUsers" EntitySet="IdentityUsers" />
+            <End Role="Ordenes" EntitySet="Ordenes" />
+          </AssociationSet>
           <AssociationSet Name="FK_Ordenes_Proveedores" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Ordenes_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="Ordenes" EntitySet="Ordenes" />
@@ -38,6 +43,23 @@
             <End Role="SubLineas" EntitySet="SubLineas" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="IdentityUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Lineas">
           <Key>
             <PropertyRef Name="Id" />
@@ -136,6 +158,18 @@
           <Property Name="Codigo" Type="int" Nullable="false" />
           <Property Name="IdLinea" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Ordenes_IdentityUsers">
+          <End Role="IdentityUsers" Type="FrigorificosBle.Almacen.Core.Domain.Store.IdentityUsers" Multiplicity="1" />
+          <End Role="Ordenes" Type="FrigorificosBle.Almacen.Core.Domain.Store.Ordenes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IdentityUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ordenes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Ordenes_Proveedores">
           <End Role="Proveedores" Type="FrigorificosBle.Almacen.Core.Domain.Store.Proveedores" Multiplicity="1" />
           <End Role="Ordenes" Type="FrigorificosBle.Almacen.Core.Domain.Store.Ordenes" Multiplicity="*" />
@@ -250,6 +284,11 @@
           <FunctionImport Name="CrearNumeroOrden" ReturnType="Collection(Int64)">
           <Parameter Name="tipoOrden" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="AppUsers" EntityType="FrigorificosBle.Almacen.Core.Domain.AppUser" />
+          <AssociationSet Name="FK_Ordenes_IdentityUsers" Association="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_IdentityUsers">
+            <End Role="IdentityUser" EntitySet="AppUsers" />
+            <End Role="Orden" EntitySet="Ordens" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Producto">
           <Key>
@@ -379,6 +418,7 @@
           <Property Type="String" Name="Notas" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Proveedor" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" FromRole="Ordene" ToRole="Proveedor" />
           <NavigationProperty Name="OrdenItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Ordenes" FromRole="Ordene" ToRole="OrdenItem" />
+          <NavigationProperty Name="AppUser" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_IdentityUsers" FromRole="Orden" ToRole="IdentityUser" />
         </EntityType>
         <EntityType Name="OrdenItem">
           <Key>
@@ -431,6 +471,35 @@
         </Association>
         <ComplexType Name="sp_CrearNumeroOrden_Result">
           </ComplexType>
+        <EntityType Name="AppUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="String" Name="Id" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="EmailConfirmed" Nullable="false" />
+          <Property Type="String" Name="PasswordHash" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SecurityStamp" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PhoneNumber" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="PhoneNumberConfirmed" Nullable="false" />
+          <Property Type="Boolean" Name="TwoFactorEnabled" Nullable="false" />
+          <Property Type="DateTime" Name="LockoutEndDateUtc" Precision="3" />
+          <Property Type="Boolean" Name="LockoutEnabled" Nullable="false" />
+          <Property Type="Int32" Name="AccessFailedCount" Nullable="false" />
+          <Property Type="String" Name="UserName" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Ordenes_IdentityUsers">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.AppUser" Role="IdentityUser" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Orden" Role="Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IdentityUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -543,6 +612,24 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="CrearNumeroOrden" FunctionName="FrigorificosBle.Almacen.Core.Domain.Store.sp_CrearNumeroOrden" />
+          <EntitySetMapping Name="AppUsers">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.AppUser">
+              <MappingFragment StoreEntitySet="IdentityUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
