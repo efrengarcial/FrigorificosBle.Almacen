@@ -27,8 +27,8 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _logger = logger;
         }
 
-        [Route("query")]
         [HttpGet]
+        [Route("query")]
         public IEnumerable<Orden> Query()
         {
             var queryString = this.Request.GetQueryStrings();
@@ -61,7 +61,8 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         // GET api/orden/5
         [HttpGet]
-        public Orden Get(long id)
+        [Route("getById/{Id}")]
+        public Orden GetById(long id)
         {
             return _ordenService.GetById(id);
         }
@@ -85,8 +86,8 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         }
 
         //http://blog.hexacta.com/typeahead-for-angularjs-with-ajax/
-        [Route("getInboxOrden")]
         [HttpGet]
+        [Route("getInboxOrden")]
         public IEnumerable<Orden> GetInboxOrden()
         {
             return _ordenService.GetInboxOrden();
