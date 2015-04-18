@@ -14,5 +14,6 @@ namespace FrigorificosBle.Almacen.Core.Service
         void Save(Orden orden);
         IEnumerable<Orden> Query(OrdenQueryDto dto);
         IEnumerable<Orden> GetInboxOrden();
+        IEnumerable<Orden> GetOrdenesCompraAbiertas();
     }
 }

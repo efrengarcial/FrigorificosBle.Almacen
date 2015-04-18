@@ -18,7 +18,7 @@ namespace FrigorificosBle.Almacen.Core.Domain.Enum
     public enum OrdenEstadoEnum {
 
         ABIERTA,
-        EN_PROCESO,
+        EN_CURSO,
         CERRADA    
     }
 
@@ -60,7 +60,7 @@ namespace FrigorificosBle.Almacen.Core.Domain.Enum
             switch (OrdenEstado)
             {
                 case OrdenEstadoEnum.ABIERTA: return "ABIERTA";
-                case OrdenEstadoEnum.EN_PROCESO: return "EN_PROCESO";
+                case OrdenEstadoEnum.EN_CURSO: return "EN_CURSO";
                 case OrdenEstadoEnum.CERRADA: return "CERRADA";
 
             }

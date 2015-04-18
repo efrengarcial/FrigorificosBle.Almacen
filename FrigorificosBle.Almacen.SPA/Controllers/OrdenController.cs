@@ -95,12 +95,18 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, id);
         }
 
-        //http://blog.hexacta.com/typeahead-for-angularjs-with-ajax/
         [Route("getInboxOrden")]
         [HttpGet]
         public IEnumerable<Orden> GetInboxOrden()
         {
             return _ordenService.GetInboxOrden();
+        }
+
+        [Route("getOrdenesCompraAbiertas")]
+        [HttpGet]
+        public IEnumerable<Orden> GetOrdenesCompraAbiertas()
+        {
+            return _ordenService.GetOrdenesCompraAbiertas();
         }
     }
 }

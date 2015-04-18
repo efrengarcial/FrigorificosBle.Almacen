@@ -29,6 +29,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         public readonly string REQUISICION = TipoOrdenEnum.REQUISICION.AsText();
         public readonly string REQUISICION_SERVICIO = TipoOrdenEnum.REQUISICION_SERVICIO.AsText();
         public readonly string ORDEN_ABIERTA = OrdenEstadoEnum.ABIERTA.AsText();
+        public readonly string ORDEN_COMPRA = TipoOrdenEnum.ORDEN_COMPRA.AsText();
 
         public OrdenService(IRepository<Orden> ordenRepository, 
             ILog logger, DbContext context)
@@ -104,6 +105,11 @@ namespace FrigorificosBle.Almacen.Core.Service
         {
             return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado)) && (REQUISICION.Equals(orden.Tipo) ||
                 REQUISICION_SERVICIO.Equals(orden.Tipo))).Include(p => p.Proveedor).OrderBy(orden => orden.FechaCreacion).ToList();
+        }
+
+        public IEnumerable<Orden> GetOrdenesCompraAbiertas()
+        {
+            return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado)) && ORDEN_COMPRA.Equals(orden.Tipo));
         }
 
     }
