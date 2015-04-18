@@ -36,8 +36,8 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             get { return Request.GetOwinContext().Authentication; }
         }
 
-        [Route("query")]
         [HttpGet]
+        [Route("query")]
         public IEnumerable<Orden> Query()
         {
             var queryString = this.Request.GetQueryStrings();
@@ -70,7 +70,8 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         // GET api/orden/5
         [HttpGet]
-        public Orden Get(long id)
+        [Route("getById/{Id}")]
+        public Orden GetById(long id)
         {
             return _ordenService.GetById(id);
         }
@@ -95,8 +96,8 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, id);
         }
 
-        [Route("getInboxOrden")]
         [HttpGet]
+        [Route("getInboxOrden")]
         public IEnumerable<Orden> GetInboxOrden()
         {
             return _ordenService.GetInboxOrden();
