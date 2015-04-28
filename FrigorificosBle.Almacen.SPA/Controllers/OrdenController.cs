@@ -80,7 +80,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         [Route("save")]
         public HttpResponseMessage Save([FromBody]Orden orden)
         {
-            orden.UserId = User.Identity.GetUserId();
+            orden.UserId = "1"; // User.Identity.GetUserId();
             orden.Estado = OrdenEstadoEnum.ABIERTA.AsText();
             _ordenService.Save(orden);
             return Request.CreateResponse(HttpStatusCode.OK, orden.Id);
