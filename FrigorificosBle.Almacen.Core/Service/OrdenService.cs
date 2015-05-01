@@ -65,7 +65,7 @@ namespace FrigorificosBle.Almacen.Core.Service
                         secuencia = TipoOrdenEnum.REQUISICION_SERVICIO.AsSecuencia();
                     }
                     
-                    if(orden.IdOrdenBase != 0){
+                    if(orden.IdOrdenBase != null){
                         var requisicion = _ordenRepository.GetById(orden.IdOrdenBase);
                         requisicion.Estado = ESTADO;
                         _ordenRepository.Update(requisicion);                      
