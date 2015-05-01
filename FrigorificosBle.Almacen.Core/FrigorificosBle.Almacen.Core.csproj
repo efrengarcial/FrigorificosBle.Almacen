@@ -94,6 +94,9 @@
     <Compile Include="Domain\Dto\OrdenQueryDto.cs" />
     <Compile Include="Domain\Dto\ProductoQueryDto.cs" />
     <Compile Include="Domain\Dto\ProveedorQueryDto.cs" />
+    <Compile Include="Domain\Entrada.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\Enum\Enums.cs" />
     <Compile Include="Domain\Linea.cs">
       <DependentUpon>Almacen.tt</DependentUpon>

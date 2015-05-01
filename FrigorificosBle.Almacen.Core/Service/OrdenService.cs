@@ -63,7 +63,7 @@ namespace FrigorificosBle.Almacen.Core.Service
                     {
                         secuencia = TipoOrdenEnum.REQUISICION_SERVICIO.AsSecuencia();
                     }
- 
+
                     var numeroOrden = ((AlmacenDbContext)_context).CrearNumeroOrden(secuencia);
                     orden.Numero = numeroOrden.SingleOrDefault().Value;
                     _ordenRepository.Insert(orden);
@@ -79,7 +79,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         public IEnumerable<Orden> Query(OrdenQueryDto dto)
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            _context.Configuration.LazyLoadingEnabled = false;
+            //_context.Configuration.LazyLoadingEnabled = false;
             var query = _context.Set<Orden>();
             IQueryable<Orden> result = null;
 

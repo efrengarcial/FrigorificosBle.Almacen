@@ -12,22 +12,15 @@ namespace FrigorificosBle.Almacen.Core.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class OrdenItem
+    public partial class Entrada
     {
-        public OrdenItem()
-        {
-            this.Entradas = new HashSet<Entrada>();
-        }
-    
-        public long Id { get; set; }
-        public long IdOrden { get; set; }
+        public int Id { get; set; }
+        public long IdOrdenItems { get; set; }
         public int IdProducto { get; set; }
+        public System.DateTime Fecha { get; set; }
         public int Cantidad { get; set; }
-        public decimal Precio { get; set; }
-        public double Iva { get; set; }
+        public Nullable<decimal> Costo { get; set; }
     
-        public virtual Orden Orden { get; set; }
-        public virtual Producto Producto { get; set; }
-        public virtual ICollection<Entrada> Entradas { get; set; }
+        public virtual OrdenItem OrdenItem { get; set; }
     }
 }

@@ -35,6 +35,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public DbSet<Orden> Ordens { get; set; }
         public DbSet<OrdenItem> OrdenItems { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Entrada> Entradas { get; set; }
     
         public virtual ObjectResult<Nullable<long>> CrearNumeroOrden(string tipoOrden)
         {
