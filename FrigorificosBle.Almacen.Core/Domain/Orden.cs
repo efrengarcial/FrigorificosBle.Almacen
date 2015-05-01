@@ -31,6 +31,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public bool Anulada { get; set; }
         public bool Cancelada { get; set; }
         public string Notas { get; set; }
+        public Nullable<long> IdOrdenBase { get; set; }
     
         public virtual Proveedor Proveedor { get; set; }
         public virtual ICollection<OrdenItem> OrdenItems { get; set; }

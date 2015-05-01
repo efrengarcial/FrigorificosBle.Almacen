@@ -30,6 +30,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         public readonly string REQUISICION_SERVICIO = TipoOrdenEnum.REQUISICION_SERVICIO.AsText();
         public readonly string ORDEN_ABIERTA = OrdenEstadoEnum.ABIERTA.AsText();
         public readonly string ORDEN_COMPRA = TipoOrdenEnum.ORDEN_COMPRA.AsText();
+        public readonly string ESTADO = OrdenEstadoEnum.CERRADA.AsText();
 
         public OrdenService(IRepository<Orden> ordenRepository, 
             ILog logger, DbContext context)
@@ -63,7 +64,13 @@ namespace FrigorificosBle.Almacen.Core.Service
                     {
                         secuencia = TipoOrdenEnum.REQUISICION_SERVICIO.AsSecuencia();
                     }
-
+                    
+                    if(orden.IdOrdenBase != 0){
+                        var requisicion = _ordenRepository.GetById(orden.IdOrdenBase);
+                        requisicion.Estado = ESTADO;
+                        _ordenRepository.Update(requisicion);                      
+                    }
+ 
                     var numeroOrden = ((AlmacenDbContext)_context).CrearNumeroOrden(secuencia);
                     orden.Numero = numeroOrden.SingleOrDefault().Value;
                     _ordenRepository.Insert(orden);

@@ -13,7 +13,7 @@
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Medidas" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Productos_SubLineas" />
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Proveedor" Width="1.5" PointX="8.5" PointY="0.5" />
-        <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Orden" Width="1.5" PointX="5.75" PointY="6.875" />
+        <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Orden" Width="1.5" PointX="5.875" PointY="6.875" />
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.OrdenItem" Width="1.5" PointX="2.625" PointY="7.125" IsExpanded="true" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Ordenes" />
