@@ -14,11 +14,6 @@ namespace FrigorificosBle.Almacen.Core.Domain
     
     public partial class Proveedor
     {
-        public Proveedor()
-        {
-            this.Ordenes = new HashSet<Orden>();
-        }
-    
         public int Id { get; set; }
         public long Nit { get; set; }
         public string Nombre { get; set; }
@@ -38,7 +33,5 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public Nullable<int> ListaPrecio { get; set; }
         public Nullable<bool> BloqueaFactura { get; set; }
         public Nullable<int> BloqueaCupo { get; set; }
-    
-        public virtual ICollection<Orden> Ordenes { get; set; }
     }
 }

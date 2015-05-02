@@ -434,7 +434,6 @@
           <Property Type="Int32" Name="ListaPrecio" />
           <Property Type="Boolean" Name="BloqueaFactura" />
           <Property Type="Int32" Name="BloqueaCupo" />
-          <NavigationProperty Name="Ordenes" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" FromRole="Proveedor" ToRole="Orden" />
         </EntityType>
         <EntityType Name="Orden">
           <Key>
