@@ -23,7 +23,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public long Numero { get; set; }
         public string Tipo { get; set; }
         public string Estado { get; set; }
-        public int IdProveedor { get; set; }
+        public Nullable<int> IdProveedor { get; set; }
         public string UserId { get; set; }
         public string CentroCostos { get; set; }
         public System.DateTime FechaCreacion { get; set; }
@@ -33,8 +33,8 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public string Notas { get; set; }
         public Nullable<long> IdOrdenBase { get; set; }
     
-        public virtual Proveedor Proveedor { get; set; }
         public virtual ICollection<OrdenItem> OrdenItems { get; set; }
         public virtual AppUser AppUser { get; set; }
+        public virtual Proveedor Proveedor { get; set; }
     }
 }

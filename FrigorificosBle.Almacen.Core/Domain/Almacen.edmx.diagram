@@ -15,13 +15,13 @@
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Proveedor" Width="1.5" PointX="8.5" PointY="0.5" />
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Orden" Width="1.5" PointX="5.875" PointY="6.875" />
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.OrdenItem" Width="1.5" PointX="2.625" PointY="7.125" IsExpanded="true" />
-        <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Ordenes" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Productos" />
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.AppUser" Width="1.5" PointX="9.375" PointY="9.25" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_IdentityUsers" />
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Entrada" Width="1.5" PointX="2.625" PointY="11.25" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Entradas_OrdenItems" />
+        <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
