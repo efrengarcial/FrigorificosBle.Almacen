@@ -32,22 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="SimpleInjector">
       <HintPath>..\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.dll</HintPath>
@@ -69,7 +63,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dao\Configurations\UserConfiguration.cs" />
     <Compile Include="Dao\EfRepository.cs" />
     <Compile Include="Dao\IRepository.cs" />
     <Compile Include="Domain\Almacen.Context.cs">
@@ -88,9 +81,6 @@
       <DependentUpon>Almacen.edmx</DependentUpon>
     </Compile>
     <Compile Include="Dao\AlmacenDbContext.cs" />
-    <Compile Include="Domain\AppUser.cs">
-      <DependentUpon>Almacen.tt</DependentUpon>
-    </Compile>
     <Compile Include="Domain\Dto\OrdenQueryDto.cs" />
     <Compile Include="Domain\Dto\ProductoQueryDto.cs" />
     <Compile Include="Domain\Dto\ProveedorQueryDto.cs" />
@@ -120,7 +110,6 @@
     <Compile Include="Domain\sp_CrearNumeroOrden_Result.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
-    <Compile Include="Dao\StoreContext.cs" />
     <Compile Include="Domain\SubLinea.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -158,9 +147,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Domain\Model\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

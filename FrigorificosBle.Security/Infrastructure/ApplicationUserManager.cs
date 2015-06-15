@@ -1,32 +1,27 @@
-﻿using FrigorificosBle.Almacen.Core.Dao;
-using FrigorificosBle.Almacen.Core.Domain;
-using FrigorificosBle.Almacen.Core.Domain.Model;
+﻿using FrigorificosBle.Security.Dao;
+using FrigorificosBle.Security.Domain.Model;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 
-namespace FrigorificosBle.Almacen.SPA.Infrastructure
+namespace FrigorificosBle.Security.Infrastructure
 {
-    public class AppUserManager : UserManager<User>
+    public class ApplicationUserManager : UserManager<ApplicationUser, int>
     {
-        public AppUserManager(IUserStore<User> store)
-            : base(store)
-        {
-        }
+        public ApplicationUserManager(IUserStore<ApplicationUser, int> store)
+        : base(store)
+    {
+  
+    }
 
-        public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options, IOwinContext context)
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new AppUserManager(new UserStore<User>(context.Get<StoreContext>()));
+            var manager = new ApplicationUserManager(new ApplicationUserStore(context.Get<SecurityDbContext>()));
 
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<User>(manager)
+            manager.UserValidator = new UserValidator<ApplicationUser, int>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -45,13 +40,13 @@ namespace FrigorificosBle.Almacen.SPA.Infrastructure
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<User>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser, int>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
 
             return manager;
         }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(User user, string authenticationType)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUser user, string authenticationType)
         {
             var userIdentity = await CreateIdentityAsync(user, authenticationType);
 

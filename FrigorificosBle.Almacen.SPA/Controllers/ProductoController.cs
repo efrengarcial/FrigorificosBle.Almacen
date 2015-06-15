@@ -15,7 +15,7 @@ using System.Web.Http;
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
-     //[Authorize]
+    //[Authorize]
     [ExceptionHandlingAttribute]
     [RoutePrefix("api/producto")]
     //http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
@@ -30,14 +30,14 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _logger = logger;
         }
 
-        [ActionName("lineas")]
+        [Route("lineas")]
         [HttpGet]
         public IEnumerable<Linea> GetLineas()
         {
             return _productoService.GetLineas();
         }
 
-        [ActionName("medidas")]
+        [Route("medidas")]
         [HttpGet]
         public IEnumerable<Medida> GetMedidas()
         {

@@ -11,14 +11,20 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using SimpleInjector.Extensions;
+using System.Web.Http;
+using System.Web.Mvc;
+using SimpleInjector.Integration.Web.Mvc;
+using SimpleInjector.Integration.WebApi;
 
 namespace FrigorificosBle.Almacen.SPA
 {
     //http://codeinthedesert.azurewebsites.net/using-simple-injector-with-asp-net-mvc-and-web-api/
     public static class BootstrapConfig
     {
-        public static void Register(Container container)
+        public static void Register()
         {
+            var container = new Container();
+
             //http://stackoverflow.com/questions/20594391/how-to-use-simple-injector-repository-and-context-code-first
             // which is a shortcut for:
             container.RegisterPerWebRequest<DbContext, AlmacenDbContext>();
@@ -27,15 +33,40 @@ namespace FrigorificosBle.Almacen.SPA
             //container.Register<, SqlUserRepository>();
             container.RegisterOpenGeneric(typeof(IRepository<>), typeof(EfRepository<>),
                 new WebRequestLifestyle());
-            container.Register<IProductoService, ProductoService>();
-            container.Register<IProveedorService, ProveedorService>();
-            container.Register<IOrdenService, OrdenService>();
+            container.RegisterWebApiRequest<IProductoService, ProductoService>();
+            container.RegisterWebApiRequest<IProveedorService, ProveedorService>();
+            container.RegisterWebApiRequest<IOrdenService, OrdenService>();
 
             var logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             container.RegisterSingle(logger);
 
+            //RegisterApiControllers(container);
+            // This is an extension method from the integration package.
+            container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
+
+
             // 3. Optionally verify the container's configuration.
             container.Verify();
+
+            //Required to set resolvers differently for WebApi and MVC
+            //DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
+            GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
+        }
+
+        public static void RegisterApiControllers(Container container)
+        {
+            if (container == null)
+            {
+                throw new ArgumentNullException("container");
+            }
+
+            var services = GlobalConfiguration.Configuration.Services;
+            var controllerTypes = services.GetHttpControllerTypeResolver().GetControllerTypes(services.GetAssembliesResolver());
+
+            foreach (var controllerType in controllerTypes)
+            {
+                container.Register(controllerType);
+            }
         }
     }
 }

@@ -1,84 +1,63 @@
 ﻿using FrigorificosBle.Almacen.SPA.Infrastructure;
+using FrigorificosBle.Security.Domain.Model;
+using FrigorificosBle.Security.Infrastructure;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Linq;
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
-    [Authorize]
-    [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    //[Authorize]
+    [RoutePrefix("api/account")]
+    public class AccountController : BaseApiController
     {
-        //private const string LocalLoginProvider = "Local";
-        private AppUserManager _userManager;
-
-        public AccountController()
+       
+        //[Authorize(Roles = "Admin")]
+        [Route("users")]
+        public IHttpActionResult GetUsers()
         {
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var identity = User.Identity as System.Security.Claims.ClaimsIdentity;
+
+            return Ok(this.AppUserManager.Users.ToList().Select(u => this.TheModelFactory.Create(u)));
         }
 
-        public AppUserManager UserManager
+        //[Authorize(Roles = "Admin")]
+        [Route("user/{id:guid}", Name = "GetUserById")]
+        public async Task<IHttpActionResult> GetUser(int Id)
         {
-            get
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var user = await this.AppUserManager.FindByIdAsync(Id);
+
+            if (user != null)
             {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<AppUserManager>();
+                return Ok(this.TheModelFactory.Create(user));
             }
-            private set
-            {
-                _userManager = value;
-            }
+
+            return NotFound();
+
         }
 
-        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
-
-        protected override void Dispose(bool disposing)
+        [Authorize(Roles = "Admin")]
+        [Route("user/{username}")]
+        public async Task<IHttpActionResult> GetUserByName(string username)
         {
-            if (disposing && _userManager != null)
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var user = await this.AppUserManager.FindByNameAsync(username);
+
+            if (user != null)
             {
-                _userManager.Dispose();
-                _userManager = null;
+                return Ok(this.TheModelFactory.Create(user));
             }
 
-            base.Dispose(disposing);
+            return NotFound();
+
         }
-
-        #region Helpers
-
-        private IAuthenticationManager Authentication
-        {
-            get { return Request.GetOwinContext().Authentication; }
-        }
-
-        private IHttpActionResult GetErrorResult(IdentityResult result)
-        {
-            if (result == null)
-            {
-                return InternalServerError();
-            }
-
-            if (!result.Succeeded)
-            {
-                if (result.Errors != null)
-                {
-                    foreach (string error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
-                }
-
-                if (ModelState.IsValid)
-                {
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return BadRequest();
-                }
-
-                return BadRequest(ModelState);
-            }
-
-            return null;
-        }
-        #endregion
+        
     }
 }

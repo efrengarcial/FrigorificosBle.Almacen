@@ -21,11 +21,11 @@ namespace FrigorificosBle.Almacen.SPA
             // Attribute routing.
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
+            /*config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
-            );
+            );*/
 
           
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.
@@ -40,6 +40,9 @@ namespace FrigorificosBle.Almacen.SPA
             config.Filters.Add(new ExceptionHandlingAttribute());
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
+            // config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(
+            //new DateTimeConverter());
 
             //http://www.asp.net/web-api/overview/security/enabling-cross-origin-requests-in-web-api
             //var cors = new EnableCorsAttribute("*", "*", "*");

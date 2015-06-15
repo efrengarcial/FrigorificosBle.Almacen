@@ -29,6 +29,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         public readonly string REQUISICION = TipoOrdenEnum.REQUISICION.AsText();
         public readonly string REQUISICION_SERVICIO = TipoOrdenEnum.REQUISICION_SERVICIO.AsText();
         public readonly string ORDEN_ABIERTA = OrdenEstadoEnum.ABIERTA.AsText();
+        public readonly string ORDEN_EN_CURSO = OrdenEstadoEnum.EN_CURSO.AsText();
         public readonly string ORDEN_COMPRA = TipoOrdenEnum.ORDEN_COMPRA.AsText();
         public readonly string ESTADO = OrdenEstadoEnum.CERRADA.AsText();
 
@@ -42,6 +43,7 @@ namespace FrigorificosBle.Almacen.Core.Service
 
         public Orden GetById(long id)
         {
+            //_context.Set<Orden>().Single(o => o.Id == id)
             return _ordenRepository.GetById(id);
         }
 
@@ -79,7 +81,22 @@ namespace FrigorificosBle.Almacen.Core.Service
             }
             else
             {
-                _ordenRepository.Update(orden);
+                using (TransactionScope t = new TransactionScope())
+                {
+                    var ordenEntity = _context.Set<Orden>();
+                    ordenEntity.Attach(orden);
+                    _context.Entry(orden).State = EntityState.Modified;
+
+                    foreach (OrdenItem item in orden.OrdenItems)
+                    {
+                        var ordenItemEntity = _context.Set<OrdenItem>();
+                        ordenItemEntity.Attach(item);
+                        _context.Entry(item).State = EntityState.Modified;
+                    }
+
+                    _context.SaveChanges();
+                    t.Complete();
+                }
             }
         }
 
@@ -116,7 +133,8 @@ namespace FrigorificosBle.Almacen.Core.Service
 
         public IEnumerable<Orden> GetOrdenesCompraAbiertas()
         {
-            return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado)) && ORDEN_COMPRA.Equals(orden.Tipo));
+            return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado) || ORDEN_EN_CURSO.Equals(orden.Estado)) 
+                && ORDEN_COMPRA.Equals(orden.Tipo));
         }
 
     }

@@ -20,7 +20,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
     [ExceptionHandlingAttribute]
     [RoutePrefix("api/orden")]
     //http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
-    public class OrdenController : ApiController
+    public class OrdenController : BaseApiController
     {
         private readonly IOrdenService _ordenService;
         private readonly ILog _logger;
@@ -30,11 +30,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _ordenService = ordenService;
             _logger = logger;
         }
-
-        private IAuthenticationManager Authentication
-        {
-            get { return Request.GetOwinContext().Authentication; }
-        }
+      
 
         [HttpGet]
         [Route("query")]
@@ -80,8 +76,16 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         [Route("save")]
         public HttpResponseMessage Save([FromBody]Orden orden)
         {
-            orden.UserId = "1"; // User.Identity.GetUserId();
-            orden.Estado = OrdenEstadoEnum.ABIERTA.AsText();
+            if (orden.Id == 0)
+            {
+                orden.UserId = 1; //User.Identity.GetUserId();
+                orden.UserName = "efren"; // User.Identity.GetUserName();
+                orden.Estado = OrdenEstadoEnum.ABIERTA.AsText();
+            }
+            else
+            {
+                orden.Estado = OrdenEstadoEnum.EN_CURSO.AsText();
+            }
             _ordenService.Save(orden);
             return Request.CreateResponse(HttpStatusCode.OK, orden.Id);
         }

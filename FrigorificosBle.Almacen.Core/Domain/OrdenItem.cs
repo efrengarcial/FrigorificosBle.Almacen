@@ -23,6 +23,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public long IdOrden { get; set; }
         public int IdProducto { get; set; }
         public int Cantidad { get; set; }
+        public int Aprovisionado { get; set; }
         public decimal Precio { get; set; }
         public double Iva { get; set; }
     

@@ -7,7 +7,6 @@
     <Schema Namespace="FrigorificosBle.Almacen.Core.Domain.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="FrigorificosBleAlmacenCoreDomainStoreContainer">
           <EntitySet Name="Entradas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Entradas" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="IdentityUsers" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.IdentityUsers" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Lineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Lineas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Medidas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Medidas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Ordenes" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Ordenes" store:Type="Tables" Schema="dbo" />
@@ -18,10 +17,6 @@
           <AssociationSet Name="FK_Entradas_OrdenItems" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Entradas_OrdenItems">
             <End Role="OrdenItems" EntitySet="OrdenItems" />
             <End Role="Entradas" EntitySet="Entradas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Ordenes_IdentityUsers" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Ordenes_IdentityUsers">
-            <End Role="IdentityUsers" EntitySet="IdentityUsers" />
-            <End Role="Ordenes" EntitySet="Ordenes" />
           </AssociationSet>
           <AssociationSet Name="FK_Ordenes_Proveedores" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Ordenes_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
@@ -59,24 +54,6 @@
           <Property Name="Cantidad" Type="int" Nullable="false" />
           <Property Name="Costo" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
-        <EntityType Name="IdentityUsers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
-          <Property Name="Email" Type="nvarchar(max)" />
-          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
-          <Property Name="PasswordHash" Type="nvarchar(max)" />
-          <Property Name="SecurityStamp" Type="nvarchar(max)" />
-          <Property Name="PhoneNumber" Type="nvarchar(max)" />
-          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="datetime" />
-          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar(max)" />
-          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
         <EntityType Name="Lineas">
           <Key>
             <PropertyRef Name="Id" />
@@ -102,14 +79,15 @@
           <Property Name="Tipo" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Estado" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IdProveedor" Type="int" />
-          <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="IdOrdenBase" Type="bigint" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="FechaCreacion" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="Descuento" Type="float" Nullable="false" />
           <Property Name="Anulada" Type="bit" Nullable="false" />
           <Property Name="Cancelada" Type="bit" Nullable="false" />
           <Property Name="CentroCostos" Type="nvarchar" Nullable="false" MaxLength="8" />
           <Property Name="Notas" Type="ntext" />
-          <Property Name="IdOrdenBase" Type="bigint" />
         </EntityType>
         <EntityType Name="OrdenItems">
           <Key>
@@ -119,6 +97,7 @@
           <Property Name="IdOrden" Type="bigint" Nullable="false" />
           <Property Name="IdProducto" Type="int" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Aprovisionado" Type="int" Nullable="false" />
           <Property Name="Precio" Type="decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="Iva" Type="float" Nullable="false" />
         </EntityType>
@@ -185,18 +164,6 @@
             </Principal>
             <Dependent Role="Entradas">
               <PropertyRef Name="IdOrdenItems" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Ordenes_IdentityUsers">
-          <End Role="IdentityUsers" Type="FrigorificosBle.Almacen.Core.Domain.Store.IdentityUsers" Multiplicity="1" />
-          <End Role="Ordenes" Type="FrigorificosBle.Almacen.Core.Domain.Store.Ordenes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IdentityUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Ordenes">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -310,11 +277,6 @@
           <FunctionImport Name="CrearNumeroOrden" ReturnType="Collection(Int64)">
           <Parameter Name="tipoOrden" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="AppUsers" EntityType="FrigorificosBle.Almacen.Core.Domain.AppUser" />
-          <AssociationSet Name="FK_Ordenes_IdentityUsers" Association="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_IdentityUsers">
-            <End Role="IdentityUser" EntitySet="AppUsers" />
-            <End Role="Orden" EntitySet="Ordens" />
-          </AssociationSet>
           <EntitySet Name="Entradas" EntityType="FrigorificosBle.Almacen.Core.Domain.Entrada" />
           <AssociationSet Name="FK_Entradas_OrdenItems" Association="FrigorificosBle.Almacen.Core.Domain.FK_Entradas_OrdenItems">
             <End Role="OrdenItem" EntitySet="OrdenItems" />
@@ -444,7 +406,9 @@
           <Property Type="String" Name="Tipo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="IdProveedor" />
-          <Property Type="String" Name="UserId" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="IdOrdenBase" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="CentroCostos" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Double" Name="Descuento" Nullable="false" />
@@ -452,8 +416,6 @@
           <Property Type="Boolean" Name="Cancelada" Nullable="false" />
           <Property Type="String" Name="Notas" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrdenItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Ordenes" FromRole="Ordene" ToRole="OrdenItem" />
-          <NavigationProperty Name="AppUser" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_IdentityUsers" FromRole="Orden" ToRole="IdentityUser" />
-          <Property Type="Int64" Name="IdOrdenBase" />
           <NavigationProperty Name="Proveedor" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" FromRole="Orden" ToRole="Proveedor" />
         </EntityType>
         <EntityType Name="OrdenItem">
@@ -464,6 +426,7 @@
           <Property Type="Int64" Name="IdOrden" Nullable="false" />
           <Property Type="Int32" Name="IdProducto" Nullable="false" />
           <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="Int32" Name="Aprovisionado" Nullable="false" />
           <Property Type="Decimal" Name="Precio" Nullable="false" Precision="10" Scale="2" />
           <Property Type="Double" Name="Iva" Nullable="false" />
           <NavigationProperty Name="Orden" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Ordenes" FromRole="OrdenItem" ToRole="Ordene" />
@@ -496,36 +459,6 @@
         </Association>
         <ComplexType Name="sp_CrearNumeroOrden_Result">
           </ComplexType>
-        <EntityType Name="AppUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="String" Name="Id" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Email" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="EmailConfirmed" Nullable="false" />
-          <Property Type="String" Name="PasswordHash" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SecurityStamp" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="PhoneNumber" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="PhoneNumberConfirmed" Nullable="false" />
-          <Property Type="Boolean" Name="TwoFactorEnabled" Nullable="false" />
-          <Property Type="DateTime" Name="LockoutEndDateUtc" Precision="3" />
-          <Property Type="Boolean" Name="LockoutEnabled" Nullable="false" />
-          <Property Type="Int32" Name="AccessFailedCount" Nullable="false" />
-          <Property Type="String" Name="UserName" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_Ordenes_IdentityUsers">
-          <End Type="FrigorificosBle.Almacen.Core.Domain.AppUser" Role="IdentityUser" Multiplicity="1" />
-          <End Type="FrigorificosBle.Almacen.Core.Domain.Orden" Role="Orden" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IdentityUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orden">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Entrada">
           <Key>
             <PropertyRef Name="Id" />
@@ -646,6 +579,7 @@
           <EntitySetMapping Name="Ordens">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Orden">
               <MappingFragment StoreEntitySet="Ordenes">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="IdOrdenBase" ColumnName="IdOrdenBase" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
@@ -665,6 +599,7 @@
           <EntitySetMapping Name="OrdenItems">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.OrdenItem">
               <MappingFragment StoreEntitySet="OrdenItems">
+                <ScalarProperty Name="Aprovisionado" ColumnName="Aprovisionado" />
                 <ScalarProperty Name="Iva" ColumnName="Iva" />
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
@@ -675,25 +610,6 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="CrearNumeroOrden" FunctionName="FrigorificosBle.Almacen.Core.Domain.Store.sp_CrearNumeroOrden" />
-          <EntitySetMapping Name="AppUsers">
-            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.AppUser">
-              <MappingFragment StoreEntitySet="IdentityUsers">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Entradas">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Entrada">
               <MappingFragment StoreEntitySet="Entradas">

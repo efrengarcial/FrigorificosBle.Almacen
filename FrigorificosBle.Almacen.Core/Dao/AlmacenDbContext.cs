@@ -1,7 +1,4 @@
-﻿using FrigorificosBle.Almacen.Core.Dao.Configurations;
-using FrigorificosBle.Almacen.Core.Domain;
-using FrigorificosBle.Almacen.Core.Domain.Model;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using FrigorificosBle.Almacen.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

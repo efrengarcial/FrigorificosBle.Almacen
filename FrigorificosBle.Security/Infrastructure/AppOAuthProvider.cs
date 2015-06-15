@@ -1,16 +1,12 @@
 ﻿using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Microsoft.AspNet.Identity.Owin;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
-using FrigorificosBle.Almacen.Core.Domain.Model;
+using FrigorificosBle.Security.Domain.Model;
 
-namespace FrigorificosBle.Almacen.SPA.Infrastructure
+namespace FrigorificosBle.Security.Infrastructure
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
@@ -28,9 +24,9 @@ namespace FrigorificosBle.Almacen.SPA.Infrastructure
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var userManager = context.OwinContext.GetUserManager<AppUserManager>();
+            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
-            User user = await userManager.FindAsync(context.UserName, context.Password);
+            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {
@@ -38,7 +34,13 @@ namespace FrigorificosBle.Almacen.SPA.Infrastructure
                 return;
             }
 
-            ClaimsIdentity oAuthIdentity = await userManager.GenerateUserIdentityAsync(user, OAuthDefaults.AuthenticationType);
+            if (!user.EmailConfirmed)
+            {
+                context.SetError("invalid_grant", "User did not confirm email.");
+                return;
+            }
+
+            ClaimsIdentity oAuthIdentity = await userManager.GenerateUserIdentityAsync(user, "JWT");
             AuthenticationProperties properties = new AuthenticationProperties(); 
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
