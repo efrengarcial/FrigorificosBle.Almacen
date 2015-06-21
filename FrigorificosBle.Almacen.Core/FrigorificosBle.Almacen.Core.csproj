@@ -81,6 +81,9 @@
       <DependentUpon>Almacen.edmx</DependentUpon>
     </Compile>
     <Compile Include="Dao\AlmacenDbContext.cs" />
+    <Compile Include="Domain\CentroCosto.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\Dto\OrdenQueryDto.cs" />
     <Compile Include="Domain\Dto\ProductoQueryDto.cs" />
     <Compile Include="Domain\Dto\ProveedorQueryDto.cs" />
@@ -107,6 +110,12 @@
     <Compile Include="Domain\Proveedor.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Salida.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\SalidaItem.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\sp_CrearNumeroOrden_Result.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -115,11 +124,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IOrdenService.cs" />
+    <Compile Include="Service\ISalidaService.cs" />
     <Compile Include="Service\OrdenService.cs" />
     <Compile Include="Service\IProductoService.cs" />
     <Compile Include="Service\IProveedorService.cs" />
     <Compile Include="Service\ProductoService.cs" />
     <Compile Include="Service\ProveedorService.cs" />
+    <Compile Include="Service\SalidaService.cs" />
     <Compile Include="Util\CommonsTools.cs" />
   </ItemGroup>
   <ItemGroup>

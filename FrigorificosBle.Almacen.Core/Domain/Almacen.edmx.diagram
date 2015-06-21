@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="259c38defd6945be8af7a5736dc418be" Name="Diagram1" ZoomLevel="109">
+      <Diagram DiagramId="259c38defd6945be8af7a5736dc418be" Name="Diagram1" ZoomLevel="68">
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Producto" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Linea" Width="1.5" PointX="6.375" PointY="3.75" />
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Medida" Width="1.5" PointX="4" PointY="1" />
@@ -20,6 +20,13 @@
         <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Entrada" Width="1.5" PointX="2.625" PointY="11.25" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Entradas_OrdenItems" />
         <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" />
+        <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.CentroCosto" Width="1.5" PointX="3.875" PointY="15.625" />
+        <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.SalidaItem" Width="1.5" PointX="6.875" PointY="17.125" />
+        <EntityTypeShape EntityType="FrigorificosBle.Almacen.Core.Domain.Salida" Width="1.5" PointX="9.875" PointY="18.625" />
+        <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_CentroCostos" />
+        <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Ordenes" />
+        <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Productos" />
+        <AssociationConnector Association="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Salidas" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

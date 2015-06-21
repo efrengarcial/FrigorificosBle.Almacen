@@ -6,6 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="FrigorificosBle.Almacen.Core.Domain.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="FrigorificosBleAlmacenCoreDomainStoreContainer">
+          <EntitySet Name="CentroCostos" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.CentroCostos" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Entradas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Entradas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Lineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Lineas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Medidas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Medidas" store:Type="Tables" Schema="dbo" />
@@ -13,6 +14,8 @@
           <EntitySet Name="OrdenItems" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.OrdenItems" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Productos" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Productos" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Proveedores" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Proveedores" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SalidaItems" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.SalidaItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Salidas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Salidas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SubLineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.SubLineas" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_Entradas_OrdenItems" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Entradas_OrdenItems">
             <End Role="OrdenItems" EntitySet="OrdenItems" />
@@ -38,11 +41,34 @@
             <End Role="Productos" EntitySet="Productos" />
             <End Role="OrdenItems" EntitySet="OrdenItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalidaItems_CentroCostos" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_SalidaItems_CentroCostos">
+            <End Role="CentroCostos" EntitySet="CentroCostos" />
+            <End Role="SalidaItems" EntitySet="SalidaItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalidaItems_Ordenes" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_SalidaItems_Ordenes">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="SalidaItems" EntitySet="SalidaItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalidaItems_Productos" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_SalidaItems_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="SalidaItems" EntitySet="SalidaItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalidaItems_Salidas" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_SalidaItems_Salidas">
+            <End Role="Salidas" EntitySet="Salidas" />
+            <End Role="SalidaItems" EntitySet="SalidaItems" />
+          </AssociationSet>
           <AssociationSet Name="FK_SubLineas_Lineas" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_SubLineas_Lineas">
             <End Role="Lineas" EntitySet="Lineas" />
             <End Role="SubLineas" EntitySet="SubLineas" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="CentroCostos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Entradas">
           <Key>
             <PropertyRef Name="Id" />
@@ -146,6 +172,27 @@
           <Property Name="BloqueaFactura" Type="bit" />
           <Property Name="BloqueaCupo" Type="int" />
         </EntityType>
+        <EntityType Name="SalidaItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="IdCentroCostos" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="EquipoObra" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="IdOrden" Type="bigint" Nullable="false" />
+          <Property Name="IdSalida" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Salidas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FechaEntrega" Type="datetime" Nullable="false" />
+          <Property Name="IdSolicitador" Type="int" Nullable="false" />
+          <Property Name="IdRecibidor" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="SubLineas">
           <Key>
             <PropertyRef Name="Id" />
@@ -227,6 +274,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalidaItems_CentroCostos">
+          <End Role="CentroCostos" Type="FrigorificosBle.Almacen.Core.Domain.Store.CentroCostos" Multiplicity="1" />
+          <End Role="SalidaItems" Type="FrigorificosBle.Almacen.Core.Domain.Store.SalidaItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CentroCostos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalidaItems">
+              <PropertyRef Name="IdCentroCostos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalidaItems_Ordenes">
+          <End Role="Ordenes" Type="FrigorificosBle.Almacen.Core.Domain.Store.Ordenes" Multiplicity="1" />
+          <End Role="SalidaItems" Type="FrigorificosBle.Almacen.Core.Domain.Store.SalidaItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalidaItems">
+              <PropertyRef Name="IdOrden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalidaItems_Productos">
+          <End Role="Productos" Type="FrigorificosBle.Almacen.Core.Domain.Store.Productos" Multiplicity="1" />
+          <End Role="SalidaItems" Type="FrigorificosBle.Almacen.Core.Domain.Store.SalidaItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalidaItems">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalidaItems_Salidas">
+          <End Role="Salidas" Type="FrigorificosBle.Almacen.Core.Domain.Store.Salidas" Multiplicity="1" />
+          <End Role="SalidaItems" Type="FrigorificosBle.Almacen.Core.Domain.Store.SalidaItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salidas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalidaItems">
+              <PropertyRef Name="IdSalida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SubLineas_Lineas">
           <End Role="Lineas" Type="FrigorificosBle.Almacen.Core.Domain.Store.Lineas" Multiplicity="1" />
           <End Role="SubLineas" Type="FrigorificosBle.Almacen.Core.Domain.Store.SubLineas" Multiplicity="*" />
@@ -286,6 +381,25 @@
             <End Role="Proveedor" EntitySet="Proveedors" />
             <End Role="Orden" EntitySet="Ordens" />
           </AssociationSet>
+          <EntitySet Name="CentroCostos" EntityType="FrigorificosBle.Almacen.Core.Domain.CentroCosto" />
+          <EntitySet Name="SalidaItems" EntityType="FrigorificosBle.Almacen.Core.Domain.SalidaItem" />
+          <EntitySet Name="Salidas" EntityType="FrigorificosBle.Almacen.Core.Domain.Salida" />
+          <AssociationSet Name="FK_SalidaItems_CentroCostos" Association="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_CentroCostos">
+            <End Role="CentroCosto" EntitySet="CentroCostos" />
+            <End Role="SalidaItem" EntitySet="SalidaItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalidaItems_Ordenes" Association="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Ordenes">
+            <End Role="Orden" EntitySet="Ordens" />
+            <End Role="SalidaItem" EntitySet="SalidaItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalidaItems_Productos" Association="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Productos">
+            <End Role="Producto" EntitySet="Productos" />
+            <End Role="SalidaItem" EntitySet="SalidaItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalidaItems_Salidas" Association="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Salidas">
+            <End Role="Salida" EntitySet="Salidas" />
+            <End Role="SalidaItem" EntitySet="SalidaItems" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Producto">
           <Key>
@@ -309,6 +423,7 @@
           <NavigationProperty Name="Medida" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Medidas" FromRole="Producto" ToRole="Medida" />
           <NavigationProperty Name="SubLinea" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_SubLineas" FromRole="Producto" ToRole="SubLinea" />
           <Property Type="Boolean" Name="Anulado" Nullable="false" />
+          <NavigationProperty Name="SalidaItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Productos" FromRole="Producto" ToRole="SalidaItem" />
         </EntityType>
         <EntityType Name="Linea">
           <Key>
@@ -417,6 +532,7 @@
           <Property Type="String" Name="Notas" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrdenItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Ordenes" FromRole="Ordene" ToRole="OrdenItem" />
           <NavigationProperty Name="Proveedor" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" FromRole="Orden" ToRole="Proveedor" />
+          <NavigationProperty Name="SalidaItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Ordenes" FromRole="Orden" ToRole="SalidaItem" />
         </EntityType>
         <EntityType Name="OrdenItem">
           <Key>
@@ -492,6 +608,88 @@
             </Principal>
             <Dependent Role="Orden">
               <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CentroCosto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SalidaItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_CentroCostos" FromRole="CentroCosto" ToRole="SalidaItem" />
+        </EntityType>
+        <EntityType Name="SalidaItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="IdProducto" Nullable="false" />
+          <Property Type="Int32" Name="IdCentroCostos" Nullable="false" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="String" Name="EquipoObra" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int64" Name="IdOrden" Nullable="false" />
+          <Property Type="Int64" Name="IdSalida" Nullable="false" />
+          <NavigationProperty Name="CentroCosto" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_CentroCostos" FromRole="SalidaItem" ToRole="CentroCosto" />
+          <NavigationProperty Name="Ordene" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Ordenes" FromRole="SalidaItem" ToRole="Orden" />
+          <NavigationProperty Name="Producto" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Productos" FromRole="SalidaItem" ToRole="Producto" />
+          <NavigationProperty Name="Salida" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Salidas" FromRole="SalidaItem" ToRole="Salida" />
+        </EntityType>
+        <EntityType Name="Salida">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="FechaEntrega" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="IdSolicitador" Nullable="false" />
+          <Property Type="Int32" Name="IdRecibidor" Nullable="false" />
+          <NavigationProperty Name="SalidaItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Salidas" FromRole="Salida" ToRole="SalidaItem" />
+        </EntityType>
+        <Association Name="FK_SalidaItems_CentroCostos">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.CentroCosto" Role="CentroCosto" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.SalidaItem" Role="SalidaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CentroCosto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalidaItem">
+              <PropertyRef Name="IdCentroCostos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalidaItems_Ordenes">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Orden" Role="Orden" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.SalidaItem" Role="SalidaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalidaItem">
+              <PropertyRef Name="IdOrden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalidaItems_Productos">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.SalidaItem" Role="SalidaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalidaItem">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalidaItems_Salidas">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Salida" Role="Salida" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.SalidaItem" Role="SalidaItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Salida">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalidaItem">
+              <PropertyRef Name="IdSalida" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -618,6 +816,37 @@
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="IdOrdenItems" ColumnName="IdOrdenItems" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CentroCostos">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.CentroCosto">
+              <MappingFragment StoreEntitySet="CentroCostos">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalidaItems">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.SalidaItem">
+              <MappingFragment StoreEntitySet="SalidaItems">
+                <ScalarProperty Name="IdSalida" ColumnName="IdSalida" />
+                <ScalarProperty Name="IdOrden" ColumnName="IdOrden" />
+                <ScalarProperty Name="EquipoObra" ColumnName="EquipoObra" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Salidas">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Salida">
+              <MappingFragment StoreEntitySet="Salidas">
+                <ScalarProperty Name="IdRecibidor" ColumnName="IdRecibidor" />
+                <ScalarProperty Name="IdSolicitador" ColumnName="IdSolicitador" />
+                <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

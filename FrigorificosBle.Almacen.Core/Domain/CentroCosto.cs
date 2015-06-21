@@ -12,32 +12,16 @@ namespace FrigorificosBle.Almacen.Core.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Producto
+    public partial class CentroCosto
     {
-        public Producto()
+        public CentroCosto()
         {
             this.SalidaItems = new HashSet<SalidaItem>();
         }
     
         public int Id { get; set; }
-        public int Codigo { get; set; }
-        public string Referencia { get; set; }
-        public bool EsServicio { get; set; }
         public string Nombre { get; set; }
-        public string Ubicacion { get; set; }
-        public int IdLinea { get; set; }
-        public int IdSubLinea { get; set; }
-        public int Maximo { get; set; }
-        public int Minimo { get; set; }
-        public int IdMedida { get; set; }
-        public double Iva { get; set; }
-        public decimal Precio { get; set; }
-        public bool Promocion { get; set; }
-        public string Descripcion { get; set; }
-        public bool Anulado { get; set; }
     
-        public virtual Medida Medida { get; set; }
-        public virtual SubLinea SubLinea { get; set; }
         public virtual ICollection<SalidaItem> SalidaItems { get; set; }
     }
 }
