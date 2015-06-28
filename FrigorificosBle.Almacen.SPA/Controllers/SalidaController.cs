@@ -2,16 +2,17 @@
 using FrigorificosBle.Almacen.Core.Domain.Dto;
 using FrigorificosBle.Almacen.Core.Service;
 using FrigorificosBle.Almacen.SPA.Filters;
+using FrigorificosBle.Almacen.Util;
 using log4net;
-using log4net.Core;
+using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
 
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
@@ -29,6 +30,35 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         {
             _salidaService = salidaService;
             _logger = logger; 
+        }
+
+        [Route("centroCostos")]
+        [HttpGet]
+        public IEnumerable<CentroCosto> GetCentroCostos()
+        {
+            return _salidaService.GetCentroCostos();
+        }
+
+        [Route("GetByName/{search}")]
+        [HttpGet]
+        public IEnumerable<CentroCosto> GetByName(String search)
+        {
+            CentroCostoQueryDto dto = new CentroCostoQueryDto();
+            dto.Nombre = search;
+            return _salidaService.GetByName(dto);
+        }
+
+        [HttpPost]
+        [Route("save")]
+        public HttpResponseMessage Save([FromBody]Salida salida)
+        {
+            if (salida.Id == 0)
+            {
+                _salidaService.Save(salida);
+
+            }
+
+           return Request.CreateResponse(HttpStatusCode.OK, salida.Id);
         }
     }
 }

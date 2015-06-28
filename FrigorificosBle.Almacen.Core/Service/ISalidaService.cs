@@ -11,6 +11,9 @@ namespace FrigorificosBle.Almacen.Core.Service
 {
     public interface ISalidaService
     {
+        void Save(Salida salida);
+        IList<CentroCosto> GetCentroCostos();
+        IEnumerable<CentroCosto> GetByName(CentroCostoQueryDto dto);
 
     }
 }

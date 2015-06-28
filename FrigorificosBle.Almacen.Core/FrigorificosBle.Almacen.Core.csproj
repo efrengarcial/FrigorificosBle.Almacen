@@ -84,6 +84,7 @@
     <Compile Include="Domain\CentroCosto.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Dto\CentroCostoQueryDto.cs" />
     <Compile Include="Domain\Dto\OrdenQueryDto.cs" />
     <Compile Include="Domain\Dto\ProductoQueryDto.cs" />
     <Compile Include="Domain\Dto\ProveedorQueryDto.cs" />

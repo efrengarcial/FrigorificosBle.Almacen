@@ -176,7 +176,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="IdProducto" Type="int" Nullable="false" />
           <Property Name="IdCentroCostos" Type="int" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
@@ -189,7 +189,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="FechaEntrega" Type="datetime" Nullable="false" />
+          <Property Name="FechaEntrega" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="IdSolicitador" Type="int" Nullable="false" />
           <Property Name="IdRecibidor" Type="int" Nullable="false" />
         </EntityType>
@@ -640,7 +640,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="DateTime" Name="FechaEntrega" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="FechaEntrega" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Int32" Name="IdSolicitador" Nullable="false" />
           <Property Type="Int32" Name="IdRecibidor" Nullable="false" />
           <NavigationProperty Name="SalidaItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Salidas" FromRole="Salida" ToRole="SalidaItem" />
