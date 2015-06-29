@@ -113,6 +113,7 @@
     <Compile Include="Infrastructure\ApplicationUserManager.cs" />
     <Compile Include="Infrastructure\AppOAuthProvider.cs" />
     <Compile Include="Infrastructure\CustomJwtFormat.cs" />
+    <Compile Include="Infrastructure\RolesFromClaims.cs" />
     <Compile Include="Migrations\201506151734202_InitialCreate.cs" />
     <Compile Include="Migrations\201506151734202_InitialCreate.Designer.cs">
       <DependentUpon>201506151734202_InitialCreate.cs</DependentUpon>

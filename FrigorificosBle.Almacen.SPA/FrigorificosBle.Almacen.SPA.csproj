@@ -251,7 +251,6 @@
     <Compile Include="Controllers\SalidaController.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtensions.cs" />
     <Compile Include="Filters\ExceptionHandlingAttribute.cs" />
-    <Compile Include="Infrastructure\CustomJwtFormat.cs" />
     <Compile Include="Infrastructure\SessionEnabledControllerHandler.cs" />
     <Compile Include="Infrastructure\SessionEnabledHttpControllerRouteHandler.cs" />
     <Compile Include="Models\ModelFactory.cs" />

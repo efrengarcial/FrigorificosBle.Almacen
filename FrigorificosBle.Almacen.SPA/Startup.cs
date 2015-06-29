@@ -79,7 +79,7 @@ namespace FrigorificosBle.Almacen.SPA
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 AllowInsecureHttp = true,
-                AccessTokenFormat = new CustomJwtFormat("http://localhost:2225")
+                AccessTokenFormat = new CustomJwtFormat(ConfigurationManager.AppSettings["as:Issuer"])
             };
 
             // Enable the application to use bearer tokens to authenticate users
@@ -89,7 +89,7 @@ namespace FrigorificosBle.Almacen.SPA
         private void ConfigureOAuthTokenConsumption(IAppBuilder app)
         {
 
-            var issuer = "http://localhost:2225";
+            var issuer = ConfigurationManager.AppSettings["as:Issuer"];
             string audienceId = ConfigurationManager.AppSettings["as:AudienceId"];
             byte[] audienceSecret = TextEncodings.Base64Url.Decode(ConfigurationManager.AppSettings["as:AudienceSecret"]);
 
