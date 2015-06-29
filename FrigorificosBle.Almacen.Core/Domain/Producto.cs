@@ -14,11 +14,6 @@ namespace FrigorificosBle.Almacen.Core.Domain
     
     public partial class Producto
     {
-        public Producto()
-        {
-            this.SalidaItems = new HashSet<SalidaItem>();
-        }
-    
         public int Id { get; set; }
         public int Codigo { get; set; }
         public string Referencia { get; set; }
@@ -38,6 +33,5 @@ namespace FrigorificosBle.Almacen.Core.Domain
     
         public virtual Medida Medida { get; set; }
         public virtual SubLinea SubLinea { get; set; }
-        public virtual ICollection<SalidaItem> SalidaItems { get; set; }
     }
 }

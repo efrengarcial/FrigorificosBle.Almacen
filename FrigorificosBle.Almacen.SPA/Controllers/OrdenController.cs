@@ -104,7 +104,8 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         [Route("getInboxOrden")]
         public IEnumerable<Orden> GetInboxOrden()
         {
-            return _ordenService.GetInboxOrden();
+            return _ordenService.GetInboxOrden(); 
+
         }
 
         [Route("getOrdenesCompraAbiertas")]
@@ -112,6 +113,15 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         public IEnumerable<Orden> GetOrdenesCompraAbiertas()
         {
             return _ordenService.GetOrdenesCompraAbiertas();
+        }
+
+        [Route("getOrdenByNum/{num}")]
+        [HttpGet]
+        public IEnumerable<Orden> GetOrdenByNum(Int64 num)
+        {
+            OrdenQueryDto dto = new OrdenQueryDto();
+            dto.Numero = num;
+            return _ordenService.GetOrdenByNum(dto);
         }
     }
 }

@@ -14,6 +14,5 @@ namespace FrigorificosBle.Almacen.Core.Service
         void Save(Salida salida);
         IList<CentroCosto> GetCentroCostos();
         IEnumerable<CentroCosto> GetByName(CentroCostoQueryDto dto);
-
     }
 }
