@@ -43,8 +43,6 @@ namespace FrigorificosBle.Almacen.Core.Service
 
         public Orden GetById(long id)
         {
-
-            //_context.Set<Orden>().Single(o => o.Id == id)
             return _ordenRepository.GetById(id);
         }
 
@@ -104,7 +102,6 @@ namespace FrigorificosBle.Almacen.Core.Service
         public IEnumerable<Orden> Query(OrdenQueryDto dto)
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            //_context.Configuration.LazyLoadingEnabled = false;
             var query = _context.Set<Orden>();
             IQueryable<Orden> result = null;
 
@@ -137,7 +134,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         {
             _context.Configuration.ProxyCreationEnabled = false;
             return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado) || ORDEN_EN_CURSO.Equals(orden.Estado)) 
-                && ORDEN_COMPRA.Equals(orden.Tipo));
+                && ORDEN_COMPRA.Equals(orden.Tipo)).ToList();
         }
 
 
