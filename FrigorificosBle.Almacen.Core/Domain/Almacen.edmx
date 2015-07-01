@@ -112,7 +112,7 @@
           <Property Name="Descuento" Type="float" Nullable="false" />
           <Property Name="Anulada" Type="bit" Nullable="false" />
           <Property Name="Cancelada" Type="bit" Nullable="false" />
-          <Property Name="CentroCostos" Type="nvarchar" Nullable="false" MaxLength="8" />
+          <Property Name="CentroCostos" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Notas" Type="ntext" />
         </EntityType>
         <EntityType Name="OrdenItems">
@@ -523,7 +523,7 @@
           <Property Type="Int64" Name="IdOrdenBase" />
           <Property Type="Int32" Name="UserId" Nullable="false" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="CentroCostos" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Type="String" Name="CentroCostos" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Double" Name="Descuento" Nullable="false" />
           <Property Type="Boolean" Name="Anulada" Nullable="false" />

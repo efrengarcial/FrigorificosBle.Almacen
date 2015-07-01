@@ -43,6 +43,8 @@ namespace FrigorificosBle.Almacen.Core.Service
 
         public Orden GetById(long id)
         {
+
+            //_context.Set<Orden>().Single(o => o.Id == id)
             return _ordenRepository.GetById(id);
         }
 
@@ -102,6 +104,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         public IEnumerable<Orden> Query(OrdenQueryDto dto)
         {
             _context.Configuration.ProxyCreationEnabled = false;
+            //_context.Configuration.LazyLoadingEnabled = false;
             var query = _context.Set<Orden>();
             IQueryable<Orden> result = null;
 
@@ -134,15 +137,15 @@ namespace FrigorificosBle.Almacen.Core.Service
         {
             _context.Configuration.ProxyCreationEnabled = false;
             return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado) || ORDEN_EN_CURSO.Equals(orden.Estado)) 
-                && ORDEN_COMPRA.Equals(orden.Tipo)).ToList();
+                && ORDEN_COMPRA.Equals(orden.Tipo));
         }
 
 
-        public IEnumerable<Orden> GetOrdenByNum(OrdenQueryDto dto)
+        public IEnumerable<Orden> GetOrdenByNum(long ordenNum)
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            IEnumerable<Orden> result = null;            
-            result = _context.Set<Orden>().Where(p => (p.Numero == dto.Numero) && (p.Anulada == false));
+            IEnumerable<Orden> result = null;
+            result = _context.Set<Orden>().Where(orden => (orden.Numero == ordenNum) && (orden.Anulada == false) && (ORDEN_COMPRA.Equals(orden.Tipo))).Include(ordenItem => ordenItem.OrdenItems).ToList();
             return result;
         }
 

@@ -115,13 +115,11 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return _ordenService.GetOrdenesCompraAbiertas();
         }
 
-        [Route("getOrdenByNum/{num}")]
+        [Route("getOrdenByNum/{ordenNum}")]
         [HttpGet]
-        public IEnumerable<Orden> GetOrdenByNum(Int64 num)
+        public IEnumerable<Orden> GetOrdenByNum(long ordenNum)
         {
-            OrdenQueryDto dto = new OrdenQueryDto();
-            dto.Numero = num;
-            return _ordenService.GetOrdenByNum(dto);
+            return _ordenService.GetOrdenByNum(ordenNum);
         }
     }
 }

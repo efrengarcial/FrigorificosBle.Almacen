@@ -15,7 +15,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         IEnumerable<Orden> Query(OrdenQueryDto dto);
         IEnumerable<Orden> GetInboxOrden();
         IEnumerable<Orden> GetOrdenesCompraAbiertas();
-        IEnumerable<Orden> GetOrdenByNum(OrdenQueryDto dto);
+        IEnumerable<Orden> GetOrdenByNum(long ordenNum);
 
     }
 }
