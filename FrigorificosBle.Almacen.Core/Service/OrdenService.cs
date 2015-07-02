@@ -137,7 +137,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         {
             _context.Configuration.ProxyCreationEnabled = false;
             return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado) || ORDEN_EN_CURSO.Equals(orden.Estado)) 
-                && ORDEN_COMPRA.Equals(orden.Tipo));
+                && ORDEN_COMPRA.Equals(orden.Tipo)).Include(p => p.Proveedor).ToList();
         }
 
 
