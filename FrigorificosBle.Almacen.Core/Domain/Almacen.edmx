@@ -147,6 +147,7 @@
           <Property Name="Promocion" Type="bit" Nullable="false" />
           <Property Name="Anulado" Type="bit" Nullable="false" />
           <Property Name="Descripcion" Type="ntext" />
+          <Property Name="CantidadInventario" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Proveedores">
           <Key>
@@ -423,6 +424,7 @@
           <NavigationProperty Name="Medida" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Medidas" FromRole="Producto" ToRole="Medida" />
           <NavigationProperty Name="SubLinea" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_SubLineas" FromRole="Producto" ToRole="SubLinea" />
           <Property Type="Boolean" Name="Anulado" Nullable="false" />
+          <Property Type="Int32" Name="CantidadInventario" Nullable="false" />
         </EntityType>
         <EntityType Name="Linea">
           <Key>
@@ -701,6 +703,7 @@
           <EntitySetMapping Name="Productos">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Producto">
               <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="CantidadInventario" ColumnName="CantidadInventario" />
                 <ScalarProperty Name="EsServicio" ColumnName="EsServicio" />
                 <ScalarProperty Name="Anulado" ColumnName="Anulado" />
                 <ScalarProperty Name="IdLinea" ColumnName="IdLinea" />
