@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Data.Linq.SqlClient;
 using FrigorificosBle.Almacen.Core.Domain.Dto;
 using System.Data.Linq;
+using System.Diagnostics;
 
 //https://simpleinjector.codeplex.com/wikipage?title=Quick%20Start
 
@@ -54,7 +55,7 @@ namespace FrigorificosBle.Almacen.Core.Service
             return _medidaRepository.GetAll();
         }
 
-        public Producto GetById(Int32 id)
+        public Producto GetById(long id)
         {
             return _productRepository.GetById(id);
         }
@@ -67,7 +68,22 @@ namespace FrigorificosBle.Almacen.Core.Service
             }
             else
             {
-                _productRepository.Update(producto);
+                if (producto.Cantidad != 0) 
+
+                {
+                    var productTemp = _productRepository.GetById(producto.Id);
+
+                    if (producto.Cantidad <= productTemp.CantidadInventario)
+                    {
+                        producto.CantidadInventario = (productTemp.CantidadInventario - producto.Cantidad);
+                        producto.Cantidad = 0;
+                        _productRepository.Update(producto);
+                    }
+
+                }
+                else {
+                    _productRepository.Update(producto);
+                }
             }
         }
 
