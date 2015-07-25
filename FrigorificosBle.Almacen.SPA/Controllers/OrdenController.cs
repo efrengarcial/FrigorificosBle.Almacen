@@ -14,6 +14,8 @@ using System.Security.Claims;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using FrigorificosBle.Almacen.Core.Domain.Enum;
+using FrigorificosBle.Security.Infrastructure;
+using FrigorificosBle.Almacen.Core.Util;
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
@@ -34,6 +36,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [HttpGet]
         [Route("query")]
+        [ClaimsAuthorization(Permission = Permissions.ConsultarOrdenes)]
         public IEnumerable<Orden> Query()
         {
             var queryString = this.Request.GetQueryStrings();
@@ -67,6 +70,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         // GET api/orden/5
         [HttpGet]
         [Route("getById/{Id}")]
+        [ClaimsAuthorization(Permission = StringEnum.GetStringValue(Permissions.ConsultarOrdenes))]
         public Orden GetById(long id)
         {
             return _ordenService.GetById(id);
@@ -79,7 +83,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             if (orden.Id == 0)
             {
                 orden.UserId = 1; //User.Identity.GetUserId();
-                orden.UserName = "efren"; // User.Identity.GetUserName();
+                orden.UserName = User.Identity.GetUserName();
                 orden.Estado = OrdenEstadoEnum.ABIERTA.AsText();
             }
             else
@@ -102,6 +106,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [HttpGet]
         [Route("getInboxOrden")]
+        [ClaimsAuthorization(Permission = StringEnum.GetStringValue(Permissions.RequisicionesProcesar))]
         public IEnumerable<Orden> GetInboxOrden()
         {
             return _ordenService.GetInboxOrden(); 
@@ -110,6 +115,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [Route("getOrdenesCompraAbiertas")]
         [HttpGet]
+        [ClaimsAuthorization(Permission = StringEnum.GetStringValue(Permissions.Entradas))]
         public IEnumerable<Orden> GetOrdenesCompraAbiertas()
         {
             return _ordenService.GetOrdenesCompraAbiertas();
@@ -117,6 +123,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [Route("getOrdenByNum/{ordenNum}")]
         [HttpGet]
+        [ClaimsAuthorization(Permission = StringEnum.GetStringValue(Permissions.ConsultarOrdenes))]
         public IEnumerable<Orden> GetOrdenByNum(long ordenNum)
         {
             return _ordenService.GetOrdenByNum(ordenNum);

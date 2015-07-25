@@ -48,6 +48,8 @@ namespace FrigorificosBle.Security.Domain.Model
 
         [MaxLength(100)]
         public string Description { get; set; }
+
+        public virtual ICollection<ApplicationRolePermission> Permissions { get; set; }
     }
 
     public class ApplicationUserRole : IdentityUserRole<int> {
@@ -59,6 +61,30 @@ namespace FrigorificosBle.Security.Domain.Model
     public class ApplicationUserClaim : IdentityUserClaim<int> { }
     public class ApplicationUserLogin : IdentityUserLogin<int> { }
 
+    public class ApplicationPermission
+    {
+        public int Id { get; set; }
+
+        [MaxLength(100)]
+        public string Name { get; set; }
+
+        public virtual ICollection<ApplicationRolePermission> Roles { get; set; }
+    }
+
+    public class ApplicationRolePermission
+    {
+        [Required]
+        public int RoleId { get; set; }
+
+        [Required]
+        public int PermissionId { get; set; }
+
+
+        public virtual ApplicationPermission Permission { get; set; }
+
+       
+        public virtual ApplicationRole Role { get; set; }  
+    }
 
     public class ApplicationUserStore
     : UserStore<ApplicationUser, ApplicationRole, int,

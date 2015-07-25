@@ -26,6 +26,10 @@ namespace FrigorificosBle.Security.Dao
              new MigrateDatabaseToLatestVersion<SecurityDbContext, Configuration>());
         }
 
+        public DbSet<ApplicationPermission> Permissions { get; set; }
+        public DbSet<ApplicationRolePermission> RolePermissions { get; set; }
+        
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
            modelBuilder.Configurations.Add(new UserConfiguration());
@@ -33,6 +37,8 @@ namespace FrigorificosBle.Security.Dao
            modelBuilder.Configurations.Add(new UserRoleConfiguration());
            modelBuilder.Configurations.Add(new UserLoginConfiguration());
            modelBuilder.Configurations.Add(new UserClaimConfiguration());
+           modelBuilder.Configurations.Add(new PermissionConfiguration());
+           modelBuilder.Configurations.Add(new RolePermissionConfiguration());
         }
        
         public static SecurityDbContext Create()

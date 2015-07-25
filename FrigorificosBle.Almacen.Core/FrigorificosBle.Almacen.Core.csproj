@@ -110,6 +110,8 @@
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\Enum\Enums.cs" />
+    <Compile Include="Domain\Enum\Permissions.cs" />
+    <Compile Include="Domain\Enum\StringValueAttribute.cs" />
     <Compile Include="Domain\Linea.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -151,6 +153,7 @@
     <Compile Include="Service\ProveedorService.cs" />
     <Compile Include="Service\SalidaService.cs" />
     <Compile Include="Util\CommonsTools.cs" />
+    <Compile Include="Util\StringEnum.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

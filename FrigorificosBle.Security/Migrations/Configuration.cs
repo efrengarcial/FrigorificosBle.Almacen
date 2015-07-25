@@ -39,7 +39,7 @@ namespace FrigorificosBle.Security.Migrations
             {
                 roleManager.Create(new ApplicationRole { Name = "SuperAdmin" });
                 roleManager.Create(new ApplicationRole { Name = "Admin", Application = "FrigorificosBle.Almacen" });
-                roleManager.Create(new ApplicationRole { Name = "Alcenista", Application = "FrigorificosBle.Almacen" });
+                roleManager.Create(new ApplicationRole { Name = "Almacenista", Application = "FrigorificosBle.Almacen" });
                 roleManager.Create(new ApplicationRole { Name = "Operario", Application = "FrigorificosBle.Almacen" });
             }          
 
@@ -74,9 +74,19 @@ namespace FrigorificosBle.Security.Migrations
             var adminUser1 = manager.FindByName("dariodeath@gmail.com");
             var adminUser2 = manager.FindByName("monica.garcia@gmail.com");
 
-            manager.AddToRoles(adminUser.Id, new string[] { "Alcenista"});
+            manager.AddToRoles(adminUser.Id, new string[] { "Almacenista" });
             manager.AddToRoles(adminUser1.Id, new string[] { "Operario" });
             manager.AddToRoles(adminUser2.Id, new string[] { "Operario" });
+
+            if (context.Permissions.Count() == 0)
+            {
+                var permission=context.Permissions.Add(new ApplicationPermission() { Name = "Consutar Ordenes" });
+                var role = roleManager.Roles.Single(r => r.Name.Equals("Almacenista"));
+
+                context.RolePermissions.Add(new ApplicationRolePermission() { Role = role, Permission = permission });
+                
+                context.SaveChanges();
+            }
         }
     }
 }

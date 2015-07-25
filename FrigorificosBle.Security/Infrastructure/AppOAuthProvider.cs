@@ -5,6 +5,10 @@ using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FrigorificosBle.Security.Domain.Model;
+using System.Collections.Generic;
+using FrigorificosBle.Security.Dao;
+using System.Linq;
+using System.Data.Entity;
 
 namespace FrigorificosBle.Security.Infrastructure
 {
@@ -25,8 +29,14 @@ namespace FrigorificosBle.Security.Infrastructure
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+            var rolManager = context.OwinContext.GetUserManager<ApplicationRoleManager>();
+
 
             ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            List<int> roles = new List<int>();
+            foreach (var item in  user.Roles ){
+                roles.Add(item.RoleId); 
+            }
 
             if (user == null)
             {
@@ -39,8 +49,11 @@ namespace FrigorificosBle.Security.Infrastructure
                 context.SetError("invalid_grant", "User did not confirm email.");
                 return;
             }
+            List<ApplicationRole> rolesList = rolManager.Roles.Where(r => roles.Contains(r.Id)).
+                Include(r => r.Permissions.Select(p => p.Permission)).ToList();
 
             ClaimsIdentity oAuthIdentity = await userManager.GenerateUserIdentityAsync(user, "JWT");
+            oAuthIdentity.AddClaims(PermissionsFromClaims.CreateRolesBasedOnClaims(rolesList));
             AuthenticationProperties properties = new AuthenticationProperties(); 
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);

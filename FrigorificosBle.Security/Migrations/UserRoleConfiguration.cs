@@ -22,8 +22,8 @@ namespace FrigorificosBle.Security.Configurations
 
             //relationship  
             HasRequired(t => t.User).WithMany(c => c.Roles).HasForeignKey
-                    (t => t.UserId).WillCascadeOnDelete(false); 
-
+                    (t => t.UserId).WillCascadeOnDelete(false);
+            
         }
     }   
         

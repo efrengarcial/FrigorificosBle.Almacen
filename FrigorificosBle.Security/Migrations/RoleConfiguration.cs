@@ -23,7 +23,7 @@ namespace FrigorificosBle.Security.Configurations
 
 
             //relationship  
-            HasMany(t => t.Users).WithRequired(c => c.Role).HasForeignKey(t => t.RoleId);
+           // HasMany(t => t.Users).WithRequired(c => c.Role).HasForeignKey(t => t.RoleId);
 
         }
     }    
