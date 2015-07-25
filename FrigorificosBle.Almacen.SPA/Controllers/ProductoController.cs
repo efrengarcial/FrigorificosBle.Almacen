@@ -44,6 +44,14 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return _productoService.GetMedidas();
         }
 
+        // GET api/producto/5
+        [Route("getById/{Id}")]
+        [HttpGet]
+        public Producto GetById(long id)
+        {
+            return _productoService.GetById(id);
+        }
+
         
         [Route("query/{search}")]
         [HttpGet]
@@ -72,11 +80,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return _productoService.Query(dto);
         }
 
-        // GET api/producto/5
-        public string Get(int id)
-        {
-            return "xxx";
-        }
+
 
         // POST api/producto
         // POST api/<controller>
