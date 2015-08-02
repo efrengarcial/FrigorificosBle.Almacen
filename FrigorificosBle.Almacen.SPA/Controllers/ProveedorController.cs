@@ -2,6 +2,7 @@
 using FrigorificosBle.Almacen.Core.Domain.Dto;
 using FrigorificosBle.Almacen.Core.Service;
 using FrigorificosBle.Almacen.SPA.Filters;
+using FrigorificosBle.Security.Infrastructure;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 {
     [ExceptionHandlingAttribute]
     [RoutePrefix("api/proveedor")]
+    [ClaimsAuthorization(Permission = "CONSULTAR_PROVEEDORES")]
     public class ProveedorController : ApiController 
     {
 
@@ -46,6 +48,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         // POST api/<controller>
         [HttpPost]
         [Route("save")]
+        [ClaimsAuthorization(Permission = "ADMIN_PROVEEDORES")]
         public HttpResponseMessage Save([FromBody]Proveedor proveedor)
         {
             _proveedorService.Save(proveedor);
@@ -55,6 +58,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [HttpPost]
         [Route("inactivate")]
+        [ClaimsAuthorization(Permission = "ADMIN_PROVEEDORES")]
         public HttpResponseMessage Inactivate([FromBody]Int32 id)
         {
             Proveedor proveedor = _proveedorService.GetById(id);

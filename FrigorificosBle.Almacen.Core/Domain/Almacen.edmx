@@ -8,6 +8,8 @@
         <EntityContainer Name="FrigorificosBleAlmacenCoreDomainStoreContainer">
           <EntitySet Name="CentroCostos" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.CentroCostos" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Entradas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Entradas" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="HistoricoProductos" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.HistoricoProductos" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="InventarioFinal" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.InventarioFinal" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Lineas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Lineas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Medidas" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Medidas" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Ordenes" EntityType="FrigorificosBle.Almacen.Core.Domain.Store.Ordenes" store:Type="Tables" Schema="dbo" />
@@ -20,6 +22,14 @@
           <AssociationSet Name="FK_Entradas_OrdenItems" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Entradas_OrdenItems">
             <End Role="OrdenItems" EntitySet="OrdenItems" />
             <End Role="Entradas" EntitySet="Entradas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoricoProductos_Productos" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_HistoricoProductos_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="HistoricoProductos" EntitySet="HistoricoProductos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventarioFinal_Productos" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_InventarioFinal_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="InventarioFinal" EntitySet="InventarioFinal" />
           </AssociationSet>
           <AssociationSet Name="FK_Ordenes_Proveedores" Association="FrigorificosBle.Almacen.Core.Domain.Store.FK_Ordenes_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
@@ -76,9 +86,28 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="IdOrdenItems" Type="bigint" Nullable="false" />
           <Property Name="IdProducto" Type="int" Nullable="false" />
-          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
           <Property Name="Costo" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="HistoricoProductos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="IdOrden" Type="bigint" />
+        </EntityType>
+        <EntityType Name="InventarioFinal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Lineas">
           <Key>
@@ -148,7 +177,6 @@
           <Property Name="Anulado" Type="bit" Nullable="false" />
           <Property Name="Descripcion" Type="ntext" />
           <Property Name="CantidadInventario" Type="int" Nullable="false" />
-          <Property Name="Cantidad" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Proveedores">
           <Key>
@@ -213,6 +241,30 @@
             </Principal>
             <Dependent Role="Entradas">
               <PropertyRef Name="IdOrdenItems" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoricoProductos_Productos">
+          <End Role="Productos" Type="FrigorificosBle.Almacen.Core.Domain.Store.Productos" Multiplicity="1" />
+          <End Role="HistoricoProductos" Type="FrigorificosBle.Almacen.Core.Domain.Store.HistoricoProductos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HistoricoProductos">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventarioFinal_Productos">
+          <End Role="Productos" Type="FrigorificosBle.Almacen.Core.Domain.Store.Productos" Multiplicity="1" />
+          <End Role="InventarioFinal" Type="FrigorificosBle.Almacen.Core.Domain.Store.InventarioFinal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InventarioFinal">
+              <PropertyRef Name="IdProducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -402,6 +454,16 @@
             <End Role="Salida" EntitySet="Salidas" />
             <End Role="SalidaItem" EntitySet="SalidaItems" />
           </AssociationSet>
+          <EntitySet Name="InventarioFinals" EntityType="FrigorificosBle.Almacen.Core.Domain.InventarioFinal" />
+          <AssociationSet Name="FK_InventarioFinal_Productos" Association="FrigorificosBle.Almacen.Core.Domain.FK_InventarioFinal_Productos">
+            <End Role="Producto" EntitySet="Productos" />
+            <End Role="InventarioFinal" EntitySet="InventarioFinals" />
+          </AssociationSet>
+          <EntitySet Name="HistoricoProductos" EntityType="FrigorificosBle.Almacen.Core.Domain.HistoricoProducto" />
+          <AssociationSet Name="FK_HistoricoProductos_Productos" Association="FrigorificosBle.Almacen.Core.Domain.FK_HistoricoProductos_Productos">
+            <End Role="Producto" EntitySet="Productos" />
+            <End Role="HistoricoProducto" EntitySet="HistoricoProductos" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Producto">
           <Key>
@@ -426,7 +488,6 @@
           <NavigationProperty Name="SubLinea" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_SubLineas" FromRole="Producto" ToRole="SubLinea" />
           <Property Type="Boolean" Name="Anulado" Nullable="false" />
           <Property Type="Int32" Name="CantidadInventario" Nullable="false" />
-          <Property Type="Int32" Name="Cantidad" Nullable="false" />
         </EntityType>
         <EntityType Name="Linea">
           <Key>
@@ -585,7 +646,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int64" Name="IdOrdenItems" Nullable="false" />
           <Property Type="Int32" Name="IdProducto" Nullable="false" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Int32" Name="Cantidad" Nullable="false" />
           <Property Type="Decimal" Name="Costo" Precision="10" Scale="2" />
           <NavigationProperty Name="OrdenItem" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Entradas_OrdenItems" FromRole="Entrada" ToRole="OrdenItem" />
@@ -696,6 +757,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="InventarioFinal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Type="Int32" Name="IdProducto" Nullable="false" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <NavigationProperty Name="Producto" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_InventarioFinal_Productos" FromRole="InventarioFinal" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_InventarioFinal_Productos">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.InventarioFinal" Role="InventarioFinal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InventarioFinal">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HistoricoProducto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Type="Int32" Name="IdProducto" Nullable="false" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="Int64" Name="IdOrden" />
+          <NavigationProperty Name="Producto" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_HistoricoProductos_Productos" FromRole="HistoricoProducto" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_HistoricoProductos_Productos">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.HistoricoProducto" Role="HistoricoProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HistoricoProducto">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -705,7 +811,6 @@
           <EntitySetMapping Name="Productos">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Producto">
               <MappingFragment StoreEntitySet="Productos">
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="CantidadInventario" ColumnName="CantidadInventario" />
                 <ScalarProperty Name="EsServicio" ColumnName="EsServicio" />
                 <ScalarProperty Name="Anulado" ColumnName="Anulado" />
@@ -852,6 +957,27 @@
                 <ScalarProperty Name="IdRecibidor" ColumnName="IdRecibidor" />
                 <ScalarProperty Name="IdSolicitador" ColumnName="IdSolicitador" />
                 <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InventarioFinals">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.InventarioFinal">
+              <MappingFragment StoreEntitySet="InventarioFinal">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoricoProductos">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.HistoricoProducto">
+              <MappingFragment StoreEntitySet="HistoricoProductos">
+                <ScalarProperty Name="IdOrden" ColumnName="IdOrden" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -12,20 +12,26 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
+using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using FrigorificosBle.Almacen.Core.Domain.Enum;
 using FrigorificosBle.Security.Infrastructure;
-using FrigorificosBle.Almacen.Core.Util;
+using FrigorificosBle.Almacen.SPA.Models;
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
     [ExceptionHandlingAttribute]
     [RoutePrefix("api/orden")]
+    [Authorize]
     //http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
     public class OrdenController : BaseApiController
     {
         private readonly IOrdenService _ordenService;
         private readonly ILog _logger;
+
 
         public OrdenController(IOrdenService ordenService, ILog logger)
         {
@@ -36,7 +42,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [HttpGet]
         [Route("query")]
-        [ClaimsAuthorization(Permission = Permissions.ConsultarOrdenes)]
+        [ClaimsAuthorization(Permission = "CONSULTAR_ORDENES")]
         public IEnumerable<Orden> Query()
         {
             var queryString = this.Request.GetQueryStrings();
@@ -70,19 +76,29 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         // GET api/orden/5
         [HttpGet]
         [Route("getById/{Id}")]
-        [ClaimsAuthorization(Permission = StringEnum.GetStringValue(Permissions.ConsultarOrdenes))]
+        [ClaimsAuthorization(Permission = "CONSULTAR_ORDENES")]
         public Orden GetById(long id)
         {
             return _ordenService.GetById(id);
         }
+
+        [HttpPost]
+        [Route("saveEntrada")]
+        [ClaimsAuthorization(Permission = "ENTRADAS")]
+        public HttpResponseMessage Save([FromBody]EntradaOrden entrada)
+        {
+            _ordenService.SaveEntrada(entrada);
+            return Request.CreateResponse(HttpStatusCode.OK, entrada.IdOrden);
+        }
       
         [HttpPost]
         [Route("save")]
+        [ClaimsAuthorization(Permission = "ORDEN_COMPRA, REQUISICION, ORDEN_SERVICIO ,REQUISICION_SERVICIO")]
         public HttpResponseMessage Save([FromBody]Orden orden)
         {
             if (orden.Id == 0)
             {
-                orden.UserId = 1; //User.Identity.GetUserId();
+                orden.UserId = Int32.Parse(User.Identity.GetUserId());
                 orden.UserName = User.Identity.GetUserName();
                 orden.Estado = OrdenEstadoEnum.ABIERTA.AsText();
             }
@@ -96,6 +112,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [HttpPost]
         [Route("inactivate")]
+        [ClaimsAuthorization(Permission = "INACTIVAR_ORDENES")]
         public HttpResponseMessage Inactivate([FromBody]Int32 id)
         {
             Orden orden = _ordenService.GetById(id);
@@ -106,7 +123,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [HttpGet]
         [Route("getInboxOrden")]
-        [ClaimsAuthorization(Permission = StringEnum.GetStringValue(Permissions.RequisicionesProcesar))]
+        [ClaimsAuthorization(Permission = "REQUISICIONES_POR_PROCESAR")]
         public IEnumerable<Orden> GetInboxOrden()
         {
             return _ordenService.GetInboxOrden(); 
@@ -115,7 +132,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [Route("getOrdenesCompraAbiertas")]
         [HttpGet]
-        [ClaimsAuthorization(Permission = StringEnum.GetStringValue(Permissions.Entradas))]
+        [ClaimsAuthorization(Permission = "ENTRADAS")]
         public IEnumerable<Orden> GetOrdenesCompraAbiertas()
         {
             return _ordenService.GetOrdenesCompraAbiertas();
@@ -123,7 +140,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [Route("getOrdenByNum/{ordenNum}")]
         [HttpGet]
-        [ClaimsAuthorization(Permission = StringEnum.GetStringValue(Permissions.ConsultarOrdenes))]
+        [ClaimsAuthorization(Permission = "CONSULTAR_ORDENES")]
         public IEnumerable<Orden> GetOrdenByNum(long ordenNum)
         {
             return _ordenService.GetOrdenByNum(ordenNum);

@@ -17,7 +17,6 @@ using Microsoft.AspNet.Identity;
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
-    //[Authorize]
     [ExceptionHandlingAttribute]
     [RoutePrefix("api/salida")]
     public class SalidaController : ApiController

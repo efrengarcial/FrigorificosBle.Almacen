@@ -31,7 +31,6 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public string Descripcion { get; set; }
         public bool Anulado { get; set; }
         public int CantidadInventario { get; set; }
-        public int Cantidad { get; set; }
     
         public virtual Medida Medida { get; set; }
         public virtual SubLinea SubLinea { get; set; }

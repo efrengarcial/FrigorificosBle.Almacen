@@ -101,6 +101,58 @@ namespace FrigorificosBle.Almacen.Core.Service
             }
         }
 
+        public void SaveEntrada(EntradaOrden entradaOrden)
+        {
+            using (TransactionScope t = new TransactionScope())
+            {
+                Orden orden = GetById(entradaOrden.IdOrden);
+                bool ordenEnCurso = false; 
+
+                foreach (OrdenItem item in orden.OrdenItems)
+                {
+                    EntradaOrdenItem entradaOrdenItem = entradaOrden.EntadaOrdenItems.Single( e => e.IdOrdenItem == item.Id);
+
+                    if (entradaOrdenItem.Aprovisionado > 0)
+                    {
+                        item.Aprovisionado = item.Aprovisionado + entradaOrdenItem.Aprovisionado;
+                        Entrada entrada = new Entrada();
+                        entrada.OrdenItem = item;
+                        entrada.IdProducto = item.IdProducto;
+                        entrada.Cantidad = entradaOrdenItem.Aprovisionado;
+                        entrada.Costo = entradaOrdenItem.Aprovisionado * item.Precio;
+                        item.Entradas.Add(entrada);
+
+                        Producto producto=  _context.Set<Producto>().Find(item.IdProducto);
+                        producto.CantidadInventario = producto.CantidadInventario + entradaOrdenItem.Aprovisionado;
+
+                        HistoricoProducto historicoProducto = new HistoricoProducto();
+                        historicoProducto.Cantidad = entradaOrdenItem.Aprovisionado;
+                        historicoProducto.IdProducto = item.IdProducto;
+                        historicoProducto.IdOrden = orden.Id;
+                        _context.Set<HistoricoProducto>().Add(historicoProducto);
+
+                    }
+                    if ((item.Cantidad - item.Aprovisionado) > 0)
+                    {
+                        ordenEnCurso = true;
+                    }
+                }
+
+                if (ordenEnCurso)
+                {
+                    orden.Estado = OrdenEstadoEnum.EN_CURSO.AsText();
+                }
+                else
+                {
+                    orden.Estado = OrdenEstadoEnum.CERRADA.AsText();
+                }
+
+                _context.SaveChanges();
+                t.Complete();
+            }
+        }
+
+
         public IEnumerable<Orden> Query(OrdenQueryDto dto)
         {
             _context.Configuration.ProxyCreationEnabled = false;
@@ -130,14 +182,14 @@ namespace FrigorificosBle.Almacen.Core.Service
         {
             _context.Configuration.ProxyCreationEnabled = false;
             return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado)) && (REQUISICION.Equals(orden.Tipo) ||
-                REQUISICION_SERVICIO.Equals(orden.Tipo))).Include(p => p.Proveedor).OrderBy(orden => orden.FechaCreacion).ToList();
+                REQUISICION_SERVICIO.Equals(orden.Tipo)) && orden.Anulada == false).Include(p => p.Proveedor).OrderBy(orden => orden.FechaCreacion).ToList();
         }
 
         public IEnumerable<Orden> GetOrdenesCompraAbiertas()
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado) || ORDEN_EN_CURSO.Equals(orden.Estado)) 
-                && ORDEN_COMPRA.Equals(orden.Tipo)).Include(p => p.Proveedor).ToList();
+            return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado) || ORDEN_EN_CURSO.Equals(orden.Estado))
+                && ORDEN_COMPRA.Equals(orden.Tipo) && orden.Anulada == false).Include(p => p.Proveedor).ToList();
         }
 
 

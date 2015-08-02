@@ -12,12 +12,11 @@ using System.Linq;
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
-    //[Authorize]
+    [ClaimsAuthorization(Permission = "CONSULTAR_USUARIOS")]
     [RoutePrefix("api/account")]
     public class AccountController : BaseApiController
     {
        
-        //[Authorize(Roles = "Admin")]
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
@@ -43,7 +42,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Route("user/{username}")]
         public async Task<IHttpActionResult> GetUserByName(string username)
         {

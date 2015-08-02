@@ -8,26 +8,40 @@ namespace FrigorificosBle.Almacen.Core.Domain.Enum
 {
     public enum Permissions
     {
-        [StringValue("ADMIN_PRODUCTOS")]
         AdminProductos,
-        [StringValue("ADMIN_PROVEEDORES")]
         AdminProveedores,
-        [StringValue("ENTRADAS")]
         Entradas,
-        [StringValue("SALIDAS")]
         Salidas,
-        [StringValue("REQUISICIONES_POR_PROCESAR")]
         RequisicionesProcesar,
-        [StringValue("ORDEN_COMPRA")]
         OrdenCompra,
-        [StringValue("REQUISICION")]
         Requisicion,
-        [StringValue("ORDEN_SERVICIO")]
         OrdenServicio,
-        [StringValue("REQUISICION_SERVICIO")]
         RequisicionServicio,
-        [StringValue("CONSULTAR_ORDENES")]
         ConsultarOrdenes
+
+    }
+
+    public static class PermissionsExtender
+    {
+
+        public static String AsText(this Permissions permission)
+        {
+            switch (permission)
+            {
+                case Permissions.AdminProductos: return "ADMIN_PRODUCTOS";
+                case Permissions.AdminProveedores: return "ADMIN_PROVEEDORES";
+                case Permissions.Entradas: return "ENTRADAS";
+                case Permissions.Salidas: return "SALIDAS";
+                case Permissions.RequisicionesProcesar: return "REQUISICIONES_POR_PROCESAR";
+                case Permissions.OrdenCompra: return "ORDEN_COMPRA";
+                case Permissions.Requisicion: return "REQUISICION";
+                case Permissions.OrdenServicio: return "ORDEN_SERVICIO";
+                case Permissions.RequisicionServicio: return "REQUISICION_SERVICIO";
+                case Permissions.ConsultarOrdenes: return "CONSULTAR_ORDENES";
+
+            }
+            return String.Empty;
+        }
 
     }
 }

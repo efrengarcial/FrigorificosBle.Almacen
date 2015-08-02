@@ -33,7 +33,19 @@ namespace FrigorificosBle.Security.Infrastructure
 
             var permissions =JsonConvert.DeserializeObject<List<String>>(permissionsString );
 
-            if (!permissions.Contains(Permission)){
+            string[] permissionsAEvaluar = Permission.Split(',');
+            bool tienePermisos = false;
+            foreach (string persmissionAEvaluar in permissionsAEvaluar)
+            {
+                if (permissions.Contains(persmissionAEvaluar))
+                {
+                    tienePermisos = true;
+                    break;
+                }
+            }
+
+            if (!tienePermisos)
+            {
                   actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
                 return Task.FromResult<object>(null);
             }

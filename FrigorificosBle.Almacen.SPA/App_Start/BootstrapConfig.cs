@@ -53,21 +53,6 @@ namespace FrigorificosBle.Almacen.SPA
             //DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
             GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
         }
-
-        public static void RegisterApiControllers(Container container)
-        {
-            if (container == null)
-            {
-                throw new ArgumentNullException("container");
-            }
-
-            var services = GlobalConfiguration.Configuration.Services;
-            var controllerTypes = services.GetHttpControllerTypeResolver().GetControllerTypes(services.GetAssembliesResolver());
-
-            foreach (var controllerType in controllerTypes)
-            {
-                container.Register(controllerType);
-            }
-        }
+       
     }
 }

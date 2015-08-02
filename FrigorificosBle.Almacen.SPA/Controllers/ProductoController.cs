@@ -2,6 +2,7 @@
 using FrigorificosBle.Almacen.Core.Domain.Dto;
 using FrigorificosBle.Almacen.Core.Service;
 using FrigorificosBle.Almacen.SPA.Filters;
+using FrigorificosBle.Security.Infrastructure;
 using log4net;
 using log4net.Core;
 using System;
@@ -17,6 +18,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 {
     [ExceptionHandlingAttribute]
     [RoutePrefix("api/producto")]
+    [ClaimsAuthorization(Permission = "CONSULTAR_PRODUCTOS")]
     //http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
     public class ProductoController : ApiController
     {
@@ -85,6 +87,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         // POST api/<controller>
         [HttpPost]
         [Route("save")]
+        [ClaimsAuthorization(Permission = "ADMIN_PRODUCTOS")]
         public HttpResponseMessage Save([FromBody]Producto producto)
         {
             _productoService.Save(producto);
@@ -93,6 +96,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [HttpPost]
         [Route("inactivate")]
+        [ClaimsAuthorization(Permission = "ADMIN_PRODUCTOS")]
         public HttpResponseMessage Inactivate([FromBody]Int32 id)
         {
             Producto producto = _productoService.GetById(id);
