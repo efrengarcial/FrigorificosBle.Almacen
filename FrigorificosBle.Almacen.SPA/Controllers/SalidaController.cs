@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using FrigorificosBle.Almacen.Core.Util;
 
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
@@ -28,7 +29,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         public SalidaController(ISalidaService salidaService, ILog logger)
         {
             _salidaService = salidaService;
-            _logger = logger; 
+            _logger = logger;
         }
 
         [Route("centroCostos")]
@@ -53,11 +54,18 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         {
             if (salida.Id == 0)
             {
-                _salidaService.Save(salida);
+                try
+                {
+                    _salidaService.Save(salida);
+                }
+                catch (NotProductsInStockException ex)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, ex);
+                }
 
             }
 
-           return Request.CreateResponse(HttpStatusCode.OK, salida.Id);
+            return Request.CreateResponse(HttpStatusCode.OK, salida.Id);
         }
     }
 }

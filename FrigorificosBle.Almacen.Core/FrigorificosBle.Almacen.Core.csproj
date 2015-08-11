@@ -161,6 +161,7 @@
     <Compile Include="Service\ProveedorService.cs" />
     <Compile Include="Service\SalidaService.cs" />
     <Compile Include="Util\CommonsTools.cs" />
+    <Compile Include="Util\NotProductsInStockException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

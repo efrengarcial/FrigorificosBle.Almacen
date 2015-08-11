@@ -68,22 +68,8 @@ namespace FrigorificosBle.Almacen.Core.Service
             }
             else
             {
-                if (producto.Cantidad != 0) 
-
-                {
-                    var productTemp = _productRepository.GetById(producto.Id);
-
-                    if (producto.Cantidad <= productTemp.CantidadInventario)
-                    {
-                        producto.CantidadInventario = (productTemp.CantidadInventario - producto.Cantidad);
-                        producto.Cantidad = 0;
-                        _productRepository.Update(producto);
-                    }
-
-                }
-                else {
-                    _productRepository.Update(producto);
-                }
+                _productRepository.Update(producto);
+                
             }
         }
 
