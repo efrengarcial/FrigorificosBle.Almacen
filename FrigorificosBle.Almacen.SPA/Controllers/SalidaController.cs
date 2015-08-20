@@ -32,22 +32,6 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _logger = logger;
         }
 
-        [Route("centroCostos")]
-        [HttpGet]
-        public IEnumerable<CentroCosto> GetCentroCostos()
-        {
-            return _salidaService.GetCentroCostos();
-        }
-
-        [Route("GetByName/{search}")]
-        [HttpGet]
-        public IEnumerable<CentroCosto> GetByName(String search)
-        {
-            CentroCostoQueryDto dto = new CentroCostoQueryDto();
-            dto.Nombre = search;
-            return _salidaService.GetByName(dto);
-        }
-
         [HttpPost]
         [Route("save")]
         public HttpResponseMessage Save([FromBody]Salida salida)
@@ -64,7 +48,6 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
                 }
 
             }
-
             return Request.CreateResponse(HttpStatusCode.OK, salida.Id);
         }
     }

@@ -33,7 +33,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         private readonly DbContext _context;
 
         public ProductoService(IRepository<Producto> productRepository,
-            IRepository<Linea> lineaRepository,IRepository<Medida> medidaRepository,
+            IRepository<Linea> lineaRepository, IRepository<Medida> medidaRepository,
             ILog logger, DbContext context)
         {
             _productRepository = productRepository;
@@ -46,9 +46,9 @@ namespace FrigorificosBle.Almacen.Core.Service
         public IList<Linea> GetLineas()
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            _context.Configuration.LazyLoadingEnabled = false;             
-            return _context.Set<Linea>().Include(l=> l.SubLineas).ToList();//_lineaRepository.GetAll();
-        } 
+            _context.Configuration.LazyLoadingEnabled = false;
+            return _context.Set<Linea>().Include(l => l.SubLineas).ToList();//_lineaRepository.GetAll();
+        }
 
         public IList<Medida> GetMedidas()
         {
@@ -69,7 +69,7 @@ namespace FrigorificosBle.Almacen.Core.Service
             else
             {
                 _productRepository.Update(producto);
-                
+
             }
         }
 
@@ -90,6 +90,22 @@ namespace FrigorificosBle.Almacen.Core.Service
                     p.Referencia.Contains(dto.Referencia) || p.Codigo == dto.Codigo) && !p.Anulado).
                     Include(p => p.Medida).OrderBy(p => p.Codigo).ToList();
             }
+            return result;
+        }
+
+        public IList<CentroCosto> GetCentroCostos()
+        {
+            _context.Configuration.ProxyCreationEnabled = false;
+            //_context.Configuration.LazyLoadingEnabled = false;
+            return _context.Set<CentroCosto>().ToList();
+        }
+
+
+        public IEnumerable<CentroCosto> GetByName(CentroCostoQueryDto dto)
+        {
+            _context.Configuration.ProxyCreationEnabled = false;
+            IEnumerable<CentroCosto> result = null;
+            result = _context.Set<CentroCosto>().Where(p => (p.Nombre.Contains(dto.Nombre)));
             return result;
         }
     }

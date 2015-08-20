@@ -53,14 +53,14 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return _productoService.GetById(id);
         }
 
-        
+
         [Route("query/{search}")]
         [HttpGet]
         public IEnumerable<Producto> Query(String search)
         {
             ProductoQueryDto dto = new ProductoQueryDto();
             int codigo;
-            int.TryParse(search,out codigo);
+            int.TryParse(search, out codigo);
             dto.Codigo = codigo;
             dto.Nombre = search;
             dto.Referencia = search;
@@ -69,7 +69,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [Route("query/{search}/{esServicio}")]
         [HttpGet]
-        public IEnumerable<Producto> Query(String search,Boolean esServicio)
+        public IEnumerable<Producto> Query(String search, Boolean esServicio)
         {
             ProductoQueryDto dto = new ProductoQueryDto();
             int codigo;
@@ -104,6 +104,21 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _productoService.Save(producto);
             return Request.CreateResponse(HttpStatusCode.OK, id);
         }
-    
+
+        [Route("centroCostos")]
+        [HttpGet]
+        public IEnumerable<CentroCosto> GetCentroCostos()
+        {
+            return _productoService.GetCentroCostos();
+        }
+
+        [Route("GetByName/{search}")]
+        [HttpGet]
+        public IEnumerable<CentroCosto> GetByName(String search)
+        {
+            CentroCostoQueryDto dto = new CentroCostoQueryDto();
+            dto.Nombre = search;
+            return _productoService.GetByName(dto);
+        }
     }
 }

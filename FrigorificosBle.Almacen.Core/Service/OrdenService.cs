@@ -33,6 +33,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         public readonly string ORDEN_COMPRA = TipoOrdenEnum.ORDEN_COMPRA.AsText();
         public readonly string ESTADO = OrdenEstadoEnum.CERRADA.AsText();
 
+
         public OrdenService(IRepository<Orden> ordenRepository, 
             ILog logger, DbContext context)
         {
@@ -197,7 +198,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         {
             _context.Configuration.ProxyCreationEnabled = false;
             IEnumerable<Orden> result = null;
-            result = _context.Set<Orden>().Where(orden => (orden.Numero == ordenNum) && (orden.Anulada == false) && (ORDEN_COMPRA.Equals(orden.Tipo))).Include(ordenItem => ordenItem.OrdenItems).ToList();
+            result = _context.Set<Orden>().Where(orden => (orden.Numero == ordenNum) && (orden.Anulada == false) && (ORDEN_ABIERTA.Equals(orden.Estado)) && (ORDEN_COMPRA.Equals(orden.Tipo))).Include(ordenItem => ordenItem.OrdenItems).ToList();
             return result;
         }
 
