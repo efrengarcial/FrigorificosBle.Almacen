@@ -119,7 +119,7 @@ namespace FrigorificosBle.Almacen.Core.Service
                         entrada.OrdenItem = item;
                         entrada.IdProducto = item.IdProducto;
                         entrada.Cantidad = entradaOrdenItem.Aprovisionado;
-                        entrada.Costo = entradaOrdenItem.Aprovisionado * item.Precio;
+                        entrada.Precio =  item.Precio;
                         item.Entradas.Add(entrada);
 
                         Producto producto=  _context.Set<Producto>().Find(item.IdProducto);
