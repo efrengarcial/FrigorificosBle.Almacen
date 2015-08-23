@@ -31,6 +31,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         public readonly string ORDEN_ABIERTA = OrdenEstadoEnum.ABIERTA.AsText();
         public readonly string ORDEN_EN_CURSO = OrdenEstadoEnum.EN_CURSO.AsText();
         public readonly string ORDEN_COMPRA = TipoOrdenEnum.ORDEN_COMPRA.AsText();
+        public readonly string ORDEN_SERVICIO = TipoOrdenEnum.ORDEN_SERVICIO.AsText();
         public readonly string ESTADO = OrdenEstadoEnum.CERRADA.AsText();
 
         public OrdenService(IRepository<Orden> ordenRepository, 
@@ -162,18 +163,18 @@ namespace FrigorificosBle.Almacen.Core.Service
 
             if (dto.Numero != null)
             {
-                result = query.Where(p => p.Numero == dto.Numero && p.Anulada == false).Include(p => p.Proveedor);
+                result = query.Where(p => p.Numero == dto.Numero ).Include(p => p.Proveedor);
             }
             else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor == null)
             {
                 result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
-                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && p.Anulada == false).Include(p => p.Proveedor);
+                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date ).Include(p => p.Proveedor);
             }
 
             else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor != null)
             {
                 result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
-                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor) && p.Anulada == false).Include(p => p.Proveedor);
+                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor) ).Include(p => p.Proveedor);
             }
             return result.ToList();
         }
@@ -189,7 +190,8 @@ namespace FrigorificosBle.Almacen.Core.Service
         {
             _context.Configuration.ProxyCreationEnabled = false;
             return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado) || ORDEN_EN_CURSO.Equals(orden.Estado))
-                && ORDEN_COMPRA.Equals(orden.Tipo) && orden.Anulada == false).Include(p => p.Proveedor).ToList();
+                && (ORDEN_COMPRA.Equals(orden.Tipo) || ORDEN_SERVICIO.Equals(orden.Tipo)) && orden.Anulada == false).Include(p => p.Proveedor).
+                OrderBy(orden => orden.FechaCreacion ).ToList();
         }
 
 

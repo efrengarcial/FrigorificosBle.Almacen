@@ -107,7 +107,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
                 orden.Estado = OrdenEstadoEnum.EN_CURSO.AsText();
             }
             _ordenService.Save(orden);
-            return Request.CreateResponse(HttpStatusCode.OK, orden.Id);
+            return Request.CreateResponse(HttpStatusCode.OK, orden.Numero);
         }
 
         [HttpPost]
