@@ -21,6 +21,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public string EquipoObra { get; set; }
         public Nullable<long> IdOrden { get; set; }
         public long IdSalida { get; set; }
+        public decimal Precio { get; set; }
     
         public virtual CentroCosto CentroCosto { get; set; }
         public virtual Orden Orden { get; set; }
