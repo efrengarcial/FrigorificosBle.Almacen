@@ -82,10 +82,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dao\EfRepository.cs" />
+    <Compile Include="Domain\CentroCosto.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\Entrada.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\HistoricoProducto.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\InventarioFinal.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\Linea.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\Medida.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\Model\EntradaOrden.cs" />
@@ -107,24 +119,12 @@
       <DependentUpon>Almacen.edmx</DependentUpon>
     </Compile>
     <Compile Include="Dao\AlmacenDbContext.cs" />
-    <Compile Include="Domain\CentroCosto.cs">
-      <DependentUpon>Almacen.tt</DependentUpon>
-    </Compile>
     <Compile Include="Domain\Dto\CentroCostoQueryDto.cs" />
     <Compile Include="Domain\Dto\OrdenQueryDto.cs" />
     <Compile Include="Domain\Dto\ProductoQueryDto.cs" />
     <Compile Include="Domain\Dto\ProveedorQueryDto.cs" />
-    <Compile Include="Domain\Entrada.cs">
-      <DependentUpon>Almacen.tt</DependentUpon>
-    </Compile>
     <Compile Include="Domain\Enum\Enums.cs" />
     <Compile Include="Domain\Enum\Permissions.cs" />
-    <Compile Include="Domain\Linea.cs">
-      <DependentUpon>Almacen.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Domain\Medida.cs">
-      <DependentUpon>Almacen.tt</DependentUpon>
-    </Compile>
     <Compile Include="Domain\Model\Orden.cs" />
     <Compile Include="Domain\Model\Producto.cs" />
     <Compile Include="Domain\Orden.cs">

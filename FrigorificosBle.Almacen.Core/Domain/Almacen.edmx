@@ -144,7 +144,7 @@
           <Property Name="IdCentroCostos" Type="int" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
           <Property Name="EquipoObra" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="IdOrden" Type="bigint" Nullable="false" />
+          <Property Name="IdOrden" Type="bigint" />
           <Property Name="IdSalida" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Salidas">
@@ -274,7 +274,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SalidaItems_Ordenes">
-          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
+          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="0..1" />
           <End Role="SalidaItems" Type="Self.SalidaItems" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ordenes">
@@ -692,10 +692,10 @@
           <Property Type="Int32" Name="IdCentroCostos" Nullable="false" />
           <Property Type="Int32" Name="Cantidad" Nullable="false" />
           <Property Type="String" Name="EquipoObra" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="Int64" Name="IdOrden" Nullable="false" />
+          <Property Type="Int64" Name="IdOrden" Nullable="true" />
           <Property Type="Int64" Name="IdSalida" Nullable="false" />
           <NavigationProperty Name="CentroCosto" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_CentroCostos" FromRole="SalidaItem" ToRole="CentroCosto" />
-          <NavigationProperty Name="Ordene" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Ordenes" FromRole="SalidaItem" ToRole="Orden" />
+          <NavigationProperty Name="Orden" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Ordenes" FromRole="SalidaItem" ToRole="Orden" />
           <NavigationProperty Name="Producto" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Productos" FromRole="SalidaItem" ToRole="Producto" />
           <NavigationProperty Name="Salida" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Salidas" FromRole="SalidaItem" ToRole="Salida" />
         </EntityType>
@@ -722,8 +722,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SalidaItems_Ordenes">
-          <End Type="FrigorificosBle.Almacen.Core.Domain.Orden" Multiplicity="1" Role="Orden" />
-          <End Type="FrigorificosBle.Almacen.Core.Domain.SalidaItem" Multiplicity="*" Role="SalidaItem" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Orden" Role="Orden" Multiplicity="0..1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.SalidaItem" Role="SalidaItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Orden">
               <PropertyRef Name="Id" />

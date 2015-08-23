@@ -9,7 +9,7 @@ namespace FrigorificosBle.Almacen.Util
     public class CommonsTools
     {
         
-        public const string FechaFormato = "dd/MM/yyyy";
+        public const string FechaFormato = "dd/MM/yyyy"; 
 
         public static string GetFixedLengthString(string input, int length)
         {

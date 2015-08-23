@@ -19,11 +19,11 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public int IdCentroCostos { get; set; }
         public int Cantidad { get; set; }
         public string EquipoObra { get; set; }
-        public long IdOrden { get; set; }
+        public Nullable<long> IdOrden { get; set; }
         public long IdSalida { get; set; }
     
         public virtual CentroCosto CentroCosto { get; set; }
-        public virtual Orden Ordene { get; set; }
+        public virtual Orden Orden { get; set; }
         public virtual Producto Producto { get; set; }
         public virtual Salida Salida { get; set; }
     }
