@@ -50,7 +50,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
             foreach (KeyValuePair<string, string> element in queryString)
             {
-                Debug.WriteLine("Value: " + element.Value + " Key: " + element.Key);
+                //Debug.WriteLine("Value: " + element.Value + " Key: " + element.Key);
 
                 switch (element.Key)
                 {
@@ -65,6 +65,9 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
                         break;
                     case "IdProveedor":
                         dto.IdProveedor = Int32.Parse(element.Value);
+                        break;
+                    case "UserId":
+                        dto.UserId = Int32.Parse(element.Value);
                         break;
                     default:
                         break;

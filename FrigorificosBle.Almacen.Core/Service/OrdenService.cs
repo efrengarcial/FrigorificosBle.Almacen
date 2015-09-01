@@ -19,7 +19,7 @@ using System.Diagnostics;
 
 namespace FrigorificosBle.Almacen.Core.Service
 {
-    public class OrdenService: IOrdenService
+    public class OrdenService : IOrdenService
     {
         private readonly IRepository<Orden> _ordenRepository;
 
@@ -35,7 +35,7 @@ namespace FrigorificosBle.Almacen.Core.Service
         public readonly string ESTADO = OrdenEstadoEnum.CERRADA.AsText();
 
 
-        public OrdenService(IRepository<Orden> ordenRepository, 
+        public OrdenService(IRepository<Orden> ordenRepository,
             ILog logger, DbContext context)
         {
             _ordenRepository = ordenRepository;
@@ -69,13 +69,14 @@ namespace FrigorificosBle.Almacen.Core.Service
                     {
                         secuencia = TipoOrdenEnum.REQUISICION_SERVICIO.AsSecuencia();
                     }
-                    
-                    if(orden.IdOrdenBase != null){
+
+                    if (orden.IdOrdenBase != null)
+                    {
                         var requisicion = _ordenRepository.GetById(orden.IdOrdenBase);
                         requisicion.Estado = ESTADO;
-                        _ordenRepository.Update(requisicion);                      
+                        _ordenRepository.Update(requisicion);
                     }
- 
+
                     var numeroOrden = ((AlmacenDbContext)_context).CrearNumeroOrden(secuencia);
                     orden.Numero = numeroOrden.SingleOrDefault().Value;
                     _ordenRepository.Insert(orden);
@@ -108,11 +109,11 @@ namespace FrigorificosBle.Almacen.Core.Service
             using (TransactionScope t = new TransactionScope())
             {
                 Orden orden = GetById(entradaOrden.IdOrden);
-                bool ordenEnCurso = false; 
+                bool ordenEnCurso = false;
 
                 foreach (OrdenItem item in orden.OrdenItems)
                 {
-                    EntradaOrdenItem entradaOrdenItem = entradaOrden.EntadaOrdenItems.Single( e => e.IdOrdenItem == item.Id);
+                    EntradaOrdenItem entradaOrdenItem = entradaOrden.EntadaOrdenItems.Single(e => e.IdOrdenItem == item.Id);
 
                     if (entradaOrdenItem.Aprovisionado > 0)
                     {
@@ -121,10 +122,10 @@ namespace FrigorificosBle.Almacen.Core.Service
                         entrada.OrdenItem = item;
                         entrada.IdProducto = item.IdProducto;
                         entrada.Cantidad = entradaOrdenItem.Aprovisionado;
-                        entrada.Precio =  item.Precio;
+                        entrada.Precio = item.Precio;
                         item.Entradas.Add(entrada);
 
-                        Producto producto=  _context.Set<Producto>().Find(item.IdProducto);
+                        Producto producto = _context.Set<Producto>().Find(item.IdProducto);
                         producto.CantidadInventario = producto.CantidadInventario + entradaOrdenItem.Aprovisionado;
 
                         HistoricoProducto historicoProducto = new HistoricoProducto();
@@ -162,20 +163,35 @@ namespace FrigorificosBle.Almacen.Core.Service
             var query = _context.Set<Orden>();
             IQueryable<Orden> result = null;
 
+            //Search by Number
             if (dto.Numero != null)
             {
-                result = query.Where(p => p.Numero == dto.Numero ).Include(p => p.Proveedor);
+                result = query.Where(p => p.Numero == dto.Numero).Include(p => p.Proveedor);
             }
-            else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor == null)
+            //Search by Date
+            else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor == null && dto.UserId == null)
             {
                 result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
-                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date ).Include(p => p.Proveedor);
+                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date).Include(p => p.Proveedor);
             }
+            //Search by Date and Prveedor
+            else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor != null && dto.UserId == null)
+            {
+                result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor)).Include(p => p.Proveedor);
+            }
+            //Search by Date and User
+            else if (dto.StartDate != null && dto.EndDate != null && dto.UserId != null && dto.IdProveedor == null)
+            {
+                result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                    DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
 
-            else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor != null)
+            }
+            //Search by Date and Proveedor and User
+            else if (dto.StartDate != null && dto.EndDate != null && dto.UserId != null && dto.IdProveedor != null)
             {
                 result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
-                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor) ).Include(p => p.Proveedor);
+                    DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor) && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
             }
             return result.ToList();
         }
@@ -192,7 +208,7 @@ namespace FrigorificosBle.Almacen.Core.Service
             _context.Configuration.ProxyCreationEnabled = false;
             return _context.Set<Orden>().Where(orden => (ORDEN_ABIERTA.Equals(orden.Estado) || ORDEN_EN_CURSO.Equals(orden.Estado))
                 && (ORDEN_COMPRA.Equals(orden.Tipo) || ORDEN_SERVICIO.Equals(orden.Tipo)) && orden.Anulada == false).Include(p => p.Proveedor).
-                OrderBy(orden => orden.FechaCreacion ).ToList();
+                OrderBy(orden => orden.FechaCreacion).ToList();
         }
 
 
