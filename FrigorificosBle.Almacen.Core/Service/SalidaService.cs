@@ -51,9 +51,10 @@ namespace FrigorificosBle.Almacen.Core.Service
                             producto.CantidadInventario = (producto.CantidadInventario - salidaItem.Cantidad);
 
                             HistoricoProducto historicoProducto = new HistoricoProducto();
-                            historicoProducto.Cantidad = (salidaItem.Cantidad * -1);
+                            historicoProducto.Salidas = salidaItem.Cantidad ;
                             historicoProducto.IdProducto = salidaItem.IdProducto;
                             historicoProducto.IdOrden = salidaItem.IdOrden;
+                            historicoProducto.Movimiento = "SALIDA";
                             _context.Set<HistoricoProducto>().Add(historicoProducto);
                         }
                     }

@@ -85,6 +85,7 @@
     <Compile Include="Domain\CentroCosto.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Dto\InventarioFinalDto.cs" />
     <Compile Include="Domain\Entrada.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -153,12 +154,14 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IOrdenService.cs" />
+    <Compile Include="Service\IReportesService.cs" />
     <Compile Include="Service\ISalidaService.cs" />
     <Compile Include="Service\OrdenService.cs" />
     <Compile Include="Service\IProductoService.cs" />
     <Compile Include="Service\IProveedorService.cs" />
     <Compile Include="Service\ProductoService.cs" />
     <Compile Include="Service\ProveedorService.cs" />
+    <Compile Include="Service\ReportesService.cs" />
     <Compile Include="Service\SalidaService.cs" />
     <Compile Include="Util\CommonsTools.cs" />
     <Compile Include="Util\NotProductsInStockException.cs" />
