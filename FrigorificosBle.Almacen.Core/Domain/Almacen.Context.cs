@@ -11,9 +11,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
 {
     using System;
     using System.Data.Entity;
-    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
-    using System.Linq;
     
     public partial class AlmacenContext : DbContext
     {
@@ -40,14 +38,5 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public DbSet<Salida> Salidas { get; set; }
         public DbSet<InventarioFinal> InventarioFinals { get; set; }
         public DbSet<HistoricoProducto> HistoricoProductos { get; set; }
-    
-        public virtual ObjectResult<Nullable<long>> CrearNumeroOrden(string tipoOrden)
-        {
-            var tipoOrdenParameter = tipoOrden != null ?
-                new ObjectParameter("tipoOrden", tipoOrden) :
-                new ObjectParameter("tipoOrden", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("CrearNumeroOrden", tipoOrdenParameter);
-        }
     }
 }

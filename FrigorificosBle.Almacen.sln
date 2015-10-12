@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrigorificosBle.Almacen.SPA", "FrigorificosBle.Almacen.SPA\FrigorificosBle.Almacen.SPA.csproj", "{348E86B7-ED28-4658-9DC4-4A9E01015C5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrigorificosBle.Almacen.Core", "FrigorificosBle.Almacen.Core\FrigorificosBle.Almacen.Core.csproj", "{C46F1B66-17A3-4FD4-9511-E3C859297732}"
@@ -13,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FCDD86
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrigorificosBle.Security", "FrigorificosBle.Security\FrigorificosBle.Security.csproj", "{8EB81B34-334E-4BA1-B392-DF309D7ED1B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrigorificosBle.Almacen.Reports", "FrigorificosBle.Almacen.Reports\FrigorificosBle.Almacen.Reports.csproj", "{3F73E6DE-8DC3-474A-A855-DAC93F08E928}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,12 @@ Global
 		{8EB81B34-334E-4BA1-B392-DF309D7ED1B0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8EB81B34-334E-4BA1-B392-DF309D7ED1B0}.Release|x64.ActiveCfg = Release|x64
 		{8EB81B34-334E-4BA1-B392-DF309D7ED1B0}.Release|x64.Build.0 = Release|x64
+		{3F73E6DE-8DC3-474A-A855-DAC93F08E928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F73E6DE-8DC3-474A-A855-DAC93F08E928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F73E6DE-8DC3-474A-A855-DAC93F08E928}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3F73E6DE-8DC3-474A-A855-DAC93F08E928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F73E6DE-8DC3-474A-A855-DAC93F08E928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F73E6DE-8DC3-474A-A855-DAC93F08E928}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

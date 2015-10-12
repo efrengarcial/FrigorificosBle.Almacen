@@ -30,7 +30,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="IdProducto" Type="int" Nullable="false" />
-          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Entradas" Type="int" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="Salidas" Type="int" Nullable="false" />
+          <Property Name="Movimiento" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IdOrden" Type="bigint" />
         </EntityType>
         <EntityType Name="InventarioFinal">
@@ -38,9 +40,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Fecha" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="IdProducto" Type="int" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Entradas" Type="int" Nullable="false" />
+          <Property Name="Salidas" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Lineas">
           <Key>
@@ -322,9 +326,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="sp_CrearNumeroOrden" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="tipoOrden" Type="varchar" Mode="In" />
-        </Function>
         <EntityContainer Name="FrigorificosBleAlmacenCoreDomainStoreContainer">
           <EntitySet Name="CentroCostos" EntityType="Self.CentroCostos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Entradas" EntityType="Self.Entradas" Schema="dbo" store:Type="Tables" />
@@ -424,9 +425,6 @@
             <End Role="Producto" EntitySet="Productos" />
             <End Role="OrdenItem" EntitySet="OrdenItems" />
           </AssociationSet>
-          <FunctionImport Name="CrearNumeroOrden" ReturnType="Collection(Int64)">
-          <Parameter Name="tipoOrden" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="Entradas" EntityType="FrigorificosBle.Almacen.Core.Domain.Entrada" />
           <AssociationSet Name="FK_Entradas_OrdenItems" Association="FrigorificosBle.Almacen.Core.Domain.FK_Entradas_OrdenItems">
             <End Role="OrdenItem" EntitySet="OrdenItems" />
@@ -764,10 +762,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="None" />
           <Property Type="Int32" Name="IdProducto" Nullable="false" />
           <Property Type="Int32" Name="Cantidad" Nullable="false" />
           <NavigationProperty Name="Producto" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_InventarioFinal_Productos" FromRole="InventarioFinal" ToRole="Producto" />
+          <Property Name="Entradas" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Salidas" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
         </EntityType>
         <Association Name="FK_InventarioFinal_Productos">
           <End Type="FrigorificosBle.Almacen.Core.Domain.Producto" Role="Producto" Multiplicity="1" />
@@ -788,7 +788,9 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="Int32" Name="IdProducto" Nullable="false" />
-          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Name="Entradas" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Salidas" Type="Int32" Nullable="false" />
+          <Property Name="Movimiento" MaxLength="50" FixedLength="false" Unicode="false" Type="String" Nullable="false" />
           <Property Type="Int64" Name="IdOrden" />
           <NavigationProperty Name="Producto" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_HistoricoProductos_Productos" FromRole="HistoricoProducto" ToRole="Producto" />
         </EntityType>
@@ -919,7 +921,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="CrearNumeroOrden" FunctionName="FrigorificosBle.Almacen.Core.Domain.Store.sp_CrearNumeroOrden" />
           <EntitySetMapping Name="Entradas">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Entrada">
               <MappingFragment StoreEntitySet="Entradas">
@@ -967,6 +968,8 @@
           <EntitySetMapping Name="InventarioFinals">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.InventarioFinal">
               <MappingFragment StoreEntitySet="InventarioFinal">
+                <ScalarProperty Name="Salidas" ColumnName="Salidas" />
+                <ScalarProperty Name="Entradas" ColumnName="Entradas" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
@@ -977,8 +980,10 @@
           <EntitySetMapping Name="HistoricoProductos">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.HistoricoProducto">
               <MappingFragment StoreEntitySet="HistoricoProductos">
+                <ScalarProperty Name="Salidas" ColumnName="Salidas" />
+                <ScalarProperty Name="Entradas" ColumnName="Entradas" />
+                <ScalarProperty Name="Movimiento" ColumnName="Movimiento" />
                 <ScalarProperty Name="IdOrden" ColumnName="IdOrden" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

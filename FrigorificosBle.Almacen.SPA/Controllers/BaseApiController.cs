@@ -4,9 +4,12 @@ using FrigorificosBle.Security.Infrastructure;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Linq;
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
@@ -40,6 +43,12 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             get { return Request.GetOwinContext().Authentication; }
         }
 
+        protected List<string> Roles()
+        {
+            return ((ClaimsIdentity)User.Identity).Claims
+                .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value).ToList();
+        }
 
         public BaseApiController()
         {

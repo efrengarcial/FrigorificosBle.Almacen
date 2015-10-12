@@ -18,6 +18,8 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public System.DateTime Fecha { get; set; }
         public int IdProducto { get; set; }
         public int Cantidad { get; set; }
+        public int Entradas { get; set; }
+        public int Salidas { get; set; }
     
         public virtual Producto Producto { get; set; }
     }

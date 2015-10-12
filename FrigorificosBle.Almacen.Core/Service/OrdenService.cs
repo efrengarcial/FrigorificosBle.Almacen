@@ -56,8 +56,8 @@ namespace FrigorificosBle.Almacen.Core.Service
         {
             if (orden.Id == 0)
             {
-                using (TransactionScope t = new TransactionScope())
-                {
+                using (var transaction = _context.Database.BeginTransaction())
+                { 
                     String secuencia = TipoOrdenEnum.REQUISICION.AsSecuencia();
                     if (TipoOrdenEnum.ORDEN_COMPRA.AsText().Equals(orden.Tipo))
                     {
@@ -80,9 +80,9 @@ namespace FrigorificosBle.Almacen.Core.Service
                     }
 
                     var numeroOrden = ((AlmacenDbContext)_context).CrearNumeroOrden(secuencia);
-                    orden.Numero = numeroOrden.SingleOrDefault().Value;
+                    orden.Numero = numeroOrden;
                     _ordenRepository.Insert(orden);
-                    t.Complete();
+                    transaction.Commit();
                 }
             }
             else
@@ -131,9 +131,10 @@ namespace FrigorificosBle.Almacen.Core.Service
                         producto.CantidadInventario = producto.CantidadInventario + entradaOrdenItem.Aprovisionado;
 
                         HistoricoProducto historicoProducto = new HistoricoProducto();
-                        historicoProducto.Cantidad = entradaOrdenItem.Aprovisionado;
+                        historicoProducto.Entradas = entradaOrdenItem.Aprovisionado;
                         historicoProducto.IdProducto = item.IdProducto;
                         historicoProducto.IdOrden = orden.Id;
+                        historicoProducto.Movimiento = "ENTRADA";
                         _context.Set<HistoricoProducto>().Add(historicoProducto);
 
                     }
