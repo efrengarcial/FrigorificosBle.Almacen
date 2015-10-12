@@ -10,6 +10,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Linq;
+using Newtonsoft.Json;
+using System;
 
 namespace FrigorificosBle.Almacen.SPA.Controllers
 {
@@ -48,6 +50,14 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return ((ClaimsIdentity)User.Identity).Claims
                 .Where(c => c.Type == ClaimTypes.Role)
                 .Select(c => c.Value).ToList();
+        }
+
+        protected List<String> Permissions()
+        {
+            Claim permission = ((ClaimsIdentity)User.Identity).Claims.Single(c => c.Type.Equals("permissions"));
+            string permissionsString = permission.Value;
+
+            return JsonConvert.DeserializeObject<List<String>>(permissionsString);
         }
 
         public BaseApiController()
