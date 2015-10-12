@@ -17,6 +17,8 @@ using FrigorificosBle.Almacen.Core.Domain.Enum;
 using System.Diagnostics;
 
 
+
+
 namespace FrigorificosBle.Almacen.Core.Service
 {
     public class OrdenService : IOrdenService
@@ -168,6 +170,7 @@ namespace FrigorificosBle.Almacen.Core.Service
             {
                 result = query.Where(p => p.Numero == dto.Numero).Include(p => p.Proveedor);
             }
+
             //Search by Date
             else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor == null && dto.UserId == null)
             {

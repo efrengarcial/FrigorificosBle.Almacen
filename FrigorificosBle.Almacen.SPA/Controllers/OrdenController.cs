@@ -68,7 +68,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
                         break;
                     case "UserId":
                         dto.UserId = Int32.Parse(element.Value);
-                        break;
+                        break;                        
                     default:
                         break;
                 }                
@@ -147,6 +147,21 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         public IEnumerable<Orden> GetOrdenByNum(long ordenNum)
         {
             return _ordenService.GetOrdenByNum(ordenNum);
+        }
+
+        //[Authorize(Roles = "Admin")]
+        [Route("user/{id:guid}", Name = "GetUserById")]
+        public async Task<IHttpActionResult> GetUser(int Id)
+        {
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var user = await this.AppUserManager.FindByIdAsync(Id);
+
+            if (user != null)
+            {
+                return Ok(this.TheModelFactory.Create(user));
+            }
+
+            return NotFound();
         }
     }
 }
