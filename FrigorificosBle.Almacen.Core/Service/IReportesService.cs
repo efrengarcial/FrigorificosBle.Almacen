@@ -11,6 +11,6 @@ namespace FrigorificosBle.Almacen.Core.Service
 {
     public interface IReportesService
     {
-        InventarioFinalDto ConsultarInventarioFinal(DateTime fechaIni, DateTime fechaFin);
+        List<InventarioFinalDto> ConsultarInventarioFinal(DateTime fechaIni, DateTime fechaFin);
     }
 }
