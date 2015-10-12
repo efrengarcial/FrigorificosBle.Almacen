@@ -1,4 +1,6 @@
-﻿using FrigorificosBle.Almacen.SPA.Models;
+﻿using FrigorificosBle.Almacen.Core.Service;
+using FrigorificosBle.Almacen.SPA.Models;
+using log4net;
 using Microsoft.Reporting.WebForms;
 using Newtonsoft.Json;
 using System;
@@ -17,6 +19,17 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
     [RoutePrefix("api/SSRSReporting")]
     public class SSRSReportingController : BaseApiController
     {
+
+        private readonly IReportesService _reportesService;
+        private readonly ILog _logger;
+
+
+        public SSRSReportingController(IReportesService reportesService, ILog logger)
+        {
+            _reportesService = reportesService;
+            _logger = logger;
+        } 
+
         [HttpPost]
         [Route("saveReport")]
         public HttpResponseMessage SaveReport([FromBody]ReportDto reportDto)
@@ -41,7 +54,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
                 if (reportDto.DataSources != null)
                 {
-                    var dt = new DataTable();
+                    /*var dt = new DataTable();
 
                     foreach (DataSource dataSource in reportDto.DataSources)
                     {                
@@ -55,9 +68,12 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
                         dr[index] = reportDto.DataSources[index].Data;
                     }
 
-                    dt.Rows.Add(dr);
+                    dt.Rows.Add(dr);*/
 
-                    reportViewer.LocalReport.DataSources.Add(new ReportDataSource(reportDto.ReportDataSourceName, dt));
+                    var dataSource =  _reportesService.ConsultarInventarioFinal(DateTime.Now.AddDays(-100), DateTime.Now);
+
+
+                    reportViewer.LocalReport.DataSources.Add(new ReportDataSource(reportDto.ReportDataSourceName, dataSource));
                 }
 
                 Warning[] warnings;

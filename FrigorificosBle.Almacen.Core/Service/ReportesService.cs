@@ -28,10 +28,11 @@ namespace FrigorificosBle.Almacen.Core.Service
             _context = context;
         }
 
-        public InventarioFinalDto ConsultarInventarioFinal(DateTime fechaIni, DateTime fechaFin)
+        public List<InventarioFinalDto> ConsultarInventarioFinal(DateTime fechaIni, DateTime fechaFin)
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            var consolidado = _context.Set<InventarioFinal>().Where(i => i.Fecha >= fechaIni.AddDays(-1) &&
+            DateTime fechaIniOneDayBefore = fechaIni.AddDays(-1);
+            var consolidado = _context.Set<InventarioFinal>().Where(i => i.Fecha >= fechaIniOneDayBefore &&
                 i.Fecha <= fechaFin).
                     GroupBy(row => new { row.IdProducto  } ).
                     Select(g => new InventarioFinalDto
@@ -40,9 +41,9 @@ namespace FrigorificosBle.Almacen.Core.Service
                         Entradas = g.Sum( s => s.Entradas),
                         Salidas = g.Sum(s => s.Salidas
                         )
-                    });
+                    }).ToList();
                    
-            return null;
+            return consolidado;
         }
     }
 }

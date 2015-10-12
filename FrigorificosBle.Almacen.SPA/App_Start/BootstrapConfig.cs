@@ -37,6 +37,7 @@ namespace FrigorificosBle.Almacen.SPA
             container.RegisterWebApiRequest<IProveedorService, ProveedorService>();
             container.RegisterWebApiRequest<IOrdenService, OrdenService>();
             container.RegisterWebApiRequest<ISalidaService, SalidaService>();
+            container.RegisterWebApiRequest<IReportesService, ReportesService>();
 
             var logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             container.RegisterSingle(logger);
