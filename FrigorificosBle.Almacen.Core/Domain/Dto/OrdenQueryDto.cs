@@ -14,6 +14,7 @@ namespace FrigorificosBle.Almacen.Core.Domain.Dto
         public Nullable<DateTime> StartDate { get; set; }
         public Nullable<DateTime> EndDate { get; set; }
         public Nullable<Int32> UserId { get; set; }
+        public Boolean ConsultarTodasLasOrdenes = false;
 
     }
 }
