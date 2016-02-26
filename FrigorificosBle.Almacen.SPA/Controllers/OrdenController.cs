@@ -38,7 +38,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _ordenService = ordenService;
             _logger = logger;
         }
-      
+
 
         [HttpGet]
         [Route("query")]
@@ -47,6 +47,23 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         {
             var queryString = this.Request.GetQueryStrings();
             OrdenQueryDto dto = new OrdenQueryDto();
+
+            List<String> permissions = this.Permissions();
+            string value = "CONSULTAR_TODAS_LAS_ORDENES";
+            _logger.Info(permissions);
+
+            int index = permissions.IndexOf(value);
+
+            if (index != -1)
+            {
+                dto.ConsultarTodasLasOrdenes = true;
+                _logger.Info("ALMACENISTA");
+            }
+            else
+            {
+                dto.ConsultarTodasLasOrdenes = false;
+                _logger.Info("OPERARIO");
+            }
 
             foreach (KeyValuePair<string, string> element in queryString)
             {
@@ -71,7 +88,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
                         break;
                     default:
                         break;
-                }                
+                }
             }
             return _ordenService.Query(dto);
         }
@@ -93,7 +110,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             _ordenService.SaveEntrada(entrada);
             return Request.CreateResponse(HttpStatusCode.OK, entrada.IdOrden);
         }
-      
+
         [HttpPost]
         [Route("save")]
         [ClaimsAuthorization(Permission = "ORDEN_COMPRA, REQUISICION, ORDEN_SERVICIO ,REQUISICION_SERVICIO")]
@@ -129,7 +146,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         [ClaimsAuthorization(Permission = "REQUISICIONES_POR_PROCESAR")]
         public IEnumerable<Orden> GetInboxOrden()
         {
-            return _ordenService.GetInboxOrden(); 
+            return _ordenService.GetInboxOrden();
 
         }
 

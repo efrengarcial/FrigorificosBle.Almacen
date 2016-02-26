@@ -17,6 +17,8 @@ using FrigorificosBle.Almacen.Core.Domain.Enum;
 using System.Diagnostics;
 
 
+
+
 namespace FrigorificosBle.Almacen.Core.Service
 {
     public class OrdenService : IOrdenService
@@ -55,7 +57,7 @@ namespace FrigorificosBle.Almacen.Core.Service
             if (orden.Id == 0)
             {
                 using (var transaction = _context.Database.BeginTransaction())
-                { 
+                {
                     String secuencia = TipoOrdenEnum.REQUISICION.AsSecuencia();
                     if (TipoOrdenEnum.ORDEN_COMPRA.AsText().Equals(orden.Tipo))
                     {
@@ -163,36 +165,75 @@ namespace FrigorificosBle.Almacen.Core.Service
             //_context.Configuration.LazyLoadingEnabled = false;
             var query = _context.Set<Orden>();
             IQueryable<Orden> result = null;
+            
+            //CONSULTA DE ALMACENISTA
+            if (dto.ConsultarTodasLasOrdenes == true)
+            {
+                //Search by Number
+                if (dto.Numero != null)
+                {
+                    result = query.Where(p => p.Numero == dto.Numero).Include(p => p.Proveedor);
+                }
 
-            //Search by Number
-            if (dto.Numero != null)
-            {
-                result = query.Where(p => p.Numero == dto.Numero).Include(p => p.Proveedor);
-            }
-            //Search by Date
-            else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor == null && dto.UserId == null)
-            {
-                result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
-                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date).Include(p => p.Proveedor);
-            }
-            //Search by Date and Prveedor
-            else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor != null && dto.UserId == null)
-            {
-                result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
-                     DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor)).Include(p => p.Proveedor);
-            }
-            //Search by Date and User
-            else if (dto.StartDate != null && dto.EndDate != null && dto.UserId != null && dto.IdProveedor == null)
-            {
-                result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
-                    DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
+                //Search by Date
+                else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor == null && dto.UserId == null)
+                {
+                    result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                         DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date).Include(p => p.Proveedor);
+                }
+                //Search by Date and Prveedor
+                else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor != null && dto.UserId == null)
+                {
+                    result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                         DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor)).Include(p => p.Proveedor);
+                }
+                //Search by Date and User
+                else if (dto.StartDate != null && dto.EndDate != null && dto.UserId != null && dto.IdProveedor == null)
+                {
+                    result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                        DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
 
+                }
+                //Search by Date and Proveedor and User
+                else if (dto.StartDate != null && dto.EndDate != null && dto.UserId != null && dto.IdProveedor != null)
+                {
+                    result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                        DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor) && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
+                }
             }
-            //Search by Date and Proveedor and User
-            else if (dto.StartDate != null && dto.EndDate != null && dto.UserId != null && dto.IdProveedor != null)
-            {
-                result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
-                    DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor) && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
+            else
+            {   //CONSULTA DE OPERARIO
+                //Search by Number
+                if (dto.Numero != null && dto.UserId != null)
+                {
+                    result = query.Where(p => p.Numero == dto.Numero && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
+                }
+
+                //Search by Date
+                else if (dto.StartDate != null && dto.EndDate != null && dto.UserId != null && dto.IdProveedor == null)
+                {
+                    result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                         DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
+                }
+                //Search by Date and Prveedor
+                else if (dto.StartDate != null && dto.EndDate != null && dto.IdProveedor != null && dto.UserId != null)
+                {
+                    result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                         DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor) && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
+                }
+                //Search by Date and User
+                else if (dto.StartDate != null && dto.EndDate != null && dto.UserId != null && dto.IdProveedor == null)
+                {
+                    result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                        DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
+
+                }
+                //Search by Date and Proveedor and User
+                else if (dto.StartDate != null && dto.EndDate != null && dto.UserId != null && dto.IdProveedor != null)
+                {
+                    result = query.Where(p => DbFunctions.TruncateTime(p.FechaCreacion) >= ((DateTime)dto.StartDate).Date &&
+                        DbFunctions.TruncateTime((DateTime)p.FechaCreacion) <= ((DateTime)dto.EndDate).Date && (p.IdProveedor == dto.IdProveedor) && (p.UserId == dto.UserId)).Include(p => p.Proveedor);
+                }
             }
             return result.ToList();
         }
