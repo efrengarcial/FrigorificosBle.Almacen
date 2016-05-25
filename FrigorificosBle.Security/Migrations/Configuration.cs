@@ -22,7 +22,7 @@ namespace FrigorificosBle.Security.Migrations
 
             var user = new ApplicationUser()
             {
-                UserName = "efren.gl@gmail.com",
+                UserName = "Almacenista",
                 Email = "efren.gl@gmail.com",
                 EmailConfirmed = true,
                 FirstName = "Efren",
@@ -45,7 +45,7 @@ namespace FrigorificosBle.Security.Migrations
 
             var user1 = new ApplicationUser()
             {
-                UserName = "dariodeath@gmail.com",
+                UserName = "Operario",
                 Email = "dariodeath@gmail.com",
                 EmailConfirmed = true,
                 FirstName = "German",
@@ -70,8 +70,8 @@ namespace FrigorificosBle.Security.Migrations
             var identity2 = manager.Create(user2, "Passw0rd");
 
 
-            var adminUser = manager.FindByName("efren.gl@gmail.com");
-            var adminUser1 = manager.FindByName("dariodeath@gmail.com");
+            var adminUser = manager.FindByName("Almacenista");
+            var adminUser1 = manager.FindByName("Operario");
             var adminUser2 = manager.FindByName("monica.garcia@gmail.com");
 
             manager.AddToRoles(adminUser.Id, new string[] { "Almacenista" });

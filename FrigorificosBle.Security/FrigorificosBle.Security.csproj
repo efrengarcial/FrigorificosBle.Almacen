@@ -141,11 +141,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\TypeConfigurationExtensions.cs" />
+    <Compile Include="Infrastructure\AppClientOAuthProvider.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager .cs" />
     <Compile Include="Infrastructure\ApplicationUserManager.cs" />
     <Compile Include="Infrastructure\AppOAuthProvider.cs" />
     <Compile Include="Infrastructure\CustomJwtFormat.cs" />
     <Compile Include="Infrastructure\PermissionsFromClaims.cs" />
+    <Compile Include="Infrastructure\RefreshTokenProvider.cs" />
     <Compile Include="Migrations\201507111714044_InitialCreate.cs" />
     <Compile Include="Migrations\201507111714044_InitialCreate.Designer.cs">
       <DependentUpon>201507111714044_InitialCreate.cs</DependentUpon>

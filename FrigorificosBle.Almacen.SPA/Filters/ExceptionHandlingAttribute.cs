@@ -14,7 +14,7 @@ namespace FrigorificosBle.Almacen.SPA.Filters
 {
     public class ExceptionHandlingAttribute : ExceptionFilterAttribute
     {
-        protected static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);  
+        protected static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public override void OnException(HttpActionExecutedContext context)
         {
@@ -22,11 +22,15 @@ namespace FrigorificosBle.Almacen.SPA.Filters
             {
                 //Log Critical errors
                 _logger.Error(context.Exception);
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                /*throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
                 {
                     //Content = new StringContent(context.Exception.Message),
                     ReasonPhrase = context.Exception.InnerException.Message
-                });
+                });*/
+
+                var errorMessagError = new System.Web.Http.HttpError(context.Exception.InnerException.Message) { { "ErrorCode", 500 } };
+                context.Response =
+                    context.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, errorMessagError);
             }
             else if (context.Exception is DbEntityValidationException)
             {
@@ -43,11 +47,15 @@ namespace FrigorificosBle.Almacen.SPA.Filters
                 var exceptionMessage = string.Concat(dbEx.Message, " The validation errors are: ", fullErrorMessage);
                 _logger.Error(exceptionMessage);
 
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                /*throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
                    // Content = new StringContent("An error occurred, please try again or contact the administrator."),
                     ReasonPhrase = exceptionMessage
-                });
+                });*/
+
+                var errorMessagError = new System.Web.Http.HttpError(exceptionMessage) { { "ErrorCode", 500 } };
+                context.Response =
+                    context.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, errorMessagError);
             }
             else
             {
@@ -55,11 +63,16 @@ namespace FrigorificosBle.Almacen.SPA.Filters
                 //Log Critical errors
                 _logger.Error(context.Exception);
 
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
-                {
-                    //Content = new StringContent("An error occurred, please try again or contact the administrator."),
-                    ReasonPhrase = context.Exception.Message
-                });
+                /* throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                 {
+                     //Content = new StringContent("An error occurred, please try again or contact the administrator."),
+                     Content = new StringContent(context.Exception.Message),
+                     ReasonPhrase = context.Exception.Message
+                 });*/
+                var errorMessagError = new System.Web.Http.HttpError(context.Exception.Message) { { "ErrorCode", 500 } };
+                context.Response =
+                    context.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, errorMessagError);
+
             }
         }
     }
