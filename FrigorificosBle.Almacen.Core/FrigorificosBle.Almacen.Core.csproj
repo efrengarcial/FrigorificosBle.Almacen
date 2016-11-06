@@ -129,6 +129,9 @@
     <Compile Include="Domain\Enum\Permissions.cs" />
     <Compile Include="Domain\Model\Orden.cs" />
     <Compile Include="Domain\Model\Producto.cs" />
+    <Compile Include="Domain\Moneda.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\Orden.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
@@ -151,6 +154,9 @@
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\SubLinea.cs">
+      <DependentUpon>Almacen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\SubOrden.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -24,6 +24,7 @@ namespace FrigorificosBle.Almacen.Core.Service
     public class OrdenService : IOrdenService
     {
         private readonly IRepository<Orden> _ordenRepository;
+        private readonly IRepository<SubOrden> _subOrdenRepository;
 
         private readonly ILog _logger;
         private readonly DbContext _context;
@@ -34,13 +35,14 @@ namespace FrigorificosBle.Almacen.Core.Service
         public readonly string ORDEN_EN_CURSO = OrdenEstadoEnum.EN_CURSO.AsText();
         public readonly string ORDEN_COMPRA = TipoOrdenEnum.ORDEN_COMPRA.AsText();
         public readonly string ORDEN_SERVICIO = TipoOrdenEnum.ORDEN_SERVICIO.AsText();
-        public readonly string ESTADO = OrdenEstadoEnum.CERRADA.AsText();
+        public readonly string ESTADO_CERRADA = OrdenEstadoEnum.CERRADA.AsText();
 
 
-        public OrdenService(IRepository<Orden> ordenRepository,
+        public OrdenService(IRepository<Orden> ordenRepository, IRepository<SubOrden> subOrdenRepository,
             ILog logger, DbContext context)
         {
             _ordenRepository = ordenRepository;
+            _subOrdenRepository = subOrdenRepository;
             _logger = logger;
             _context = context;
         }
@@ -48,8 +50,11 @@ namespace FrigorificosBle.Almacen.Core.Service
         public Orden GetById(long id)
         {
 
-            //_context.Set<Orden>().Single(o => o.Id == id)
-            return _ordenRepository.GetById(id);
+            _context.Configuration.ProxyCreationEnabled = false;
+            return _context.Set<Orden>().Include(o=> o.OrdenItems)
+                                        .Include(o => o.Proveedor)
+                                        .Include(o => o.OrdenItems.Select(oi=> oi.Producto))
+                                        .Single(o => o.Id == id);
         }
 
         public void Save(Orden orden)
@@ -71,17 +76,28 @@ namespace FrigorificosBle.Almacen.Core.Service
                     {
                         secuencia = TipoOrdenEnum.REQUISICION_SERVICIO.AsSecuencia();
                     }
+                
+
+                    var numeroOrden = ((AlmacenDbContext)_context).CrearNumeroOrden(secuencia);
+                    orden.Numero = numeroOrden;       
+                   
+
+                    _ordenRepository.Insert(orden);
+
 
                     if (orden.IdOrdenBase != null)
                     {
                         var requisicion = _ordenRepository.GetById(orden.IdOrdenBase);
-                        requisicion.Estado = ESTADO;
+                        //requisicion.Estado = ESTADO_CERRADA;
                         _ordenRepository.Update(requisicion);
+                        SubOrden subOrden = new SubOrden();
+                        subOrden.IdOrdenPadre = requisicion.Id;
+                        subOrden.IdOrden = orden.Id;
+                        _subOrdenRepository.Insert(subOrden);
+
+                        orden.SubOrdenes.Add(subOrden);
                     }
 
-                    var numeroOrden = ((AlmacenDbContext)_context).CrearNumeroOrden(secuencia);
-                    orden.Numero = numeroOrden;
-                    _ordenRepository.Insert(orden);
                     transaction.Commit();
                 }
             }
@@ -162,7 +178,6 @@ namespace FrigorificosBle.Almacen.Core.Service
         public IEnumerable<Orden> Query(OrdenQueryDto dto)
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            //_context.Configuration.LazyLoadingEnabled = false;
             var query = _context.Set<Orden>();
             IQueryable<Orden> result = null;
             

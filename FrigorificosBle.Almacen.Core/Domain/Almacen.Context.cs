@@ -38,5 +38,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public DbSet<Salida> Salidas { get; set; }
         public DbSet<InventarioFinal> InventarioFinals { get; set; }
         public DbSet<HistoricoProducto> HistoricoProductos { get; set; }
+        public DbSet<Moneda> Monedas { get; set; }
+        public DbSet<SubOrden> SubOrdens { get; set; }
     }
 }

@@ -29,16 +29,19 @@ namespace FrigorificosBle.Almacen.Core.Service
         private readonly IRepository<Producto> _productRepository;
         private readonly IRepository<Linea> _lineaRepository;
         private readonly IRepository<Medida> _medidaRepository;
+        private readonly IRepository<Moneda> _monedaRepository;
         private readonly ILog _logger;
         private readonly DbContext _context;
 
         public ProductoService(IRepository<Producto> productRepository,
-            IRepository<Linea> lineaRepository, IRepository<Medida> medidaRepository,
+            IRepository<Linea> lineaRepository, IRepository<Medida> medidaRepository, 
+            IRepository<Moneda> monedaRepository,
             ILog logger, DbContext context)
         {
             _productRepository = productRepository;
             _lineaRepository = lineaRepository;
             _medidaRepository = medidaRepository;
+            _monedaRepository = monedaRepository;
             _logger = logger;
             _context = context;
         }
@@ -46,7 +49,6 @@ namespace FrigorificosBle.Almacen.Core.Service
         public IList<Linea> GetLineas()
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            _context.Configuration.LazyLoadingEnabled = false;
             return _context.Set<Linea>().Include(l => l.SubLineas).ToList();//_lineaRepository.GetAll();
         }
 
@@ -54,6 +56,12 @@ namespace FrigorificosBle.Almacen.Core.Service
         {
             return _medidaRepository.GetAll();
         }
+
+        public IList<Moneda> GetMonedas()
+        {
+            return _monedaRepository.GetAll();
+        }
+
 
         public Producto GetById(long id)
         {
@@ -76,7 +84,6 @@ namespace FrigorificosBle.Almacen.Core.Service
         public IEnumerable<Producto> Query(ProductoQueryDto dto)
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            _context.Configuration.LazyLoadingEnabled = false;
             IEnumerable<Producto> result = null;
             if (dto.EsServicio != null)
             {
@@ -96,7 +103,6 @@ namespace FrigorificosBle.Almacen.Core.Service
         public IList<CentroCosto> GetCentroCostos()
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            //_context.Configuration.LazyLoadingEnabled = false;
             return _context.Set<CentroCosto>().ToList();
         }
 

@@ -45,6 +45,13 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
             return _productoService.GetMedidas();
         }
 
+        [Route("monedas")]
+        [HttpGet]
+        public IEnumerable<Moneda> GeMonedas()
+        {
+            return _productoService.GetMonedas();
+        }
+
         // GET api/producto/5
         [Route("getById/{Id}")]
         [HttpGet]

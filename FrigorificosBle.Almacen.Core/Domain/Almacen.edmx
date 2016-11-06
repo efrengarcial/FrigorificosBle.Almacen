@@ -30,7 +30,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="IdProducto" Type="int" Nullable="false" />
-          <Property Name="Entradas" Type="int" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="Entradas" Type="int" Nullable="false" />
           <Property Name="Salidas" Type="int" Nullable="false" />
           <Property Name="Movimiento" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IdOrden" Type="bigint" />
@@ -61,6 +61,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Codigo" Type="int" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Monedas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Ordenes">
           <Key>
@@ -105,6 +112,7 @@
           <Property Name="Ubicacion" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IdLinea" Type="int" Nullable="false" />
           <Property Name="IdSubLinea" Type="int" Nullable="false" />
+          <Property Name="IdMoneda" Type="int" Nullable="false" />
           <Property Name="Maximo" Type="int" Nullable="false" />
           <Property Name="Minimo" Type="int" Nullable="false" />
           <Property Name="IdMedida" Type="int" Nullable="false" />
@@ -112,8 +120,8 @@
           <Property Name="Precio" Type="decimal" Precision="14" Scale="2" Nullable="false" />
           <Property Name="Promocion" Type="bit" Nullable="false" />
           <Property Name="Anulado" Type="bit" Nullable="false" />
-          <Property Name="Descripcion" Type="ntext" />
           <Property Name="CantidadInventario" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="ntext" />
         </EntityType>
         <EntityType Name="Proveedores">
           <Key>
@@ -170,6 +178,14 @@
           <Property Name="Codigo" Type="int" Nullable="false" />
           <Property Name="IdLinea" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="SubOrdenes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdOrdenPadre" Type="bigint" Nullable="false" />
+          <Property Name="IdOrden" Type="bigint" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Entradas_OrdenItems">
           <End Role="OrdenItems" Type="Self.OrdenItems" Multiplicity="1" />
           <End Role="Entradas" Type="Self.Entradas" Multiplicity="*" />
@@ -206,6 +222,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Orden_Hija">
+          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
+          <End Role="SubOrdenes" Type="Self.SubOrdenes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubOrdenes">
+              <PropertyRef Name="IdOrden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orden_Padre">
+          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
+          <End Role="SubOrdenes" Type="Self.SubOrdenes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubOrdenes">
+              <PropertyRef Name="IdOrdenPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Ordenes_Proveedores">
           <End Role="Proveedores" Type="Self.Proveedores" Multiplicity="0..1" />
           <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="*" />
@@ -227,6 +267,18 @@
             </Principal>
             <Dependent Role="Productos">
               <PropertyRef Name="IdMedida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos_Monedas">
+          <End Role="Monedas" Type="Self.Monedas" Multiplicity="1" />
+          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Monedas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="IdMoneda" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -333,6 +385,7 @@
           <EntitySet Name="InventarioFinal" EntityType="Self.InventarioFinal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lineas" EntityType="Self.Lineas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Medidas" EntityType="Self.Medidas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Monedas" EntityType="Self.Monedas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ordenes" EntityType="Self.Ordenes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrdenItems" EntityType="Self.OrdenItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
@@ -340,6 +393,7 @@
           <EntitySet Name="SalidaItems" EntityType="Self.SalidaItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Salidas" EntityType="Self.Salidas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubLineas" EntityType="Self.SubLineas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubOrdenes" EntityType="Self.SubOrdenes" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Entradas_OrdenItems" Association="Self.FK_Entradas_OrdenItems">
             <End Role="OrdenItems" EntitySet="OrdenItems" />
             <End Role="Entradas" EntitySet="Entradas" />
@@ -352,12 +406,24 @@
             <End Role="Productos" EntitySet="Productos" />
             <End Role="InventarioFinal" EntitySet="InventarioFinal" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orden_Hija" Association="Self.FK_Orden_Hija">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="SubOrdenes" EntitySet="SubOrdenes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orden_Padre" Association="Self.FK_Orden_Padre">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="SubOrdenes" EntitySet="SubOrdenes" />
+          </AssociationSet>
           <AssociationSet Name="FK_Ordenes_Proveedores" Association="Self.FK_Ordenes_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="Ordenes" EntitySet="Ordenes" />
           </AssociationSet>
           <AssociationSet Name="FK_Productos_Medidas" Association="Self.FK_Productos_Medidas">
             <End Role="Medidas" EntitySet="Medidas" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_Monedas" Association="Self.FK_Productos_Monedas">
+            <End Role="Monedas" EntitySet="Monedas" />
             <End Role="Productos" EntitySet="Productos" />
           </AssociationSet>
           <AssociationSet Name="FK_Productos_SubLineas" Association="Self.FK_Productos_SubLineas">
@@ -463,6 +529,20 @@
             <End Role="Producto" EntitySet="Productos" />
             <End Role="HistoricoProducto" EntitySet="HistoricoProductos" />
           </AssociationSet>
+          <EntitySet Name="Monedas" EntityType="FrigorificosBle.Almacen.Core.Domain.Moneda" />
+          <AssociationSet Name="FK_Productos_Monedas" Association="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Monedas">
+            <End Role="Moneda" EntitySet="Monedas" />
+            <End Role="Producto" EntitySet="Productos" />
+          </AssociationSet>
+          <EntitySet Name="SubOrdens" EntityType="FrigorificosBle.Almacen.Core.Domain.SubOrden" />
+          <AssociationSet Name="FK_Orden_Hija" Association="FrigorificosBle.Almacen.Core.Domain.FK_Orden_Hija">
+            <End Role="Orden" EntitySet="Ordens" />
+            <End Role="SubOrdene" EntitySet="SubOrdens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orden_Padre" Association="FrigorificosBle.Almacen.Core.Domain.FK_Orden_Padre">
+            <End Role="Orden" EntitySet="Ordens" />
+            <End Role="SubOrdene" EntitySet="SubOrdens" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Producto">
           <Key>
@@ -487,6 +567,8 @@
           <NavigationProperty Name="SubLinea" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_SubLineas" FromRole="Producto" ToRole="SubLinea" />
           <Property Type="Boolean" Name="Anulado" Nullable="false" />
           <Property Type="Int32" Name="CantidadInventario" Nullable="false" />
+          <Property Name="IdMoneda" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Moneda" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Monedas" FromRole="Producto" ToRole="Moneda" />
         </EntityType>
         <EntityType Name="Linea">
           <Key>
@@ -596,6 +678,7 @@
           <NavigationProperty Name="OrdenItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_ProductosOrdenes_Ordenes" FromRole="Ordene" ToRole="OrdenItem" />
           <NavigationProperty Name="Proveedor" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" FromRole="Orden" ToRole="Proveedor" />
           <NavigationProperty Name="SalidaItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Ordenes" FromRole="Orden" ToRole="SalidaItem" />
+          <NavigationProperty Name="SubOrdenes" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Orden_Padre" FromRole="Orden" ToRole="SubOrdene" />
         </EntityType>
         <EntityType Name="OrdenItem">
           <Key>
@@ -806,6 +889,60 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Moneda">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Productos" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Productos_Monedas" FromRole="Moneda" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_Productos_Monedas">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Moneda" Role="Moneda" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Producto" Role="Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="IdMoneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SubOrden">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOrdenPadre" Type="Int64" Nullable="false" />
+          <Property Name="IdOrden" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Orden" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Orden_Hija" FromRole="SubOrdene" ToRole="Orden" />
+          <NavigationProperty Name="OrdenPadre" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Orden_Padre" FromRole="SubOrdene" ToRole="Orden" />
+        </EntityType>
+        <Association Name="FK_Orden_Hija">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Orden" Role="Orden" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.SubOrden" Role="SubOrdene" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubOrdene">
+              <PropertyRef Name="IdOrden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orden_Padre">
+          <End Type="FrigorificosBle.Almacen.Core.Domain.Orden" Role="Orden" Multiplicity="1" />
+          <End Type="FrigorificosBle.Almacen.Core.Domain.SubOrden" Role="SubOrdene" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubOrdene">
+              <PropertyRef Name="IdOrdenPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -815,6 +952,7 @@
           <EntitySetMapping Name="Productos">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Producto">
               <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
                 <ScalarProperty Name="CantidadInventario" ColumnName="CantidadInventario" />
                 <ScalarProperty Name="EsServicio" ColumnName="EsServicio" />
                 <ScalarProperty Name="Anulado" ColumnName="Anulado" />
@@ -986,6 +1124,23 @@
                 <ScalarProperty Name="IdOrden" ColumnName="IdOrden" />
                 <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Monedas">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Moneda">
+              <MappingFragment StoreEntitySet="Monedas">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubOrdens">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.SubOrden">
+              <MappingFragment StoreEntitySet="SubOrdenes">
+                <ScalarProperty Name="IdOrden" ColumnName="IdOrden" />
+                <ScalarProperty Name="IdOrdenPadre" ColumnName="IdOrdenPadre" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

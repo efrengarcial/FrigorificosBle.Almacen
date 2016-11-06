@@ -51,7 +51,6 @@ namespace FrigorificosBle.Almacen.Core.Service
         public IEnumerable<Proveedor> Query(ProveedorQueryDto dto)
         {
             _context.Configuration.ProxyCreationEnabled = false;
-            _context.Configuration.LazyLoadingEnabled = false;
             IEnumerable<Proveedor> result = _context.Set<Proveedor>().Where(p => (p.Nombre.Contains(dto.Nombre) ||
                 p.Nit == dto.Nit) && !p.Anulado).OrderBy(p => p.Nit).ToList();
             return result;

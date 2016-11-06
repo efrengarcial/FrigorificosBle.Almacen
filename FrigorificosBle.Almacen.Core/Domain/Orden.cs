@@ -18,6 +18,7 @@ namespace FrigorificosBle.Almacen.Core.Domain
         {
             this.OrdenItems = new HashSet<OrdenItem>();
             this.SalidaItems = new HashSet<SalidaItem>();
+            this.SubOrdenes = new HashSet<SubOrden>();
         }
     
         public long Id { get; set; }
@@ -38,5 +39,6 @@ namespace FrigorificosBle.Almacen.Core.Domain
         public virtual ICollection<OrdenItem> OrdenItems { get; set; }
         public virtual Proveedor Proveedor { get; set; }
         public virtual ICollection<SalidaItem> SalidaItems { get; set; }
+        public virtual ICollection<SubOrden> SubOrdenes { get; set; }
     }
 }
