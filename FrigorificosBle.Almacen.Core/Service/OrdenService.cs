@@ -280,11 +280,12 @@ namespace FrigorificosBle.Almacen.Core.Service
         public List<Calendario> GetFechaEntregaOrden(CalendarQueryDto dto)
         {
             List<Calendario> datesResult = new List<Calendario>();
-            DateTime fechaFinal = dto.Fecha.AddDays(120);
+            DateTime fechaFinal = dto.Fecha.AddDays(140);
+            Int32 plazo = dto.Plazo;
 
             _context.Configuration.ProxyCreationEnabled = false;
             IEnumerable<Calendario> result = null;
-            result = _context.Set<Calendario>().Where(c => (c.Fecha > dto.Fecha) && (c.Fecha <= fechaFinal) && (c.DiaHabil == true)).OrderBy(c => c.Fecha).Take(50).ToList();
+            result = _context.Set<Calendario>().Where(c => (c.Fecha > dto.Fecha) && (c.Fecha <= fechaFinal) && (c.DiaHabil == true)).OrderBy(c => c.Fecha).Take(plazo).ToList();
             if (result.Count() > 0) {
                 datesResult.Add(result.Last());
             }
