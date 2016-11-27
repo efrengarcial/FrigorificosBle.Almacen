@@ -5,6 +5,24 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="FrigorificosBle.Almacen.Core.Domain.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Calendario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Ano" Type="int" Nullable="false" />
+          <Property Name="Mes" Type="int" Nullable="false" />
+          <Property Name="Dia" Type="int" Nullable="false" />
+          <Property Name="MesNombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DiaNombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DiaAno" Type="int" Nullable="false" />
+          <Property Name="SemanaAno" Type="int" Nullable="false" />
+          <Property Name="Semestre" Type="int" Nullable="false" />
+          <Property Name="Trimestre" Type="int" Nullable="false" />
+          <Property Name="Cuatrimestre" Type="int" Nullable="false" />
+          <Property Name="DiaHabil" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="CentroCostos">
           <Key>
             <PropertyRef Name="Id" />
@@ -379,6 +397,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="FrigorificosBleAlmacenCoreDomainStoreContainer">
+          <EntitySet Name="Calendario" EntityType="Self.Calendario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CentroCostos" EntityType="Self.CentroCostos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Entradas" EntityType="Self.Entradas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HistoricoProductos" EntityType="Self.HistoricoProductos" Schema="dbo" store:Type="Tables" />
@@ -543,6 +562,7 @@
             <End Role="Orden" EntitySet="Ordens" />
             <End Role="SubOrdene" EntitySet="SubOrdens" />
           </AssociationSet>
+          <EntitySet Name="Calendarios" EntityType="FrigorificosBle.Almacen.Core.Domain.Calendario" />
         </EntityContainer>
         <EntityType Name="Producto">
           <Key>
@@ -943,6 +963,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Calendario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Ano" Type="Int32" Nullable="false" />
+          <Property Name="Mes" Type="Int32" Nullable="false" />
+          <Property Name="Dia" Type="Int32" Nullable="false" />
+          <Property Name="MesNombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DiaNombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DiaAno" Type="Int32" Nullable="false" />
+          <Property Name="SemanaAno" Type="Int32" Nullable="false" />
+          <Property Name="Semestre" Type="Int32" Nullable="false" />
+          <Property Name="Trimestre" Type="Int32" Nullable="false" />
+          <Property Name="Cuatrimestre" Type="Int32" Nullable="false" />
+          <Property Name="DiaHabil" Type="Boolean" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1145,6 +1183,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Calendarios">
+            <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Calendario">
+              <MappingFragment StoreEntitySet="Calendario">
+                <ScalarProperty Name="DiaHabil" ColumnName="DiaHabil" />
+                <ScalarProperty Name="Cuatrimestre" ColumnName="Cuatrimestre" />
+                <ScalarProperty Name="Trimestre" ColumnName="Trimestre" />
+                <ScalarProperty Name="Semestre" ColumnName="Semestre" />
+                <ScalarProperty Name="SemanaAno" ColumnName="SemanaAno" />
+                <ScalarProperty Name="DiaAno" ColumnName="DiaAno" />
+                <ScalarProperty Name="DiaNombre" ColumnName="DiaNombre" />
+                <ScalarProperty Name="MesNombre" ColumnName="MesNombre" />
+                <ScalarProperty Name="Dia" ColumnName="Dia" />
+                <ScalarProperty Name="Mes" ColumnName="Mes" />
+                <ScalarProperty Name="Ano" ColumnName="Ano" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1162,7 +1219,7 @@
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
-        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

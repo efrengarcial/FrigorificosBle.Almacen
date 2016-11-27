@@ -277,5 +277,18 @@ namespace FrigorificosBle.Almacen.Core.Service
             return result;
         }
 
+        public List<Calendario> GetFechaEntregaOrden(CalendarQueryDto dto)
+        {
+            List<Calendario> datesResult = new List<Calendario>();
+            DateTime fechaFinal = dto.Fecha.AddDays(120);
+
+            _context.Configuration.ProxyCreationEnabled = false;
+            IEnumerable<Calendario> result = null;
+            result = _context.Set<Calendario>().Where(c => (c.Fecha > dto.Fecha) && (c.Fecha <= fechaFinal) && (c.DiaHabil == true)).OrderBy(c => c.Fecha).Take(50).ToList();
+            if (result.Count() > 0) {
+                datesResult.Add(result.Last());
+            }
+            return datesResult;
+        }
     }
 }

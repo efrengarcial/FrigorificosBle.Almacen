@@ -165,5 +165,17 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
         {
             return _ordenService.GetOrdenByNum(ordenNum);
         }
+
+        [Route("getFechaEntrega/plazo/{plazo}/fecha/{fecha}")]
+        [HttpGet]
+        [ClaimsAuthorization(Permission = "CONSULTAR_ORDENES")]
+        public List<Calendario> GetFechaEntrega(Int32 plazo, String fecha)
+        {
+            CalendarQueryDto dto = new CalendarQueryDto();
+            dto.Plazo = plazo;
+            dto.Fecha = Convert.ToDateTime(fecha);
+
+            return _ordenService.GetFechaEntregaOrden(dto);
+        }
     }
 }
