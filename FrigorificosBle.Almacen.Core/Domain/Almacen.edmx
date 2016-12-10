@@ -105,6 +105,7 @@
           <Property Name="Cancelada" Type="bit" Nullable="false" />
           <Property Name="CentroCostos" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Notas" Type="ntext" />
+          <Property Name="Plazo" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OrdenItems">
           <Key>
@@ -699,6 +700,7 @@
           <NavigationProperty Name="Proveedor" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Ordenes_Proveedores" FromRole="Orden" ToRole="Proveedor" />
           <NavigationProperty Name="SalidaItems" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_SalidaItems_Ordenes" FromRole="Orden" ToRole="SalidaItem" />
           <NavigationProperty Name="SubOrdenes" Relationship="FrigorificosBle.Almacen.Core.Domain.FK_Orden_Padre" FromRole="Orden" ToRole="SubOrdene" />
+          <Property Name="Plazo" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="OrdenItem">
           <Key>
@@ -1067,6 +1069,7 @@
           <EntitySetMapping Name="Ordens">
             <EntityTypeMapping TypeName="FrigorificosBle.Almacen.Core.Domain.Orden">
               <MappingFragment StoreEntitySet="Ordenes">
+                <ScalarProperty Name="Plazo" ColumnName="Plazo" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="IdOrdenBase" ColumnName="IdOrdenBase" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
