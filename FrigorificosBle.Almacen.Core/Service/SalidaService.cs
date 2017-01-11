@@ -63,5 +63,26 @@ namespace FrigorificosBle.Almacen.Core.Service
                 }
             }
         }
+
+        public IEnumerable<Salida> Query(SalidaQueryDto dto)
+        {
+            _context.Configuration.ProxyCreationEnabled = false;
+            var query = _context.Set<Salida>();
+            IQueryable<Salida> result = null;
+
+            if (dto.ConsultarSalidas == true) {
+                //Search by Date
+                if (dto.StartDate != null && dto.EndDate != null && dto.UserId != null) {
+                    result = query.Where(s => DbFunctions.TruncateTime(s.FechaEntrega) >= ((DateTime)dto.StartDate).Date && DbFunctions.TruncateTime((DateTime)s.FechaEntrega) <= ((DateTime)dto.EndDate).Date).Include(s => s.SalidaItems);
+                }
+
+                //Search by Solicitador and recibidor
+                if (dto.IdSolicitador != null && dto.IdRecibidor != null) {
+                    result = query.Where(s => s.IdSolicitador == dto.IdSolicitador && s.IdRecibidor == dto.IdRecibidor).Include(s => s.SalidaItems);
+                }
+
+            }
+            return result.ToList();
+        }
     }
 }

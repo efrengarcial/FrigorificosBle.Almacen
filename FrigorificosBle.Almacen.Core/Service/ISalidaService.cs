@@ -12,5 +12,6 @@ namespace FrigorificosBle.Almacen.Core.Service
     public interface ISalidaService
     {
         void Save(Salida salida);
+        IEnumerable<Salida> Query(SalidaQueryDto dto);
     }
 }

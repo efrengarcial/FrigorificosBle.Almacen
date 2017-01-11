@@ -113,7 +113,7 @@ namespace FrigorificosBle.Almacen.SPA.Controllers
 
         [HttpPost]
         [Route("save")]
-        [ClaimsAuthorization(Permission = "ORDEN_COMPRA, REQUISICION, ORDEN_SERVICIO ,REQUISICION_SERVICIO")]
+        [ClaimsAuthorization(Permission = "ORDEN_COMPRA, REQUISICION, ORDEN_SERVICIO, REQUISICION_SERVICIO")]
         public HttpResponseMessage Save([FromBody]Orden orden)
         {
             if (orden.Id == 0)

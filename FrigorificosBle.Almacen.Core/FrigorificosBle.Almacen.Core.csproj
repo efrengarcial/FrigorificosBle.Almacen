@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="Domain\Dto\CalendarQueryDto.cs" />
     <Compile Include="Domain\Dto\InventarioFinalDto.cs" />
+    <Compile Include="Domain\Dto\SalidaQueryDto.cs" />
     <Compile Include="Domain\Entrada.cs">
       <DependentUpon>Almacen.tt</DependentUpon>
     </Compile>
